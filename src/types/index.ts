@@ -24,8 +24,11 @@ export interface StudentFormData {
   submissionDate?: string;
   customFields: CustomField[];
   autoUppercase: boolean;
-  fontFamily: 'chakra' | 'rajdhani' | 'sans';
+  fontFamily: 'chakra' | 'rajdhani' | 'sans' | 'mono' | 'serif';
   fontSize: 'compact' | 'normal' | 'relaxed';
+  signatures?: 'show' | 'minimal';
+  collegeName?: string;
+  affiliation?: string;
 }
 
 export interface TemplateOption {
@@ -111,6 +114,9 @@ export const DEFAULT_FORM_DATA: StudentFormData = {
   autoUppercase: true,
   fontFamily: 'chakra',
   fontSize: 'normal',
+  signatures: 'show',
+  collegeName: "SANAKA EDUCATIONAL TRUST'S GROUP OF INSTITUTIONS",
+  affiliation: "(FORMERLY KNOWN AS INSTITUTE OF ENGINEERING & INDUSTRIAL TECHNOLOGY) • AFFILIATED TO M.A.K.A.U.T",
 };
 
 export interface DepartmentPreset {

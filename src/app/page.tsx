@@ -24,9 +24,48 @@ import {
   FileImage,
   Loader2,
   Maximize2,
-  Sparkles,
+  Minus,
+  Plus,
+  Eye,
+  Edit3,
 } from "lucide-react";
 import confetti from "canvas-confetti";
+
+const DEMO_PROFILES = [
+  {
+    studentName: "AARAV SHARMA",
+    universityRollNo: "24500124018",
+    course: "B.TECH",
+    stream: "COMPUTER SCIENCE & ENGINEERING (CSE)",
+    semester: "3RD SEMESTER",
+    year: "2ND YEAR",
+    paperName: "DATA STRUCTURES & ALGORITHMS",
+    paperCode: "PCC-CS301",
+    session: "2025-2026",
+  },
+  {
+    studentName: "PRIYANKA BANERJEE",
+    universityRollNo: "24500123089",
+    course: "B.TECH",
+    stream: "CSE (AI & MACHINE LEARNING)",
+    semester: "5TH SEMESTER",
+    year: "3RD YEAR",
+    paperName: "DATABASE MANAGEMENT SYSTEMS",
+    paperCode: "PCC-CS501",
+    session: "2025-2026",
+  },
+  {
+    studentName: "ROHAN MUKHERJEE",
+    universityRollNo: "24500122012",
+    course: "B.TECH",
+    stream: "ELECTRONICS & COMM. ENG. (ECE)",
+    semester: "6TH SEMESTER",
+    year: "3RD YEAR",
+    paperName: "VLSI DESIGN & MICROELECTRONICS",
+    paperCode: "EC-602",
+    session: "2025-2026",
+  },
+];
 
 export default function Home() {
   const [formData, setFormData] = useState<StudentFormData>(DEFAULT_FORM_DATA);
@@ -35,6 +74,9 @@ export default function Home() {
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
   const [progressText, setProgressText] = useState<string>("");
   const [useScannedHeader, setUseScannedHeader] = useState<boolean>(false);
+  const [zoomOffset, setZoomOffset] = useState<number>(0);
+  const [currentZoomPercent, setCurrentZoomPercent] = useState<number>(60);
+  const [mobileTab, setMobileTab] = useState<"editor" | "preview">("editor");
 
   // Ref for the 1:1 unscaled print/export canvas
   const exportCanvasRef = useRef<HTMLDivElement>(null);
@@ -83,7 +125,39 @@ export default function Home() {
   };
 
   const handleMagicFill = () => {
-    setFormData(DEFAULT_FORM_DATA);
+    // Pick the next demo profile or first
+    const nextDemo =
+      DEMO_PROFILES.find((d) => d.studentName !== formData.studentName) ||
+      DEMO_PROFILES[0];
+
+    setFormData((prev) => ({
+      ...prev,
+      ...nextDemo,
+      customFields: [
+        {
+          id: "reg-no",
+          label: "REGISTRATION NO.",
+          value: "222450110042",
+          enabled: true,
+        },
+        {
+          id: "submitted-to",
+          label: "SUBMITTED TO",
+          value: "PROF. DEBASHIS MITRA",
+          enabled: true,
+        },
+      ],
+    }));
+
+    try {
+      confetti({
+        particleCount: 40,
+        spread: 60,
+        origin: { y: 0.6 },
+      });
+    } catch (e) {
+      // Confetti fallback
+    }
   };
 
   const handleDownloadPdf = async () => {
@@ -101,19 +175,16 @@ export default function Home() {
 
       try {
         confetti({
-          particleCount: 50,
-          spread: 60,
+          particleCount: 65,
+          spread: 70,
           origin: { y: 0.6 },
-          colors: ["#38335b", "#c07f2b", "#10b981"],
         });
-      } catch {
-        // Confetti optional
+      } catch (e) {
+        // Confetti fallback
       }
-    } catch (error) {
-      console.error(error);
-      alert(
-        "There was an issue generating the PDF. Please try again or use Quick Print to save as PDF."
-      );
+    } catch (err) {
+      console.error(err);
+      alert("Failed to export PDF. Please try again or use the browser print option.");
     } finally {
       setIsGenerating(false);
       setProgressText("");
@@ -158,14 +229,14 @@ export default function Home() {
       {/* ------------------------------------------------------------- */}
       {/* 2. SIMPLE, DIRECT HEADER SECTION                              */}
       {/* ------------------------------------------------------------- */}
-      <section className="pt-24 sm:pt-28 pb-4 px-4 sm:px-6 max-w-7xl mx-auto w-full no-print">
+      <section className="pt-24 sm:pt-28 pb-3 px-4 sm:px-6 max-w-7xl mx-auto w-full no-print">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-slate-200/70">
           <div>
             <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-              Assignment Front Page Maker
+              Assignment Front Page Studio
             </h1>
             <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
-              Enter your details on the left, preview in real-time, and download your print-ready A4 PDF.
+              Enter your coursework details on the left, preview live on A4, and download your print-ready PDF.
             </p>
           </div>
 
@@ -190,17 +261,49 @@ export default function Home() {
             </button>
           </div>
         </div>
+
+        {/* Mobile View Switcher Tabs (Only visible on small screens) */}
+        <div className="lg:hidden grid grid-cols-2 gap-1.5 mt-3 p-1 bg-slate-200/70 rounded-xl">
+          <button
+            type="button"
+            onClick={() => setMobileTab("editor")}
+            className={`py-2 text-xs font-bold rounded-lg flex items-center justify-center gap-1.5 transition-all ${
+              mobileTab === "editor"
+                ? "bg-white text-slate-900 shadow-xs"
+                : "text-slate-600 hover:text-slate-900"
+            }`}
+          >
+            <Edit3 className="w-3.5 h-3.5" />
+            <span>Editor &amp; Presets</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setMobileTab("preview")}
+            className={`py-2 text-xs font-bold rounded-lg flex items-center justify-center gap-1.5 transition-all ${
+              mobileTab === "preview"
+                ? "bg-white text-slate-900 shadow-xs"
+                : "text-slate-600 hover:text-slate-900"
+            }`}
+          >
+            <Eye className="w-3.5 h-3.5" />
+            <span>Live A4 Preview</span>
+          </button>
+        </div>
       </section>
 
       {/* ------------------------------------------------------------- */}
       {/* 3. MAIN WORKSPACE: FORM (LEFT) & PREVIEW (RIGHT)              */}
       {/* ------------------------------------------------------------- */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-4 pb-24 lg:pb-12 no-print">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-3 pb-24 lg:pb-12 no-print">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           {/* ========================================================= */}
           {/* LEFT: STUDENT DETAILS FORM (5 COLS)                       */}
           {/* ========================================================= */}
-          <div className="lg:col-span-6 xl:col-span-5">
+          <div
+            className={`lg:col-span-6 xl:col-span-5 ${
+              mobileTab === "editor" ? "block" : "hidden lg:block"
+            }`}
+          >
             <StudentForm
               data={formData}
               onChange={setFormData}
@@ -214,12 +317,16 @@ export default function Home() {
           {/* ========================================================= */}
           {/* RIGHT: LIVE A4 PREVIEW (7 COLS, STICKY)                   */}
           {/* ========================================================= */}
-          <div className="lg:col-span-6 xl:col-span-7 sticky top-20">
-            <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 shadow-xs flex flex-col space-y-4">
+          <div
+            className={`lg:col-span-6 xl:col-span-7 sticky top-20 ${
+              mobileTab === "preview" ? "block" : "hidden lg:block"
+            }`}
+          >
+            <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 shadow-xs flex flex-col space-y-3.5">
               {/* Preview Header & Controls */}
               <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                 <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                   <span className="text-xs font-bold uppercase tracking-wider text-slate-700">
                     Live Preview
                   </span>
@@ -290,13 +397,49 @@ export default function Home() {
               </div>
 
               {/* Canvas Preview Container */}
-              <div className="w-full bg-slate-100/70 rounded-xl p-3 flex items-center justify-center overflow-hidden border border-slate-200/70">
-                <div className="w-full max-w-[480px]">
+              <div className="w-full bg-slate-100/70 rounded-xl p-3 flex flex-col items-center justify-center overflow-hidden border border-slate-200/70">
+                <div className="w-full max-w-[500px]">
                   <A4PaperPreview
                     data={formData}
                     useImageHeader={useScannedHeader}
-                    maxContainerWidth={480}
+                    maxContainerWidth={500}
+                    zoomOffset={zoomOffset}
+                    onScaleCalculated={setCurrentZoomPercent}
                   />
+                </div>
+
+                {/* Subtle Stage Zoom Controls */}
+                <div className="mt-2 flex items-center justify-between w-full px-2 text-xs text-slate-500">
+                  <span className="text-[11px] text-slate-400 hidden sm:inline">
+                    A4 Sheet • 210mm × 297mm
+                  </span>
+
+                  <div className="flex items-center gap-1 bg-white/90 px-2 py-1 rounded-full border border-slate-200 shadow-2xs ml-auto">
+                    <button
+                      type="button"
+                      onClick={() => setZoomOffset((prev) => Math.max(-0.35, prev - 0.08))}
+                      className="p-1 hover:bg-slate-100 rounded text-slate-600"
+                      title="Zoom Out"
+                    >
+                      <Minus className="w-3.5 h-3.5" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setZoomOffset(0)}
+                      className="px-2 text-[11px] font-mono font-semibold text-slate-700 hover:text-indigo-600"
+                      title="Reset Zoom to Fit"
+                    >
+                      {zoomOffset === 0 ? `Fit (${currentZoomPercent}%)` : `${currentZoomPercent}%`}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setZoomOffset((prev) => Math.min(0.45, prev + 0.08))}
+                      className="p-1 hover:bg-slate-100 rounded text-slate-600"
+                      title="Zoom In"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
                 </div>
               </div>
 

@@ -26,6 +26,10 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
         ? "font-rajdhani"
         : data.fontFamily === "sans"
         ? "font-ui"
+        : data.fontFamily === "serif"
+        ? "font-serif"
+        : data.fontFamily === "mono"
+        ? "font-mono"
         : "font-chakra";
 
     const templateId = data.templateId || "classic";
@@ -229,121 +233,153 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
         )}
 
         {/* ==================================================================== */}
-        {/* TEMPLATE 2: MODERN MINIMAL ACADEMIC                                 */}
+        {/* TEMPLATE 2: MODERN ACADEMIC (SWISS MINIMALIST GRID)                 */}
         {/* ==================================================================== */}
         {templateId === "modern" && (
-          <div className="w-full h-full p-12 flex flex-col justify-between bg-white border-[10px] border-[#38335b]/10">
-            {/* Top Emblem & College Info */}
-            <div className="text-center flex flex-col items-center">
-              <div className="w-[125px] h-[125px] mb-4">
-                <img
-                  src={SANAKA_LOGO_BASE64}
-                  alt="Sanaka Crest"
-                  className="w-full h-full object-contain filter drop-shadow-md"
-                />
+          <div className="w-full h-full p-10 flex flex-col justify-between bg-white">
+            {/* Top Bold Accent Header */}
+            <div>
+              <div className="h-3 w-full bg-slate-900 rounded-t-sm mb-8" />
+              <div className="flex items-start justify-between gap-6 pb-6 border-b-2 border-slate-900">
+                <div className="flex-1 pr-4">
+                  <span className="inline-block px-2.5 py-1 rounded bg-indigo-50 text-indigo-700 font-mono text-[10px] font-bold uppercase tracking-widest mb-2">
+                    Academic Submission Dossier
+                  </span>
+                  <h1 className="font-sans font-extrabold text-xl text-slate-900 tracking-tight uppercase leading-snug">
+                    {data.collegeName || "SANAKA EDUCATIONAL TRUST'S GROUP OF INSTITUTIONS"}
+                  </h1>
+                  <p className="text-[10px] font-medium text-slate-500 mt-1 uppercase tracking-wider">
+                    {data.affiliation || "(FORMERLY KNOWN AS INSTITUTE OF ENGINEERING & INDUSTRIAL TECHNOLOGY) • AFFILIATED TO M.A.K.A.U.T"}
+                  </p>
+                </div>
+                <div className="w-14 h-14 rounded-xl bg-slate-900 text-white flex flex-col items-center justify-center font-mono shrink-0 shadow-sm">
+                  <span className="text-[9px] text-amber-400 uppercase font-bold">SEM</span>
+                  <span className="text-base font-extrabold">{formatText(data.semester) || "—"}</span>
+                </div>
               </div>
 
-              <h1 className="text-[#1e1b4b] font-black text-[22px] tracking-tight uppercase font-chakra leading-tight">
-                SANAKA EDUCATIONAL TRUST&apos;S GROUP OF INSTITUTIONS
-              </h1>
-              <p className="text-slate-500 font-bold text-[11px] tracking-wider uppercase mt-1">
-                (A Unit of Sanaka Educational Trust • Formerly IEIT Durgapur)
-              </p>
-              <p className="text-[#d97706] font-bold text-[10.5px] tracking-widest uppercase mt-0.5">
-                Approved by A.I.C.T.E, C.O.A &amp; P.C.I • Affiliated to M.A.K.A.U.T, WB
-              </p>
-
-              {/* Decorative Divider */}
-              <div className="w-3/4 h-[3px] bg-gradient-to-r from-transparent via-[#d97706] to-transparent my-6" />
-
-              {/* Assignment Title Badge */}
-              <div className="bg-[#1e1b4b] text-white px-8 py-2.5 rounded-full inline-block shadow-md">
-                <span className="font-extrabold tracking-widest text-[13px] uppercase font-ui">
-                  ACADEMIC ASSIGNMENT REPORT
-                </span>
+              {/* Highlighted Subject Hero Box */}
+              <div className="mt-7 p-6 rounded-xl bg-slate-50 border border-slate-200">
+                <div className="flex items-center justify-between text-[11px] font-mono uppercase tracking-wider text-slate-500 mb-1.5">
+                  <span>Subject &amp; Coursework</span>
+                  <span className="font-bold text-indigo-600">
+                    CODE: {formatText(data.paperCode) || "PAPER CODE"}
+                  </span>
+                </div>
+                <div className="text-xl font-extrabold text-slate-900 tracking-tight uppercase">
+                  {formatText(data.paperName) || "SUBJECT / PAPER NAME"}
+                </div>
               </div>
-              <p className="text-slate-400 font-bold text-[11px] tracking-wider uppercase mt-2">
-                SESSION: {formatText(data.session) || "ACADEMIC SESSION"}
-              </p>
             </div>
 
-            {/* Subject Highlight Card */}
-            <div className="bg-slate-50/90 border border-slate-200 rounded-2xl p-6 text-center shadow-xs my-4">
-              <span className="text-[11px] font-bold text-[#d97706] tracking-widest uppercase block mb-1">
-                SUBJECT &amp; PAPER CODE
-              </span>
-              <h2 className="text-[#1e1b4b] text-[20px] font-black tracking-tight uppercase font-chakra">
-                {formatText(data.paperName) || "SUBJECT / PAPER NAME"}
-              </h2>
-              <span className="inline-block mt-2 px-3 py-1 bg-white border border-slate-300 rounded-lg text-xs font-bold text-slate-700 uppercase tracking-wider">
-                PAPER CODE: {formatText(data.paperCode) || "PAPER CODE"}
-              </span>
-            </div>
-
-            {/* Student Metadata Card */}
-            <div className="bg-white border-2 border-[#1e1b4b]/15 rounded-2xl p-6 space-y-3.5 shadow-sm">
-              <div className="grid grid-cols-2 gap-4 border-b border-slate-100 pb-3">
-                <div>
-                  <span className="text-[11px] font-bold text-slate-400 uppercase block">
-                    Student Name
+            {/* Clean Structured Data Table */}
+            <div className={`my-auto py-6 ${fontClass}`}>
+              <div className="border-t border-slate-200 divide-y divide-slate-200">
+                <div className="grid grid-cols-12 items-center py-3 px-3 text-[13.5px]">
+                  <span className="col-span-5 font-bold uppercase tracking-wider text-slate-500 text-xs">
+                    NAME
                   </span>
-                  <span className="text-[16px] font-black text-[#1e1b4b] uppercase font-chakra">
-                    {formatText(data.studentName) || "STUDENT NAME"}
-                  </span>
-                </div>
-                <div>
-                  <span className="text-[11px] font-bold text-slate-400 uppercase block">
-                    University Roll No.
-                  </span>
-                  <span className="text-[16px] font-black text-[#d97706] uppercase font-chakra tracking-wider">
-                    {formatText(data.universityRollNo) || "ROLL NUMBER"}
-                  </span>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4 border-b border-slate-100 pb-3">
-                <div>
-                  <span className="text-[11px] font-bold text-slate-400 uppercase block">
-                    Course &amp; Stream
-                  </span>
-                  <span className="text-[13.5px] font-bold text-slate-800 uppercase">
-                    {formatText(data.course)} - {formatText(data.stream)}
-                  </span>
-                </div>
-                <div>
-                  <span className="text-[11px] font-bold text-slate-400 uppercase block">
-                    Semester &amp; Year
-                  </span>
-                  <span className="text-[13.5px] font-bold text-slate-800 uppercase">
-                    {formatText(data.semester)} • {formatText(data.year)}
-                  </span>
-                </div>
-              </div>
-
-              {/* Custom fields if present */}
-              {data.customFields
-                ?.filter((f) => f.enabled && f.value.trim() !== "")
-                .map((field) => (
-                  <div key={field.id} className="pt-1">
-                    <span className="text-[11px] font-bold text-slate-400 uppercase block">
-                      {formatText(field.label)}
-                    </span>
-                    <span className="text-[13.5px] font-bold text-slate-800 uppercase">
-                      {formatText(field.value)}
-                    </span>
+                  <div className="col-span-7 font-semibold text-slate-900">
+                    {formatText(data.studentName) || "STUDENT FULL NAME"}
                   </div>
-                ))}
+                </div>
+
+                <div className="grid grid-cols-12 items-center py-3 px-3 text-[13.5px]">
+                  <span className="col-span-5 font-bold uppercase tracking-wider text-slate-500 text-xs">
+                    UNIVERSITY ROLL NO.
+                  </span>
+                  <div className="col-span-7 font-semibold font-mono text-slate-900">
+                    {formatText(data.universityRollNo) || "UNIVERSITY ROLL NUMBER"}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-12 items-center py-3 px-3 text-[13.5px]">
+                  <span className="col-span-5 font-bold uppercase tracking-wider text-slate-500 text-xs">
+                    COURSE
+                  </span>
+                  <div className="col-span-7 font-semibold text-slate-900">
+                    {formatText(data.course) || "COURSE / DEGREE"}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-12 items-center py-3 px-3 text-[13.5px]">
+                  <span className="col-span-5 font-bold uppercase tracking-wider text-slate-500 text-xs">
+                    STREAM
+                  </span>
+                  <div className="col-span-7 font-semibold text-slate-900">
+                    {formatText(data.stream) || "DEPARTMENT / STREAM"}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-12 items-center py-3 px-3 text-[13.5px]">
+                  <span className="col-span-5 font-bold uppercase tracking-wider text-slate-500 text-xs">
+                    SEMESTER
+                  </span>
+                  <div className="col-span-7 font-semibold text-slate-900">
+                    {formatText(data.semester) || "SEMESTER"}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-12 items-center py-3 px-3 text-[13.5px]">
+                  <span className="col-span-5 font-bold uppercase tracking-wider text-slate-500 text-xs">
+                    YEAR
+                  </span>
+                  <div className="col-span-7 font-semibold text-slate-900">
+                    {formatText(data.year) || "ACADEMIC YEAR"}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-12 items-center py-3 px-3 text-[13.5px]">
+                  <span className="col-span-5 font-bold uppercase tracking-wider text-slate-500 text-xs">
+                    SESSION
+                  </span>
+                  <div className="col-span-7 font-semibold font-mono text-slate-900">
+                    {formatText(data.session) || "ACADEMIC SESSION"}
+                  </div>
+                </div>
+
+                {/* Custom Fields */}
+                {data.customFields
+                  ?.filter((f) => f.enabled && (f.label.trim() !== "" || f.value.trim() !== ""))
+                  .map((field) => (
+                    <div
+                      key={field.id}
+                      className="grid grid-cols-12 items-center py-3 px-3 text-[13.5px]"
+                    >
+                      <span className="col-span-5 font-bold uppercase tracking-wider text-slate-500 text-xs">
+                        {formatText(field.label) || "CUSTOM FIELD"}
+                      </span>
+                      <div className="col-span-7 font-semibold text-slate-900">
+                        {formatText(field.value) || "ENTER VALUE"}
+                      </div>
+                    </div>
+                  ))}
+              </div>
             </div>
 
-            {/* Footer with Signoff */}
-            <div className="pt-4 flex items-center justify-between text-[11px] text-slate-400 border-t border-slate-200">
-              <div>
-                <span className="font-bold text-slate-600 block">CAMPUS</span>
-                <span>Malandighi, Durgapur, West Bengal - 713212</span>
-              </div>
-              <div className="text-right">
-                <span className="font-bold text-slate-600 block">AFFILIATION</span>
-                <span>Maulana Abul Kalam Azad University of Technology (MAKAUT)</span>
+            {/* Footer Signatures */}
+            <div>
+              {data.signatures !== "minimal" && (
+                <div className="grid grid-cols-2 gap-12 pt-4 pb-6">
+                  <div className="border-t-2 border-slate-900 pt-2">
+                    <p className="text-xs font-bold uppercase tracking-wider text-slate-800">
+                      Submitted By (Student)
+                    </p>
+                    <p className="text-[11px] text-slate-500 mt-0.5">
+                      {formatText(data.studentName) || "Student Signature"}
+                    </p>
+                  </div>
+                  <div className="border-t-2 border-slate-900 pt-2">
+                    <p className="text-xs font-bold uppercase tracking-wider text-slate-800">
+                      Evaluated By (Faculty)
+                    </p>
+                    <p className="text-[11px] text-slate-500 mt-0.5">Signature &amp; Date</p>
+                  </div>
+                </div>
+              )}
+              <div className="pt-3 border-t border-slate-200 flex justify-between text-[10px] font-mono text-slate-400 uppercase">
+                <span>SESSION: {formatText(data.session) || "2025-2026"}</span>
+                <span>STANDARD A4 • ISO 216</span>
               </div>
             </div>
           </div>
