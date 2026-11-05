@@ -117,7 +117,7 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
                     NAME:
                   </span>
                   <span className="text-[#c07f2b] font-extrabold tracking-wider">
-                    {formatText(data.studentName) || "ENTER YOUR NAME"}
+                    {formatText(data.studentName) || "STUDENT NAME"}
                   </span>
                 </div>
 
@@ -127,7 +127,7 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
                     UNIVERSITY ROLL NO.:
                   </span>
                   <span className="text-[#c07f2b] font-extrabold tracking-wider">
-                    {formatText(data.universityRollNo) || "XXXXXXXXXXX"}
+                    {formatText(data.universityRollNo) || "ROLL NUMBER"}
                   </span>
                 </div>
 
@@ -154,7 +154,7 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
                     COURSE:
                   </span>
                   <span className="text-[#c07f2b] font-extrabold tracking-wider">
-                    {formatText(data.course) || "B.TECH"}
+                    {formatText(data.course) || "COURSE NAME"}
                   </span>
                 </div>
 
@@ -164,7 +164,7 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
                     STREAM:
                   </span>
                   <span className="text-[#c07f2b] font-extrabold tracking-wider">
-                    {formatText(data.stream) || "COMPUTER SCIENCE AND ENGINEERING (CSE)"}
+                    {formatText(data.stream) || "DEPARTMENT / STREAM"}
                   </span>
                 </div>
 
@@ -174,7 +174,7 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
                     SEMESTER:
                   </span>
                   <span className="text-[#c07f2b] font-extrabold tracking-wider">
-                    {formatText(data.semester) || "3RD SEMESTER"}
+                    {formatText(data.semester) || "SEMESTER"}
                   </span>
                 </div>
 
@@ -184,7 +184,7 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
                     YEAR:
                   </span>
                   <span className="text-[#c07f2b] font-extrabold tracking-wider">
-                    {formatText(data.year) || "2ND YEAR"}
+                    {formatText(data.year) || "YEAR"}
                   </span>
                 </div>
 
@@ -194,7 +194,7 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
                     PAPER NAME:
                   </span>
                   <span className="text-[#c07f2b] font-extrabold tracking-wider">
-                    {formatText(data.paperName) || "DATA STRUCTURES AND ALGORITHMS (DSA)"}
+                    {formatText(data.paperName) || "SUBJECT / PAPER NAME"}
                   </span>
                 </div>
 
@@ -204,7 +204,7 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
                     PAPER CODE:
                   </span>
                   <span className="text-[#c07f2b] font-extrabold tracking-wider">
-                    {formatText(data.paperCode) || "PCC CS 301"}
+                    {formatText(data.paperCode) || "PAPER CODE"}
                   </span>
                 </div>
 
@@ -214,7 +214,7 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
                     SESSION:
                   </span>
                   <span className="text-[#c07f2b] font-extrabold tracking-wider">
-                    {formatText(data.session) || "2025-2026"}
+                    {formatText(data.session) || "ACADEMIC SESSION"}
                   </span>
                 </div>
               </div>
@@ -263,7 +263,7 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
                 </span>
               </div>
               <p className="text-slate-400 font-bold text-[11px] tracking-wider uppercase mt-2">
-                SESSION: {formatText(data.session) || "2025-2026"}
+                SESSION: {formatText(data.session) || "ACADEMIC SESSION"}
               </p>
             </div>
 
@@ -273,10 +273,10 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
                 SUBJECT &amp; PAPER CODE
               </span>
               <h2 className="text-[#1e1b4b] text-[20px] font-black tracking-tight uppercase font-chakra">
-                {formatText(data.paperName) || "DATA STRUCTURES AND ALGORITHMS (DSA)"}
+                {formatText(data.paperName) || "SUBJECT / PAPER NAME"}
               </h2>
               <span className="inline-block mt-2 px-3 py-1 bg-white border border-slate-300 rounded-lg text-xs font-bold text-slate-700 uppercase tracking-wider">
-                PAPER CODE: {formatText(data.paperCode) || "PCC CS 301"}
+                PAPER CODE: {formatText(data.paperCode) || "PAPER CODE"}
               </span>
             </div>
 
@@ -288,7 +288,7 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
                     Student Name
                   </span>
                   <span className="text-[16px] font-black text-[#1e1b4b] uppercase font-chakra">
-                    {formatText(data.studentName) || "MD IMRAN AHMAD"}
+                    {formatText(data.studentName) || "STUDENT NAME"}
                   </span>
                 </div>
                 <div>
@@ -296,7 +296,7 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
                     University Roll No.
                   </span>
                   <span className="text-[16px] font-black text-[#d97706] uppercase font-chakra tracking-wider">
-                    {formatText(data.universityRollNo) || "2XXXXXXXXXX"}
+                    {formatText(data.universityRollNo) || "ROLL NUMBER"}
                   </span>
                 </div>
               </div>
@@ -536,10 +536,10 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
                 A PROJECT / SEMINAR REPORT ON
               </span>
               <h2 className="text-[26px] font-black text-[#1e1b4b] uppercase font-chakra tracking-tight leading-tight">
-                {formatText(data.paperName) || "DATA STRUCTURES AND ALGORITHMS (DSA)"}
+                {formatText(data.paperName) || "PROJECT / PAPER NAME"}
               </h2>
               <div className="inline-block px-4 py-1 rounded-full bg-slate-100 text-xs font-bold text-slate-700 uppercase tracking-wider">
-                COURSE CODE: {formatText(data.paperCode) || "PCC CS 301"}
+                COURSE CODE: {formatText(data.paperCode) || "PAPER CODE"}
               </div>
 
               <p className="text-slate-500 text-xs italic max-w-lg mx-auto pt-2">

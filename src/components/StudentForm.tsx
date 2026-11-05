@@ -209,7 +209,7 @@ export const StudentForm: React.FC<StudentFormProps> = ({
               type="text"
               value={data.studentName}
               onChange={(e) => handleFieldChange("studentName", e.target.value)}
-              placeholder="e.g. MD IMRAN AHMAD"
+              placeholder="e.g. ALEX SMITH"
               className="w-full bg-slate-50/70 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm font-semibold text-slate-800 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 transition-all uppercase"
             />
           </div>
@@ -225,7 +225,7 @@ export const StudentForm: React.FC<StudentFormProps> = ({
               onChange={(e) =>
                 handleFieldChange("universityRollNo", e.target.value)
               }
-              placeholder="e.g. 2780012XXXX"
+              placeholder="e.g. 10000123456"
               className="w-full bg-slate-50/70 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm font-semibold text-slate-800 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 transition-all uppercase tracking-wide font-mono"
             />
           </div>
@@ -371,7 +371,7 @@ export const StudentForm: React.FC<StudentFormProps> = ({
               type="text"
               value={data.paperName}
               onChange={(e) => handleFieldChange("paperName", e.target.value)}
-              placeholder="e.g. DATA STRUCTURES AND ALGORITHMS (DSA)"
+              placeholder="e.g. DATA STRUCTURES & ALGORITHMS"
               className="w-full bg-slate-50/70 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm font-semibold text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all uppercase"
             />
           </div>
@@ -386,7 +386,7 @@ export const StudentForm: React.FC<StudentFormProps> = ({
                 type="text"
                 value={data.paperCode}
                 onChange={(e) => handleFieldChange("paperCode", e.target.value)}
-                placeholder="e.g. PCC CS 301"
+                placeholder="e.g. CS 301 / ES 101"
                 className="w-full bg-slate-50/70 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm font-semibold text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all uppercase tracking-wide font-mono"
               />
             </div>
