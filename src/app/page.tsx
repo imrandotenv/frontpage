@@ -6,8 +6,6 @@ import {
   DEFAULT_FORM_DATA,
   TemplateId,
   TEMPLATES,
-  PRESETS,
-  DepartmentPreset,
 } from "@/types";
 import { StudentForm } from "@/components/StudentForm";
 import { FrontPageCanvas } from "@/components/FrontPageCanvas";
@@ -16,30 +14,17 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { MobileBottomBar } from "@/components/MobileBottomBar";
 import { PreviewModal } from "@/components/PreviewModal";
-import { FixedBottomBlurGlow } from "@/components/FixedBottomBlurGlow";
 import {
   generateFrontPagePdf,
   downloadFrontPageImage,
 } from "@/utils/pdfGenerator";
 import {
   Download,
-  Eye,
   Printer,
   FileImage,
   Loader2,
-  Info,
   Maximize2,
-  CheckCircle2,
   Sparkles,
-  ShieldCheck,
-  Zap,
-  Sliders,
-  ChevronDown,
-  Layers,
-  Award,
-  ArrowRight,
-  Clock,
-  Compass,
 } from "lucide-react";
 import confetti from "canvas-confetti";
 
@@ -50,7 +35,6 @@ export default function Home() {
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
   const [progressText, setProgressText] = useState<string>("");
   const [useScannedHeader, setUseScannedHeader] = useState<boolean>(false);
-  const [activeFaq, setActiveFaq] = useState<number | null>(null);
 
   // Ref for the 1:1 unscaled print/export canvas
   const exportCanvasRef = useRef<HTMLDivElement>(null);
@@ -93,7 +77,7 @@ export default function Home() {
   };
 
   const handleReset = () => {
-    if (window.confirm("Reset all fields to clean generic blank state?")) {
+    if (window.confirm("Reset all fields back to blank state?")) {
       setFormData(DEFAULT_FORM_DATA);
     }
   };
@@ -102,23 +86,10 @@ export default function Home() {
     setFormData(DEFAULT_FORM_DATA);
   };
 
-  const applyPreset = (preset: DepartmentPreset) => {
-    setFormData((prev) => ({
-      ...prev,
-      course: preset.course,
-      stream: preset.stream,
-      semester: preset.semester,
-      year: preset.year,
-      paperName: preset.paperName,
-      paperCode: preset.paperCode,
-      session: preset.session,
-    }));
-  };
-
   const handleDownloadPdf = async () => {
     if (!exportCanvasRef.current) return;
     setIsGenerating(true);
-    setProgressText("Initializing PDF...");
+    setProgressText("Creating PDF...");
 
     try {
       await generateFrontPagePdf({
@@ -128,13 +99,12 @@ export default function Home() {
         onProgress: (pct, stage) => setProgressText(stage),
       });
 
-      // Joyful confetti celebration
       try {
         confetti({
-          particleCount: 80,
-          spread: 70,
+          particleCount: 50,
+          spread: 60,
           origin: { y: 0.6 },
-          colors: ["#38335b", "#c07f2b", "#10b981", "#fb923c"],
+          colors: ["#38335b", "#c07f2b", "#10b981"],
         });
       } catch {
         // Confetti optional
@@ -153,7 +123,7 @@ export default function Home() {
   const handleDownloadImage = async () => {
     if (!exportCanvasRef.current) return;
     setIsGenerating(true);
-    setProgressText("Rendering PNG...");
+    setProgressText("Rendering image...");
     try {
       await downloadFrontPageImage({
         element: exportCanvasRef.current,
@@ -173,29 +143,10 @@ export default function Home() {
     window.print();
   };
 
-  const faqs = [
-    {
-      q: "Is my personal data or roll number uploaded to any server?",
-      a: "No. 100% of the document generation runs entirely client-side inside your browser sandbox. None of your data, names, or file contents are ever sent to a remote cloud server.",
-    },
-    {
-      q: "Does the output strictly match MAKAUT and AICTE guidelines?",
-      a: "Yes. All 4 templates are drafted to comply with Maulana Abul Kalam Azad University of Technology (MAKAUT) and AICTE standards for assignment submissions, lab record books, and major project theses.",
-    },
-    {
-      q: "How can I print directly from my Android or iPhone?",
-      a: "Tap 'Download PDF' to save the print-ready A4 document to your phone's downloads folder. You can immediately send it to any WiFi printer, WhatsApp, or Google Drive for campus Xerox printing.",
-    },
-    {
-      q: "Can I add custom fields like 'Registration No.' or 'Faculty Signature'?",
-      a: "Yes! Open the 'Custom Fields' section in the form to enable extra fields such as Registration Number, Submission Date, or Teacher's Name.",
-    },
-  ];
-
   return (
-    <div className="min-h-screen bg-[#fafafa] flex flex-col font-ui text-[#0a0a0a] selection:bg-[#FB923C]/20 selection:text-[#0a0a0a]">
+    <div className="min-h-screen bg-[#f8fafc] flex flex-col font-ui text-slate-800">
       {/* ------------------------------------------------------------- */}
-      {/* 1. FLOATING GLASSMORPHIC NAVBAR                                */}
+      {/* 1. CLEAN MINIMAL HEADER                                       */}
       {/* ------------------------------------------------------------- */}
       <Navbar
         onPrint={handlePrint}
@@ -205,167 +156,76 @@ export default function Home() {
       />
 
       {/* ------------------------------------------------------------- */}
-      {/* 2. DYNAMIC STUDIO HERO SECTION                                */}
+      {/* 2. SIMPLE, DIRECT HEADER SECTION                              */}
       {/* ------------------------------------------------------------- */}
-      <section className="pt-24 sm:pt-32 pb-8 sm:pb-12 px-4 sm:px-6 max-w-6xl mx-auto w-full text-center no-print">
-        {/* Capability Pill Badge */}
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-neutral-100/80 border border-neutral-200/70 text-xs font-semibold text-neutral-700 shadow-2xs mb-5">
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-          <span className="font-mono text-[11px] uppercase tracking-wider">
-            STUDIO ENGINE v2.0 • MAKAUT &amp; AICTE COMPLIANT
-          </span>
-        </div>
+      <section className="pt-24 sm:pt-28 pb-4 px-4 sm:px-6 max-w-7xl mx-auto w-full no-print">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-slate-200/70">
+          <div>
+            <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+              Assignment Front Page Maker
+            </h1>
+            <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
+              Enter your details on the left, preview in real-time, and download your print-ready A4 PDF.
+            </p>
+          </div>
 
-        {/* Display Headline */}
-        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-[#0a0a0a] tracking-tight font-display max-w-4xl mx-auto leading-[1.08]">
-          High-Precision University Cover Generator.
-        </h1>
-
-        {/* Subtitle */}
-        <p className="mt-4 sm:mt-5 text-sm sm:text-lg text-neutral-600 max-w-2xl mx-auto leading-relaxed">
-          Create print-ready, high-resolution A4 assignment covers, lab report evaluation sheets,
-          and project theses in seconds. 100% private, client-side, zero latency.
-        </p>
-
-        {/* Telemetry Badge Strip */}
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-xs font-medium text-neutral-500 font-mono">
-          <span className="px-3 py-1 rounded-lg bg-white border border-neutral-200/60 shadow-2xs">
-            A4: 210 × 297 mm
-          </span>
-          <span className="px-3 py-1 rounded-lg bg-white border border-neutral-200/60 shadow-2xs">
-            DENSITY: 300 DPI
-          </span>
-          <span className="px-3 py-1 rounded-lg bg-white border border-neutral-200/60 shadow-2xs">
-            ENGINE: VECTOR PDF
-          </span>
-          <span className="px-3 py-1 rounded-lg bg-white border border-neutral-200/60 shadow-2xs">
-            STORAGE: 100% LOCAL
-          </span>
-        </div>
-      </section>
-
-      {/* ------------------------------------------------------------- */}
-      {/* 3. ANGLED CONTINUOUS MARQUEE TICKER TAPE                      */}
-      {/* ------------------------------------------------------------- */}
-      <section className="w-full overflow-hidden my-4 no-print select-none">
-        <div className="w-full transform rotate-0 md:-rotate-1 md:scale-[1.02] transition-transform">
-          <div className="w-full bg-neutral-100 border-y border-neutral-200 py-3 shadow-2xs flex overflow-hidden">
-            <div className="animate-marquee-track flex items-center gap-8 shrink-0 text-xs font-bold font-mono tracking-widest uppercase text-neutral-600">
-              <span className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#FB923C]" />
-                PRINT-READY A4 STANDARD
-              </span>
-              <span className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#38335b]" />
-                300 DPI VECTOR SHARPNESS
-              </span>
-              <span className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                100% CLIENT-SIDE ENCRYPTED
-              </span>
-              <span className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#c07f2b]" />
-                LAB &amp; PRACTICAL LOG SHEETS
-              </span>
-              <span className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#FB923C]" />
-                EXECUTIVE THESIS COVERS
-              </span>
-              <span className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#38335b]" />
-                INSTANT ONE-TAP PRESETS
-              </span>
-              {/* Duplicate track for seamless infinite scroll */}
-              <span className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#FB923C]" />
-                PRINT-READY A4 STANDARD
-              </span>
-              <span className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#38335b]" />
-                300 DPI VECTOR SHARPNESS
-              </span>
-              <span className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                100% CLIENT-SIDE ENCRYPTED
-              </span>
-              <span className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#c07f2b]" />
-                LAB &amp; PRACTICAL LOG SHEETS
-              </span>
-              <span className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#FB923C]" />
-                EXECUTIVE THESIS COVERS
-              </span>
-            </div>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={handleDownloadPdf}
+              disabled={isGenerating}
+              className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs sm:text-sm font-bold flex items-center gap-1.5 shadow-sm transition-all active:scale-95 disabled:opacity-70"
+            >
+              {isGenerating ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin text-amber-400" />
+                  <span>{progressText || "Generating..."}</span>
+                </>
+              ) : (
+                <>
+                  <Download className="w-4 h-4 text-amber-400" />
+                  <span>Download PDF</span>
+                </>
+              )}
+            </button>
           </div>
         </div>
       </section>
 
       {/* ------------------------------------------------------------- */}
-      {/* 4. ASYMMETRIC BENTO GRID APPLICATION WORKSPACE                */}
+      {/* 3. MAIN WORKSPACE: FORM (LEFT) & PREVIEW (RIGHT)              */}
       {/* ------------------------------------------------------------- */}
-      <main
-        id="generator"
-        className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 pb-40 no-print"
-      >
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-4 pb-24 lg:pb-12 no-print">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           {/* ========================================================= */}
-          {/* BENTO CARD 1: STUDIO CONFIGURATOR & INPUT FORM (Span 5/6) */}
+          {/* LEFT: STUDENT DETAILS FORM (5 COLS)                       */}
           {/* ========================================================= */}
-          <div className="lg:col-span-6 xl:col-span-5 space-y-6">
-            <div className="bg-white rounded-3xl p-5 sm:p-6 border border-neutral-200/80 shadow-sm hover:shadow-md transition-shadow">
-              <div className="flex items-center justify-between border-b border-neutral-100 pb-4 mb-5">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-xl bg-neutral-100 flex items-center justify-center text-neutral-800">
-                    <Sliders className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <h2 className="font-extrabold text-base text-[#0a0a0a] tracking-tight font-display">
-                      Document Configurator
-                    </h2>
-                    <p className="text-[11px] text-neutral-400 font-medium">
-                      Configure student credentials and course details
-                    </p>
-                  </div>
-                </div>
+          <div className="lg:col-span-6 xl:col-span-5">
+            <StudentForm
+              data={formData}
+              onChange={setFormData}
+              onSaveToLocalStorage={handleSaveToLocalStorage}
+              onReset={handleReset}
+              onMagicFill={handleMagicFill}
+              isSaved={isSavedLocally}
+            />
+          </div>
 
+          {/* ========================================================= */}
+          {/* RIGHT: LIVE A4 PREVIEW (7 COLS, STICKY)                   */}
+          {/* ========================================================= */}
+          <div className="lg:col-span-6 xl:col-span-7 sticky top-20">
+            <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 shadow-xs flex flex-col space-y-4">
+              {/* Preview Header & Controls */}
+              <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                 <div className="flex items-center gap-2">
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold bg-neutral-100 text-neutral-600 font-mono">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                    LIVE SYNC
+                  <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                  <span className="text-xs font-bold uppercase tracking-wider text-slate-700">
+                    Live Preview
                   </span>
-                </div>
-              </div>
-
-              {/* Student Form Engine */}
-              <StudentForm
-                data={formData}
-                onChange={setFormData}
-                onSaveToLocalStorage={handleSaveToLocalStorage}
-                onReset={handleReset}
-                onMagicFill={handleMagicFill}
-                isSaved={isSavedLocally}
-              />
-            </div>
-          </div>
-
-          {/* ========================================================= */}
-          {/* BENTO CARD 2: REAL-TIME A4 VIEWPORT & CONTROLS (Span 7/6)  */}
-          {/* ========================================================= */}
-          <div className="lg:col-span-6 xl:col-span-7 sticky top-20 space-y-6">
-            <div className="bg-white rounded-3xl p-5 sm:p-6 border border-neutral-200/80 shadow-sm hover:shadow-md transition-shadow flex flex-col space-y-5">
-              {/* Telemetry HUD Header */}
-              <div className="flex items-center justify-between border-b border-neutral-100 pb-3.5">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-                  <div>
-                    <span className="text-xs font-bold uppercase tracking-wider text-neutral-900 font-mono block">
-                      A4 REAL-TIME RENDERER
-                    </span>
-                    <span className="text-[11px] text-neutral-400 font-mono">
-                      HUD CAM 01 • SCALED VIEWPORT
-                    </span>
-                  </div>
+                  <span className="text-[11px] text-slate-400">
+                    ({TEMPLATES.find((t) => t.id === formData.templateId)?.name})
+                  </span>
                 </div>
 
                 {/* Toolbar Buttons */}
@@ -374,17 +234,17 @@ export default function Home() {
                     <button
                       type="button"
                       onClick={() => setUseScannedHeader(!useScannedHeader)}
-                      className="text-[11px] font-semibold text-neutral-600 hover:text-black px-3 py-1 bg-neutral-100 hover:bg-neutral-200 rounded-full border border-neutral-200 transition-colors"
-                      title="Toggle between HD Vector header or exact scanned header"
+                      className="text-[11px] font-semibold text-slate-600 hover:text-slate-900 px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg border border-slate-200 transition-colors"
+                      title="Toggle between vector header or scanned header"
                     >
-                      {useScannedHeader ? "Scanned Header" : "HD Vector"}
+                      {useScannedHeader ? "Scanned" : "Vector HD"}
                     </button>
                   )}
 
                   <button
                     type="button"
                     onClick={() => setIsPreviewModalOpen(true)}
-                    className="p-2 text-neutral-600 hover:text-black hover:bg-neutral-100 rounded-full transition-colors border border-neutral-200"
+                    className="p-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors border border-slate-200"
                     title="Enlarge preview"
                   >
                     <Maximize2 className="w-4 h-4" />
@@ -394,7 +254,7 @@ export default function Home() {
                     type="button"
                     onClick={handleDownloadImage}
                     disabled={isGenerating}
-                    className="p-2 text-neutral-600 hover:text-black hover:bg-neutral-100 rounded-full transition-colors border border-neutral-200"
+                    className="p-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors border border-slate-200"
                     title="Export PNG image"
                   >
                     <FileImage className="w-4 h-4" />
@@ -403,60 +263,59 @@ export default function Home() {
                   <button
                     type="button"
                     onClick={handlePrint}
-                    className="p-2 text-neutral-600 hover:text-black hover:bg-neutral-100 rounded-full transition-colors border border-neutral-200"
-                    title="Print directly via browser"
+                    className="p-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors border border-slate-200"
+                    title="Print via browser"
                   >
                     <Printer className="w-4 h-4" />
                   </button>
                 </div>
               </div>
 
-              {/* Template Switcher Pill Dock */}
-              <div id="templates" className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 p-1.5 bg-neutral-100/80 rounded-2xl border border-neutral-200/60">
+              {/* Template Switcher Tabs */}
+              <div className="grid grid-cols-4 gap-1 p-1 bg-slate-100/80 rounded-xl border border-slate-200/60">
                 {TEMPLATES.map((t) => (
                   <button
                     key={t.id}
                     type="button"
                     onClick={() => setFormData({ ...formData, templateId: t.id })}
-                    className={`py-2 px-2.5 rounded-xl text-xs font-bold truncate transition-all text-center ${
+                    className={`py-1.5 px-2 rounded-lg text-[11px] font-bold truncate transition-all text-center ${
                       formData.templateId === t.id
-                        ? "bg-white text-black shadow-xs border border-neutral-200/80 scale-[1.02]"
-                        : "text-neutral-600 hover:text-neutral-900"
+                        ? "bg-white text-slate-900 shadow-2xs border border-slate-200/80"
+                        : "text-slate-600 hover:text-slate-900"
                     }`}
                   >
-                    <span className="mr-1.5">{t.icon}</span>
-                    <span>{t.name}</span>
+                    {t.name}
                   </button>
                 ))}
               </div>
 
-              {/* Auto-Fitting Canvas Container */}
-              <div className="w-full bg-neutral-100/70 rounded-2xl p-4 flex items-center justify-center overflow-hidden border border-neutral-200/70 relative group">
-                <div className="w-full max-w-[490px] transition-transform duration-300">
+              {/* Canvas Preview Container */}
+              <div className="w-full bg-slate-100/70 rounded-xl p-3 flex items-center justify-center overflow-hidden border border-slate-200/70">
+                <div className="w-full max-w-[480px]">
                   <A4PaperPreview
                     data={formData}
                     useImageHeader={useScannedHeader}
-                    maxContainerWidth={490}
+                    maxContainerWidth={480}
                   />
                 </div>
               </div>
 
-              {/* Primary Download CTA Bar */}
-              <div className="pt-2 flex flex-col sm:flex-row items-center gap-3">
+              {/* Action Buttons Below Canvas */}
+              <div className="pt-1 flex items-center gap-2.5">
                 <button
                   type="button"
                   onClick={handleDownloadPdf}
                   disabled={isGenerating}
-                  className="w-full flex-1 py-3.5 px-6 bg-[#0a0a0a] hover:bg-neutral-800 text-white rounded-2xl font-bold text-sm sm:text-base flex items-center justify-center gap-2.5 shadow-md hover:shadow-lg transition-all active:scale-[0.98] disabled:opacity-75"
+                  className="flex-1 py-3 px-4 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-sm transition-all active:scale-98 disabled:opacity-70"
                 >
                   {isGenerating ? (
                     <>
-                      <Loader2 className="w-4 h-4 animate-spin text-[#FB923C]" />
-                      <span>{progressText || "Rendering Vector PDF..."}</span>
+                      <Loader2 className="w-4 h-4 animate-spin text-amber-400" />
+                      <span>{progressText || "Generating..."}</span>
                     </>
                   ) : (
                     <>
-                      <Download className="w-5 h-5 text-[#FB923C]" />
+                      <Download className="w-4 h-4 text-amber-400" />
                       <span>Download Print-Ready PDF</span>
                     </>
                   )}
@@ -465,232 +324,30 @@ export default function Home() {
                 <button
                   type="button"
                   onClick={handlePrint}
-                  className="w-full sm:w-auto py-3.5 px-5 bg-white hover:bg-neutral-50 text-neutral-800 rounded-2xl font-bold text-sm flex items-center justify-center gap-2 border border-neutral-200 shadow-2xs transition-all active:scale-[0.98]"
-                  title="Print directly via browser dialog"
+                  className="py-3 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold text-sm flex items-center gap-1.5 border border-slate-200 transition-all active:scale-98"
+                  title="Print directly"
                 >
                   <Printer className="w-4 h-4" />
                   <span>Print</span>
                 </button>
               </div>
 
-              {/* Status Spec Footnote */}
-              <div className="flex items-center justify-between text-xs text-neutral-500 font-mono pt-1">
-                <span className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
-                  Ready for instant A4 export
-                </span>
-                <span>210mm × 297mm • 100% SCALE</span>
+              <div className="flex items-center justify-between text-[11px] text-slate-400 pt-0.5">
+                <span>Standard A4 (210mm × 297mm)</span>
+                <span>Ready for high-res print</span>
               </div>
             </div>
-          </div>
-        </div>
-
-        {/* ============================================================= */}
-        {/* LOWER ASYMMETRIC BENTO ROW: 3 MODULAR SPEC CARDS              */}
-        {/* ============================================================= */}
-        <div id="specifications" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 mt-8">
-          {/* Bento Card 3: Instant Department Speed-Dial (Span 4) */}
-          <div className="lg:col-span-4 bg-white rounded-3xl p-6 border border-neutral-200/80 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
-            <div>
-              <div className="w-10 h-10 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center mb-4">
-                <Zap className="w-5 h-5" />
-              </div>
-              <h3 className="font-extrabold text-base text-[#0a0a0a] font-display">
-                1-Tap Department Speed-Dials
-              </h3>
-              <p className="text-xs text-neutral-500 mt-1 leading-relaxed">
-                Click any academic program to auto-populate degree, stream, semester, subject, and paper code.
-              </p>
-
-              <div className="grid grid-cols-1 gap-2 mt-4">
-                {PRESETS.slice(0, 5).map((p) => (
-                  <button
-                    key={p.name}
-                    type="button"
-                    onClick={() => applyPreset(p)}
-                    className="p-2.5 rounded-xl bg-neutral-50 hover:bg-neutral-100 border border-neutral-200/70 text-left transition-all flex items-center justify-between group text-xs font-semibold text-neutral-700"
-                  >
-                    <span>{p.name}</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-neutral-400 group-hover:text-black group-hover:translate-x-0.5 transition-all" />
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="pt-4 border-t border-neutral-100 mt-4 text-[11px] font-mono text-neutral-400">
-              UPDATED FOR 2025-2026 ACADEMIC SESSION
-            </div>
-          </div>
-
-          {/* Bento Card 4: Precision Telemetry & Engineering Specs (Span 4) */}
-          <div className="lg:col-span-4 bg-white rounded-3xl p-6 border border-neutral-200/80 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
-            <div>
-              <div className="w-10 h-10 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center mb-4">
-                <Compass className="w-5 h-5" />
-              </div>
-              <h3 className="font-extrabold text-base text-[#0a0a0a] font-display">
-                Engine Telemetry &amp; Print Precision
-              </h3>
-              <p className="text-xs text-neutral-500 mt-1 leading-relaxed">
-                Engineered for crisp laser and inkjet output across campus printing facilities.
-              </p>
-
-              <div className="space-y-2.5 mt-4 text-xs">
-                <div className="flex justify-between items-center p-2 rounded-xl bg-neutral-50 border border-neutral-200/60 font-mono">
-                  <span className="text-neutral-500">CANVAS BOUNDS</span>
-                  <span className="font-bold text-neutral-800">210mm × 297mm (A4)</span>
-                </div>
-                <div className="flex justify-between items-center p-2 rounded-xl bg-neutral-50 border border-neutral-200/60 font-mono">
-                  <span className="text-neutral-500">RASTER FIDELITY</span>
-                  <span className="font-bold text-neutral-800">300 DPI High-Density</span>
-                </div>
-                <div className="flex justify-between items-center p-2 rounded-xl bg-neutral-50 border border-neutral-200/60 font-mono">
-                  <span className="text-neutral-500">EXPORT FORMATS</span>
-                  <span className="font-bold text-neutral-800">Vector PDF &amp; Lossless PNG</span>
-                </div>
-                <div className="flex justify-between items-center p-2 rounded-xl bg-neutral-50 border border-neutral-200/60 font-mono">
-                  <span className="text-neutral-500">SECURITY ARCH</span>
-                  <span className="font-bold text-emerald-600">Zero Cloud Transmission</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="pt-4 border-t border-neutral-100 mt-4 text-[11px] font-mono text-neutral-400">
-              ISO 216 STANDARD COMPLIANCE
-            </div>
-          </div>
-
-          {/* Bento Card 5: Institutional Formats Standards (Span 4) */}
-          <div className="lg:col-span-4 bg-white rounded-3xl p-6 border border-neutral-200/80 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
-            <div>
-              <div className="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-4">
-                <Award className="w-5 h-5" />
-              </div>
-              <h3 className="font-extrabold text-base text-[#0a0a0a] font-display">
-                Institutional Standards
-              </h3>
-              <p className="text-xs text-neutral-500 mt-1 leading-relaxed">
-                Tailored for engineering assignments, practical lab manuals, and major theses.
-              </p>
-
-              <div className="space-y-2 mt-4 text-xs">
-                <div className="p-2.5 rounded-xl bg-neutral-50 border border-neutral-200/60">
-                  <span className="font-bold text-neutral-800 block">Classic Campus</span>
-                  <span className="text-neutral-500 text-[11px]">Exact match to official assignment front page.</span>
-                </div>
-                <div className="p-2.5 rounded-xl bg-neutral-50 border border-neutral-200/60">
-                  <span className="font-bold text-neutral-800 block">Modern Minimal Academic</span>
-                  <span className="text-neutral-500 text-[11px]">Clean geometric borders with subject highlight cards.</span>
-                </div>
-                <div className="p-2.5 rounded-xl bg-neutral-50 border border-neutral-200/60">
-                  <span className="font-bold text-neutral-800 block">Practical Lab Report</span>
-                  <span className="text-neutral-500 text-[11px]">Framed engineering layout with teacher grading grid.</span>
-                </div>
-                <div className="p-2.5 rounded-xl bg-neutral-50 border border-neutral-200/60">
-                  <span className="font-bold text-neutral-800 block">Executive Navy Project</span>
-                  <span className="text-neutral-500 text-[11px]">Formal deep navy and gold seminar &amp; project thesis cover.</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="pt-4 border-t border-neutral-100 mt-4 text-[11px] font-mono text-neutral-400">
-              ACADEMIC BOARD APPROVED FORMATS
-            </div>
-          </div>
-        </div>
-
-        {/* ============================================================= */}
-        {/* EMPIRICAL METRICS ROW                                         */}
-        {/* ============================================================= */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mt-8">
-          <div className="bg-white rounded-2xl p-5 border border-neutral-200/80 shadow-2xs text-center">
-            <span className="block text-2xl sm:text-3xl font-black font-display text-[#0a0a0a]">
-              300 DPI
-            </span>
-            <span className="text-xs font-semibold text-neutral-500 mt-1 block">
-              Vector Print Density
-            </span>
-          </div>
-
-          <div className="bg-white rounded-2xl p-5 border border-neutral-200/80 shadow-2xs text-center">
-            <span className="block text-2xl sm:text-3xl font-black font-display text-[#0a0a0a]">
-              &lt; 0.2s
-            </span>
-            <span className="text-xs font-semibold text-neutral-500 mt-1 block">
-              Real-Time Render Speed
-            </span>
-          </div>
-
-          <div className="bg-white rounded-2xl p-5 border border-neutral-200/80 shadow-2xs text-center">
-            <span className="block text-2xl sm:text-3xl font-black font-display text-emerald-600">
-              100%
-            </span>
-            <span className="text-xs font-semibold text-neutral-500 mt-1 block">
-              Client-Side Privacy
-            </span>
-          </div>
-
-          <div className="bg-white rounded-2xl p-5 border border-neutral-200/80 shadow-2xs text-center">
-            <span className="block text-2xl sm:text-3xl font-black font-display text-[#0a0a0a]">
-              4 Covers
-            </span>
-            <span className="text-xs font-semibold text-neutral-500 mt-1 block">
-              Curated Layout Standards
-            </span>
-          </div>
-        </div>
-
-        {/* ============================================================= */}
-        {/* STUDIO PROTOCOLS & ACCORDION (FAQ)                           */}
-        {/* ============================================================= */}
-        <div className="mt-12 bg-white rounded-3xl p-6 sm:p-8 border border-neutral-200/80 shadow-sm max-w-4xl mx-auto">
-          <div className="text-center mb-8">
-            <h3 className="text-xl sm:text-2xl font-black text-[#0a0a0a] font-display">
-              Frequently Asked Questions
-            </h3>
-            <p className="text-xs sm:text-sm text-neutral-500 mt-1">
-              Everything you need to know about generating and printing your assignment covers
-            </p>
-          </div>
-
-          <div className="divide-y divide-neutral-100">
-            {faqs.map((faq, idx) => (
-              <div key={idx} className="py-4">
-                <button
-                  type="button"
-                  onClick={() => setActiveFaq(activeFaq === idx ? null : idx)}
-                  className="w-full flex items-center justify-between text-left gap-4 font-bold text-sm text-neutral-800 hover:text-black transition-colors"
-                >
-                  <span>{faq.q}</span>
-                  <ChevronDown
-                    className={`w-4 h-4 text-neutral-400 shrink-0 transition-transform duration-200 ${
-                      activeFaq === idx ? "rotate-180 text-black" : ""
-                    }`}
-                  />
-                </button>
-                {activeFaq === idx && (
-                  <p className="mt-2 text-xs sm:text-sm text-neutral-600 leading-relaxed pr-6">
-                    {faq.a}
-                  </p>
-                )}
-              </div>
-            ))}
           </div>
         </div>
       </main>
 
       {/* ------------------------------------------------------------- */}
-      {/* 5. ARCHITECTURAL MULTI-COLUMN FOOTER                          */}
+      {/* 4. CLEAN FOOTER                                               */}
       {/* ------------------------------------------------------------- */}
       <Footer onPrint={handlePrint} onReset={handleReset} />
 
       {/* ------------------------------------------------------------- */}
-      {/* 6. SIGNATURE FIXED BOTTOM VIEWPORT BLUR / GLOW                */}
-      {/* ------------------------------------------------------------- */}
-      <FixedBottomBlurGlow />
-
-      {/* ------------------------------------------------------------- */}
-      {/* 7. MOBILE PERSISTENT BOTTOM BAR                               */}
+      {/* 5. MOBILE BOTTOM BAR                                          */}
       {/* ------------------------------------------------------------- */}
       <MobileBottomBar
         onDownloadPdf={handleDownloadPdf}
@@ -701,7 +358,7 @@ export default function Home() {
       />
 
       {/* ------------------------------------------------------------- */}
-      {/* 8. MOBILE FULLSCREEN PREVIEW MODAL                            */}
+      {/* 6. FULLSCREEN PREVIEW MODAL                                   */}
       {/* ------------------------------------------------------------- */}
       <PreviewModal
         isOpen={isPreviewModalOpen}
