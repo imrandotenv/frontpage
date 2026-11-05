@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   StudentFormData,
   DEFAULT_FORM_DATA,
-  TemplateId,
   TEMPLATES,
 } from "@/types";
 import { StudentForm } from "@/components/StudentForm";
@@ -78,7 +77,7 @@ export default function Home() {
   const [currentZoomPercent, setCurrentZoomPercent] = useState<number>(60);
   const [mobileTab, setMobileTab] = useState<"editor" | "preview">("editor");
 
-  // Ref for the 1:1 unscaled print/export canvas
+  // Ref for the unscaled export canvas
   const exportCanvasRef = useRef<HTMLDivElement>(null);
 
   // Load saved student details from localStorage on client mount
@@ -101,7 +100,6 @@ export default function Home() {
     }
   }, []);
 
-  // Save student credentials to localStorage
   const handleSaveToLocalStorage = () => {
     try {
       const toSave = {
@@ -125,7 +123,6 @@ export default function Home() {
   };
 
   const handleMagicFill = () => {
-    // Pick the next demo profile or first
     const nextDemo =
       DEMO_PROFILES.find((d) => d.studentName !== formData.studentName) ||
       DEMO_PROFILES[0];
@@ -155,7 +152,7 @@ export default function Home() {
         spread: 60,
         origin: { y: 0.6 },
       });
-    } catch (e) {
+    } catch {
       // Confetti fallback
     }
   };
@@ -179,12 +176,12 @@ export default function Home() {
           spread: 70,
           origin: { y: 0.6 },
         });
-      } catch (e) {
+      } catch {
         // Confetti fallback
       }
     } catch (err) {
       console.error(err);
-      alert("Failed to export PDF. Please try again or use the browser print option.");
+      alert("Failed to export PDF. Please try using the browser print option.");
     } finally {
       setIsGenerating(false);
       setProgressText("");
@@ -214,56 +211,25 @@ export default function Home() {
     window.print();
   };
 
+  const handleScaleCalculated = useCallback((scalePercent: number) => {
+    setCurrentZoomPercent(scalePercent);
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#f8fafc] flex flex-col font-ui text-slate-800">
-      {/* ------------------------------------------------------------- */}
-      {/* 1. CLEAN MINIMAL HEADER                                       */}
-      {/* ------------------------------------------------------------- */}
+      {/* 1. CLEAN MODERN STUDIO TOP BAR */}
       <Navbar
         onPrint={handlePrint}
         onReset={handleReset}
         onDownloadPdf={handleDownloadPdf}
+        onMagicFill={handleMagicFill}
         isGenerating={isGenerating}
+        progressText={progressText}
       />
 
-      {/* ------------------------------------------------------------- */}
-      {/* 2. SIMPLE, DIRECT HEADER SECTION                              */}
-      {/* ------------------------------------------------------------- */}
-      <section className="pt-24 sm:pt-28 pb-3 px-4 sm:px-6 max-w-7xl mx-auto w-full no-print">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-slate-200/70">
-          <div>
-            <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-              Assignment Front Page Studio
-            </h1>
-            <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
-              Enter your coursework details on the left, preview live on A4, and download your print-ready PDF.
-            </p>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={handleDownloadPdf}
-              disabled={isGenerating}
-              className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs sm:text-sm font-bold flex items-center gap-1.5 shadow-sm transition-all active:scale-95 disabled:opacity-70"
-            >
-              {isGenerating ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin text-amber-400" />
-                  <span>{progressText || "Generating..."}</span>
-                </>
-              ) : (
-                <>
-                  <Download className="w-4 h-4 text-amber-400" />
-                  <span>Download PDF</span>
-                </>
-              )}
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile View Switcher Tabs (Only visible on small screens) */}
-        <div className="lg:hidden grid grid-cols-2 gap-1.5 mt-3 p-1 bg-slate-200/70 rounded-xl">
+      {/* 2. MOBILE VIEW SWITCHER (Mobile only) */}
+      <div className="lg:hidden pt-18 px-4 no-print">
+        <div className="grid grid-cols-2 gap-1 p-1 bg-slate-200/80 rounded-xl">
           <button
             type="button"
             onClick={() => setMobileTab("editor")}
@@ -274,7 +240,7 @@ export default function Home() {
             }`}
           >
             <Edit3 className="w-3.5 h-3.5" />
-            <span>Editor &amp; Presets</span>
+            <span>Editor &amp; Details</span>
           </button>
           <button
             type="button"
@@ -289,18 +255,16 @@ export default function Home() {
             <span>Live A4 Preview</span>
           </button>
         </div>
-      </section>
+      </div>
 
-      {/* ------------------------------------------------------------- */}
-      {/* 3. MAIN WORKSPACE: FORM (LEFT) & PREVIEW (RIGHT)              */}
-      {/* ------------------------------------------------------------- */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-3 pb-24 lg:pb-12 no-print">
+      {/* 3. MAIN WORKSPACE: CLEAN SPLIT-SCREEN STUDIO */}
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 pt-5 lg:pt-20 pb-20 lg:pb-12 no-print">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           {/* ========================================================= */}
-          {/* LEFT: STUDENT DETAILS FORM (5 COLS)                       */}
+          {/* LEFT: STUDENT DETAILS & CONTROLS (5 COLS)                 */}
           {/* ========================================================= */}
           <div
-            className={`lg:col-span-6 xl:col-span-5 ${
+            className={`lg:col-span-5 ${
               mobileTab === "editor" ? "block" : "hidden lg:block"
             }`}
           >
@@ -315,34 +279,34 @@ export default function Home() {
           </div>
 
           {/* ========================================================= */}
-          {/* RIGHT: LIVE A4 PREVIEW (7 COLS, STICKY)                   */}
+          {/* RIGHT: LIVE A4 PREVIEW STAGE (7 COLS, STICKY)             */}
           {/* ========================================================= */}
           <div
-            className={`lg:col-span-6 xl:col-span-7 sticky top-20 ${
+            className={`lg:col-span-7 sticky top-18 ${
               mobileTab === "preview" ? "block" : "hidden lg:block"
             }`}
           >
-            <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 shadow-xs flex flex-col space-y-3.5">
-              {/* Preview Header & Controls */}
+            <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 shadow-2xs flex flex-col space-y-3.5">
+              {/* Preview Stage Header */}
               <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                 <div className="flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                  <span className="text-xs font-bold uppercase tracking-wider text-slate-700">
+                  <span className="text-xs font-bold uppercase tracking-wider text-slate-800">
                     Live Preview
                   </span>
                   <span className="text-[11px] text-slate-400">
-                    ({TEMPLATES.find((t) => t.id === formData.templateId)?.name})
+                    • {TEMPLATES.find((t) => t.id === formData.templateId)?.name}
                   </span>
                 </div>
 
-                {/* Toolbar Buttons */}
+                {/* Toolbar Quick Actions */}
                 <div className="flex items-center gap-1.5">
                   {formData.templateId === "classic" && (
                     <button
                       type="button"
                       onClick={() => setUseScannedHeader(!useScannedHeader)}
                       className="text-[11px] font-semibold text-slate-600 hover:text-slate-900 px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg border border-slate-200 transition-colors"
-                      title="Toggle between vector header or scanned header"
+                      title="Toggle vector header or scanned header"
                     >
                       {useScannedHeader ? "Scanned" : "Vector HD"}
                     </button>
@@ -352,7 +316,7 @@ export default function Home() {
                     type="button"
                     onClick={() => setIsPreviewModalOpen(true)}
                     className="p-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors border border-slate-200"
-                    title="Enlarge preview"
+                    title="Fullscreen Preview"
                   >
                     <Maximize2 className="w-4 h-4" />
                   </button>
@@ -371,50 +335,32 @@ export default function Home() {
                     type="button"
                     onClick={handlePrint}
                     className="p-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors border border-slate-200"
-                    title="Print via browser"
+                    title="Print directly"
                   >
                     <Printer className="w-4 h-4" />
                   </button>
                 </div>
               </div>
 
-              {/* Template Switcher Tabs */}
-              <div className="grid grid-cols-4 gap-1 p-1 bg-slate-100/80 rounded-xl border border-slate-200/60">
-                {TEMPLATES.map((t) => (
-                  <button
-                    key={t.id}
-                    type="button"
-                    onClick={() => setFormData({ ...formData, templateId: t.id })}
-                    className={`py-1.5 px-2 rounded-lg text-[11px] font-bold truncate transition-all text-center ${
-                      formData.templateId === t.id
-                        ? "bg-white text-slate-900 shadow-2xs border border-slate-200/80"
-                        : "text-slate-600 hover:text-slate-900"
-                    }`}
-                  >
-                    {t.name}
-                  </button>
-                ))}
-              </div>
-
-              {/* Canvas Preview Container */}
-              <div className="w-full bg-slate-100/70 rounded-xl p-3 flex flex-col items-center justify-center overflow-hidden border border-slate-200/70">
+              {/* Canvas Preview Stage */}
+              <div className="w-full bg-slate-100/80 rounded-xl p-3 flex flex-col items-center justify-center overflow-hidden border border-slate-200/70">
                 <div className="w-full max-w-[500px]">
                   <A4PaperPreview
                     data={formData}
                     useImageHeader={useScannedHeader}
                     maxContainerWidth={500}
                     zoomOffset={zoomOffset}
-                    onScaleCalculated={setCurrentZoomPercent}
+                    onScaleCalculated={handleScaleCalculated}
                   />
                 </div>
 
                 {/* Subtle Stage Zoom Controls */}
-                <div className="mt-2 flex items-center justify-between w-full px-2 text-xs text-slate-500">
-                  <span className="text-[11px] text-slate-400 hidden sm:inline">
-                    A4 Sheet • 210mm × 297mm
+                <div className="mt-2.5 flex items-center justify-between w-full px-2 text-xs text-slate-500">
+                  <span className="text-[11px] text-slate-400">
+                    A4 • 210mm × 297mm (ISO 216)
                   </span>
 
-                  <div className="flex items-center gap-1 bg-white/90 px-2 py-1 rounded-full border border-slate-200 shadow-2xs ml-auto">
+                  <div className="flex items-center gap-1 bg-white px-2 py-0.5 rounded-full border border-slate-200 shadow-2xs ml-auto">
                     <button
                       type="button"
                       onClick={() => setZoomOffset((prev) => Math.max(-0.35, prev - 0.08))}
@@ -426,7 +372,7 @@ export default function Home() {
                     <button
                       type="button"
                       onClick={() => setZoomOffset(0)}
-                      className="px-2 text-[11px] font-mono font-semibold text-slate-700 hover:text-indigo-600"
+                      className="px-2 text-[11px] font-mono font-semibold text-slate-700 hover:text-slate-900"
                       title="Reset Zoom to Fit"
                     >
                       {zoomOffset === 0 ? `Fit (${currentZoomPercent}%)` : `${currentZoomPercent}%`}
@@ -443,13 +389,13 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Action Buttons Below Canvas */}
+              {/* Primary Action Buttons Below Canvas */}
               <div className="pt-1 flex items-center gap-2.5">
                 <button
                   type="button"
                   onClick={handleDownloadPdf}
                   disabled={isGenerating}
-                  className="flex-1 py-3 px-4 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-sm transition-all active:scale-98 disabled:opacity-70"
+                  className="flex-1 py-3 px-4 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-sm transition-all active:scale-98 disabled:opacity-75"
                 >
                   {isGenerating ? (
                     <>
@@ -474,24 +420,15 @@ export default function Home() {
                   <span>Print</span>
                 </button>
               </div>
-
-              <div className="flex items-center justify-between text-[11px] text-slate-400 pt-0.5">
-                <span>Standard A4 (210mm × 297mm)</span>
-                <span>Ready for high-res print</span>
-              </div>
             </div>
           </div>
         </div>
       </main>
 
-      {/* ------------------------------------------------------------- */}
-      {/* 4. CLEAN FOOTER                                               */}
-      {/* ------------------------------------------------------------- */}
+      {/* 4. FOOTER */}
       <Footer onPrint={handlePrint} onReset={handleReset} />
 
-      {/* ------------------------------------------------------------- */}
-      {/* 5. MOBILE BOTTOM BAR                                          */}
-      {/* ------------------------------------------------------------- */}
+      {/* 5. MOBILE BOTTOM BAR */}
       <MobileBottomBar
         onDownloadPdf={handleDownloadPdf}
         onOpenPreview={() => setIsPreviewModalOpen(true)}
@@ -500,9 +437,7 @@ export default function Home() {
         progressText={progressText}
       />
 
-      {/* ------------------------------------------------------------- */}
-      {/* 6. FULLSCREEN PREVIEW MODAL                                   */}
-      {/* ------------------------------------------------------------- */}
+      {/* 6. FULLSCREEN PREVIEW MODAL */}
       <PreviewModal
         isOpen={isPreviewModalOpen}
         onClose={() => setIsPreviewModalOpen(false)}
@@ -514,16 +449,14 @@ export default function Home() {
         progressText={progressText}
       />
 
-      {/* ------------------------------------------------------------- */}
-      {/* UNRENDERED 1:1 CANVASES FOR HIGH-RES EXPORT & PRINT           */}
-      {/* ------------------------------------------------------------- */}
+      {/* 7. UNRENDERED 1:1 CANVASES FOR HIGH-RES EXPORT & PRINT */}
       <div
         style={{
           position: "fixed",
           left: "-9999px",
           top: "-9999px",
-          width: "210mm",
-          height: "297mm",
+          width: "794px",
+          height: "1123px",
           overflow: "visible",
           zIndex: -1,
         }}

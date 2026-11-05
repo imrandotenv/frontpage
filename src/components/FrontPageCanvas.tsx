@@ -14,12 +14,94 @@ interface FrontPageCanvasProps {
   useImageHeader?: boolean;
 }
 
+const CampusIllustrationSVG: React.FC = () => (
+  <svg viewBox="0 0 700 210" className="w-full h-full object-cover" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="skyGrad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stopColor="#bae6fd" stopOpacity="0.45" />
+        <stop offset="60%" stopColor="#e0f2fe" stopOpacity="0.85" />
+        <stop offset="100%" stopColor="#ffffff" stopOpacity="1" />
+      </linearGradient>
+      <linearGradient id="glassGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="#1e3a8a" />
+        <stop offset="100%" stopColor="#3b82f6" />
+      </linearGradient>
+      <linearGradient id="lawnGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="#dcfce7" />
+        <stop offset="100%" stopColor="#bbf7d0" />
+      </linearGradient>
+    </defs>
+    <rect width="700" height="210" fill="url(#skyGrad)" />
+    <ellipse cx="140" cy="38" rx="55" ry="14" fill="#ffffff" fillOpacity="0.75" />
+    <ellipse cx="530" cy="32" rx="70" ry="16" fill="#ffffff" fillOpacity="0.7" />
+
+    {/* Architectural University Building */}
+    <polygon points="45,95 250,58 250,175 45,175" fill="#f8fafc" stroke="#cbd5e1" strokeWidth="1.5" />
+    <polygon points="42,90 250,52 250,60 42,97" fill="#0284c7" />
+
+    <rect x="245" y="42" width="115" height="133" fill="#f1f5f9" stroke="#94a3b8" strokeWidth="1.5" />
+    <polygon points="240,42 365,42 360,32 245,32" fill="#0369a1" />
+    <rect x="268" y="60" width="70" height="72" rx="35" fill="url(#glassGrad)" stroke="#e2e8f0" strokeWidth="2" />
+    <line x1="303" y1="60" x2="303" y2="132" stroke="#93c5fd" strokeWidth="1.2" />
+    <line x1="268" y1="96" x2="338" y2="96" stroke="#93c5fd" strokeWidth="1.2" />
+
+    <polygon points="360,58 655,92 655,175 360,175" fill="#ffffff" stroke="#cbd5e1" strokeWidth="1.5" />
+    <polygon points="360,51 658,86 658,94 360,60" fill="#0284c7" />
+
+    <g fill="#334155" opacity="0.8">
+      <rect x="70" y="105" width="18" height="20" rx="1" />
+      <rect x="105" y="100" width="18" height="22" rx="1" />
+      <rect x="140" y="95" width="20" height="24" rx="1" />
+      <rect x="180" y="90" width="22" height="26" rx="1" />
+      <rect x="215" y="85" width="20" height="28" rx="1" />
+
+      <rect x="70" y="135" width="18" height="20" rx="1" />
+      <rect x="105" y="132" width="18" height="22" rx="1" />
+      <rect x="140" y="129" width="20" height="24" rx="1" />
+      <rect x="180" y="126" width="22" height="26" rx="1" />
+      <rect x="215" y="123" width="20" height="28" rx="1" />
+    </g>
+
+    <g fill="#334155" opacity="0.8">
+      <rect x="380" y="82" width="24" height="26" rx="1" />
+      <rect x="420" y="86" width="24" height="25" rx="1" />
+      <rect x="460" y="90" width="22" height="24" rx="1" />
+      <rect x="500" y="94" width="22" height="23" rx="1" />
+      <rect x="540" y="98" width="20" height="22" rx="1" />
+      <rect x="578" y="102" width="18" height="20" rx="1" />
+      <rect x="612" y="106" width="18" height="19" rx="1" />
+
+      <rect x="380" y="122" width="24" height="26" rx="1" />
+      <rect x="420" y="124" width="24" height="25" rx="1" />
+      <rect x="460" y="127" width="22" height="24" rx="1" />
+      <rect x="500" y="130" width="22" height="23" rx="1" />
+      <rect x="540" y="133" width="20" height="22" rx="1" />
+      <rect x="578" y="136" width="18" height="20" rx="1" />
+      <rect x="612" y="138" width="18" height="19" rx="1" />
+    </g>
+
+    <rect x="262" y="138" width="82" height="37" fill="#e2e8f0" stroke="#94a3b8" />
+    <rect x="282" y="146" width="42" height="29" fill="#0f172a" />
+
+    <rect x="0" y="173" width="700" height="37" fill="url(#lawnGrad)" />
+    <polygon points="240,210 285,173 325,173 370,210" fill="#cbd5e1" />
+    <circle cx="38" cy="165" r="18" fill="#15803d" />
+    <circle cx="65" cy="170" r="14" fill="#16a34a" />
+    <circle cx="655" cy="165" r="20" fill="#15803d" />
+    <circle cx="630" cy="172" r="14" fill="#16a34a" />
+  </svg>
+);
+
 export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
   ({ data, scale = 1, useImageHeader = false }, ref) => {
     const formatText = (text?: string) => {
       if (!text) return "";
       return data.autoUppercase ? text.toUpperCase() : text;
     };
+
+    const shortSemester = data.semester
+      ? data.semester.replace(/SEMESTER/i, "").replace(/SEM/i, "").trim()
+      : "3RD";
 
     const fontClass =
       data.fontFamily === "rajdhani"
@@ -32,7 +114,7 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
         ? "font-mono"
         : "font-chakra";
 
-    const templateId = data.templateId || "classic";
+    const templateId = data.templateId || "modern";
 
     return (
       <div
@@ -40,13 +122,12 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
         id="frontpage-print-container"
         className="relative bg-white text-slate-900 overflow-hidden shadow-2xl mx-auto select-none print:shadow-none"
         style={{
-          width: "210mm",
-          height: "297mm",
-          minWidth: "210mm",
-          minHeight: "297mm",
-          maxWidth: "210mm",
-          maxHeight: "297mm",
-          transform: scale !== 1 ? `scale(${scale})` : undefined,
+          width: "794px",
+          height: "1123px",
+          minWidth: "794px",
+          minHeight: "1123px",
+          maxWidth: "794px",
+          maxHeight: "1123px",
           transformOrigin: "top left",
           pageBreakInside: "avoid",
           boxSizing: "border-box",
@@ -80,28 +161,24 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
 
                 <div className="flex-1 text-center flex flex-col justify-center select-text pr-2">
                   <h1 className="text-[#38335b] font-black text-[18px] leading-tight tracking-tight uppercase font-chakra">
-                    SANAKA EDUCATIONAL TRUST&apos;S GROUP OF INSTITUTIONS
+                    {data.collegeName || "SANAKA EDUCATIONAL TRUST'S GROUP OF INSTITUTIONS"}
                   </h1>
                   <p className="text-[#38335b] font-bold text-[10.5px] leading-tight tracking-tight uppercase mt-1">
-                    (FORMELY KNOWN AS INSTITUTE OF ENGINEERING &amp; INDUSTRIAL TECHNOLOGY)
+                    (FORMERLY KNOWN AS INSTITUTE OF ENGINEERING &amp; INDUSTRIAL TECHNOLOGY)
                   </p>
                   <p className="text-[#38335b] font-bold text-[11px] leading-tight tracking-wide uppercase mt-0.5">
                     A UNIT OF SANAKA EDUCATIONAL TRUST
                   </p>
                   <p className="text-[#de931f] font-black text-[10.5px] leading-tight tracking-wider uppercase mt-1">
-                    (APPROVED BY A.I.C.T.E, C.O .A &amp; P.C .I AND AFF ILIATED TO M.A.K .A.U.T)
+                    (APPROVED BY A.I.C.T.E, C.O.A &amp; P.C.I AND AFFILIATED TO M.A.K.A.U.T)
                   </p>
                 </div>
               </header>
             )}
 
-            {/* Campus Photo */}
-            <div className="w-full relative h-[255px] overflow-hidden bg-slate-900 shadow-inner">
-              <img
-                src={SANAKA_BUILDING_BASE64}
-                alt="Sanaka Campus Building"
-                className="w-full h-full object-cover object-center"
-              />
+            {/* Campus Architectural Banner */}
+            <div className="w-full relative h-[195px] overflow-hidden bg-sky-50 border-y border-slate-200">
+              <CampusIllustrationSVG />
             </div>
 
             {/* Student Details */}
@@ -254,7 +331,7 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
                 </div>
                 <div className="w-14 h-14 rounded-xl bg-slate-900 text-white flex flex-col items-center justify-center font-mono shrink-0 shadow-sm">
                   <span className="text-[9px] text-amber-400 uppercase font-bold">SEM</span>
-                  <span className="text-base font-extrabold">{formatText(data.semester) || "—"}</span>
+                  <span className="text-base font-extrabold">{shortSemester}</span>
                 </div>
               </div>
 

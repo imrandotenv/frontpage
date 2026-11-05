@@ -3,8 +3,6 @@
 import React, { useState } from "react";
 import {
   StudentFormData,
-  DepartmentPreset,
-  PRESETS,
   TemplateId,
 } from "@/types";
 import { TemplateSelector } from "./TemplateSelector";
@@ -12,15 +10,12 @@ import {
   User,
   GraduationCap,
   BookOpen,
-  Layers,
-  Sparkles,
+  SlidersHorizontal,
   Plus,
   Trash2,
   RotateCcw,
   Save,
   CheckCircle2,
-  Sliders,
-  Wand2,
   Building2,
   ChevronDown,
 } from "lucide-react";
@@ -67,7 +62,6 @@ export const StudentForm: React.FC<StudentFormProps> = ({
   onChange,
   onSaveToLocalStorage,
   onReset,
-  onMagicFill,
   isSaved,
 }) => {
   const [showInstitutionOverride, setShowInstitutionOverride] = useState(false);
@@ -133,7 +127,6 @@ export const StudentForm: React.FC<StudentFormProps> = ({
     handleFieldChange("customFields", updated);
   };
 
-  // Find active semester index if any
   const currentSemPill = SEMESTERS.find(
     (s) =>
       s.sem.toLowerCase() === (data.semester || "").toLowerCase() ||
@@ -141,56 +134,73 @@ export const StudentForm: React.FC<StudentFormProps> = ({
   );
 
   return (
-    <div className="space-y-5">
-      {/* ------------------------------------------------------------- */}
-      {/* 1. CHOOSE DESIGN / TEMPLATE SELECTOR                          */}
-      {/* ------------------------------------------------------------- */}
+    <div className="space-y-4">
+      {/* 1. COMPACT TEMPLATE SELECTOR */}
       <TemplateSelector
-        selectedId={data.templateId || "classic"}
+        selectedId={data.templateId || "modern"}
         onSelect={(id: TemplateId) => handleFieldChange("templateId", id)}
       />
 
-      {/* ------------------------------------------------------------- */}
-      {/* 2. SECTION 1: STUDENT & ACADEMIC PROFILE                      */}
-      {/* ------------------------------------------------------------- */}
-      <section className="rounded-2xl border border-slate-200/90 bg-white shadow-xs overflow-hidden">
+      {/* 2. QUICK SUBJECT PRESETS BAR */}
+      <div className="bg-white rounded-2xl p-3 border border-slate-200/90 shadow-2xs">
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
+            Quick Subject Presets
+          </span>
+          <span className="text-[10px] text-slate-400">1-tap auto fill</span>
+        </div>
+        <div className="flex items-center gap-1.5 overflow-x-auto pb-0.5 no-scrollbar">
+          {SUBJECT_PRESETS.map((p) => (
+            <button
+              key={p.code}
+              type="button"
+              onClick={() => applySubjectQuickPreset(p)}
+              className="shrink-0 px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-50 hover:bg-slate-100 hover:text-slate-900 border border-slate-200/80 text-slate-700 transition active:scale-95 flex items-center gap-1.5"
+            >
+              <span>{p.name}</span>
+              <span className="text-[10px] font-mono text-slate-400 bg-white px-1 rounded border border-slate-200/60">
+                {p.code}
+              </span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* 3. STUDENT & ACADEMIC CREDENTIALS */}
+      <section className="rounded-2xl border border-slate-200/90 bg-white shadow-2xs overflow-hidden">
         <div className="px-4 py-3 bg-slate-50/70 border-b border-slate-100 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="w-6 h-6 rounded-md bg-indigo-50 text-indigo-600 flex items-center justify-center text-xs font-bold">
-              1
-            </span>
+            <User className="w-3.5 h-3.5 text-slate-500" />
             <h2 className="text-xs font-bold uppercase tracking-wider text-slate-800">
-              Student &amp; Academic Profile
+              Student Credentials
             </h2>
           </div>
 
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={onSaveToLocalStorage}
-              className={`flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-lg transition-all ${
-                isSaved
-                  ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
-                  : "bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200"
-              }`}
-              title="Save Name & Roll No on device"
-            >
-              {isSaved ? (
-                <>
-                  <CheckCircle2 className="w-3 h-3 text-emerald-600" />
-                  <span>Saved</span>
-                </>
-              ) : (
-                <>
-                  <Save className="w-3 h-3" />
-                  <span>Remember</span>
-                </>
-              )}
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={onSaveToLocalStorage}
+            className={`flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-lg transition-all ${
+              isSaved
+                ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                : "bg-white hover:bg-slate-50 text-slate-700 border border-slate-200"
+            }`}
+            title="Save Name & Roll No on device"
+          >
+            {isSaved ? (
+              <>
+                <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                <span>Saved</span>
+              </>
+            ) : (
+              <>
+                <Save className="w-3 h-3 text-slate-400" />
+                <span>Remember</span>
+              </>
+            )}
+          </button>
         </div>
 
-        <div className="p-4 space-y-4">
+        <div className="p-4 space-y-3.5">
           {/* Name & University Roll No */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
@@ -202,7 +212,7 @@ export const StudentForm: React.FC<StudentFormProps> = ({
                 value={data.studentName}
                 onChange={(e) => handleFieldChange("studentName", e.target.value)}
                 placeholder="e.g. AARAV SHARMA"
-                className="w-full rounded-xl border border-slate-200 bg-slate-50/60 px-3 py-2 text-xs font-semibold text-slate-900 placeholder:text-slate-400 focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/15 transition uppercase"
+                className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-900 placeholder:text-slate-400 focus:border-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10 transition uppercase"
               />
             </div>
 
@@ -215,7 +225,7 @@ export const StudentForm: React.FC<StudentFormProps> = ({
                 value={data.universityRollNo}
                 onChange={(e) => handleFieldChange("universityRollNo", e.target.value)}
                 placeholder="e.g. 24500124018"
-                className="w-full rounded-xl border border-slate-200 bg-slate-50/60 px-3 py-2 text-xs font-mono font-semibold text-slate-900 placeholder:text-slate-400 focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/15 transition uppercase"
+                className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-mono font-semibold text-slate-900 placeholder:text-slate-400 focus:border-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10 transition uppercase"
               />
             </div>
           </div>
@@ -248,7 +258,7 @@ export const StudentForm: React.FC<StudentFormProps> = ({
               value={data.course}
               onChange={(e) => handleFieldChange("course", e.target.value)}
               placeholder="e.g. B.TECH"
-              className="w-full rounded-xl border border-slate-200 bg-slate-50/60 px-3 py-2 text-xs font-semibold text-slate-900 placeholder:text-slate-400 focus:border-indigo-500 focus:bg-white focus:outline-none transition uppercase"
+              className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-900 placeholder:text-slate-400 focus:border-slate-900 focus:outline-none transition uppercase"
             />
           </div>
 
@@ -256,7 +266,7 @@ export const StudentForm: React.FC<StudentFormProps> = ({
           <div>
             <div className="flex items-center justify-between mb-1.5">
               <label className="text-[11px] font-semibold uppercase tracking-wider text-slate-600">
-                Stream / Branch <span className="text-red-500">*</span>
+                Department / Stream <span className="text-red-500">*</span>
               </label>
               <div className="flex flex-wrap gap-1">
                 {STREAMS.map((s) => (
@@ -280,24 +290,23 @@ export const StudentForm: React.FC<StudentFormProps> = ({
               value={data.stream}
               onChange={(e) => handleFieldChange("stream", e.target.value)}
               placeholder="e.g. COMPUTER SCIENCE & ENGINEERING (CSE)"
-              className="w-full rounded-xl border border-slate-200 bg-slate-50/60 px-3 py-2 text-xs font-semibold text-slate-900 placeholder:text-slate-400 focus:border-indigo-500 focus:bg-white focus:outline-none transition uppercase"
+              className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-900 placeholder:text-slate-400 focus:border-slate-900 focus:outline-none transition uppercase"
             />
           </div>
 
-          {/* Semester (Auto-syncs Year) */}
-          <div className="pt-2 border-t border-slate-100 space-y-2.5">
+          {/* Semester & Year */}
+          <div className="pt-2 border-t border-slate-100 space-y-2">
             <div className="flex items-center justify-between">
               <label className="text-[11px] font-semibold uppercase tracking-wider text-slate-600">
                 Semester <span className="text-slate-400 font-normal lowercase">(auto-syncs year)</span>
               </label>
               {data.year && (
-                <span className="text-[10px] font-semibold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-md border border-indigo-100">
+                <span className="text-[10px] font-semibold text-slate-700 bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200">
                   Year: {data.year}
                 </span>
               )}
             </div>
 
-            {/* 8-pill segmented selector */}
             <div className="grid grid-cols-4 sm:grid-cols-8 gap-1">
               {SEMESTERS.map(({ label, sem, year }) => {
                 const isSelected =
@@ -324,7 +333,7 @@ export const StudentForm: React.FC<StudentFormProps> = ({
             {/* Compact manual override inputs */}
             <div className="grid grid-cols-3 gap-2 pt-1">
               <div>
-                <label className="block text-[10px] font-semibold uppercase text-slate-500 mb-1">
+                <label className="block text-[10px] font-semibold uppercase text-slate-500 mb-0.5">
                   Semester
                 </label>
                 <input
@@ -332,12 +341,12 @@ export const StudentForm: React.FC<StudentFormProps> = ({
                   value={data.semester}
                   onChange={(e) => handleFieldChange("semester", e.target.value)}
                   placeholder="3RD"
-                  className="w-full rounded-lg border border-slate-200 bg-slate-50/60 px-2.5 py-1.5 text-xs font-semibold text-slate-900 focus:border-indigo-500 focus:bg-white focus:outline-none uppercase"
+                  className="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 focus:border-slate-900 focus:outline-none uppercase"
                 />
               </div>
 
               <div>
-                <label className="block text-[10px] font-semibold uppercase text-slate-500 mb-1">
+                <label className="block text-[10px] font-semibold uppercase text-slate-500 mb-0.5">
                   Year
                 </label>
                 <input
@@ -345,12 +354,12 @@ export const StudentForm: React.FC<StudentFormProps> = ({
                   value={data.year}
                   onChange={(e) => handleFieldChange("year", e.target.value)}
                   placeholder="2ND YEAR"
-                  className="w-full rounded-lg border border-slate-200 bg-slate-50/60 px-2.5 py-1.5 text-xs font-semibold text-slate-900 focus:border-indigo-500 focus:bg-white focus:outline-none uppercase"
+                  className="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 focus:border-slate-900 focus:outline-none uppercase"
                 />
               </div>
 
               <div>
-                <label className="block text-[10px] font-semibold uppercase text-slate-500 mb-1">
+                <label className="block text-[10px] font-semibold uppercase text-slate-500 mb-0.5">
                   Session
                 </label>
                 <input
@@ -358,7 +367,7 @@ export const StudentForm: React.FC<StudentFormProps> = ({
                   value={data.session}
                   onChange={(e) => handleFieldChange("session", e.target.value)}
                   placeholder="2025-2026"
-                  className="w-full rounded-lg border border-slate-200 bg-slate-50/60 px-2.5 py-1.5 text-xs font-mono font-semibold text-slate-900 focus:border-indigo-500 focus:bg-white focus:outline-none uppercase"
+                  className="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-mono font-semibold text-slate-900 focus:border-slate-900 focus:outline-none uppercase"
                 />
               </div>
             </div>
@@ -366,46 +375,18 @@ export const StudentForm: React.FC<StudentFormProps> = ({
         </div>
       </section>
 
-      {/* ------------------------------------------------------------- */}
-      {/* 3. SECTION 2: SUBJECT & PAPER INFO (1-TAP QUICK FILL)         */}
-      {/* ------------------------------------------------------------- */}
-      <section className="rounded-2xl border border-slate-200/90 bg-white shadow-xs overflow-hidden">
+      {/* 4. COURSEWORK & EXAM DETAILS */}
+      <section className="rounded-2xl border border-slate-200/90 bg-white shadow-2xs overflow-hidden">
         <div className="px-4 py-3 bg-slate-50/70 border-b border-slate-100 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="w-6 h-6 rounded-md bg-indigo-50 text-indigo-600 flex items-center justify-center text-xs font-bold">
-              2
-            </span>
+            <BookOpen className="w-3.5 h-3.5 text-slate-500" />
             <h2 className="text-xs font-bold uppercase tracking-wider text-slate-800">
-              Subject &amp; Paper Info
+              Coursework &amp; Subject Details
             </h2>
           </div>
-          <span className="text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200/60 flex items-center gap-1">
-            <Sparkles className="w-3 h-3 text-amber-600" />
-            1-Tap Presets
-          </span>
         </div>
 
-        <div className="p-4 space-y-3.5">
-          {/* Quick Subject Presets */}
-          <div>
-            <p className="text-[11px] text-slate-500 mb-1.5 font-medium">
-              Click a subject preset to populate Paper Name, Code &amp; Semester:
-            </p>
-            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar">
-              {SUBJECT_PRESETS.map((p) => (
-                <button
-                  key={p.code}
-                  type="button"
-                  onClick={() => applySubjectQuickPreset(p)}
-                  className="shrink-0 px-2.5 py-1 rounded-lg text-[11px] font-medium bg-slate-100 hover:bg-indigo-50 hover:text-indigo-700 hover:border-indigo-200 border border-slate-200/80 text-slate-700 transition"
-                >
-                  {p.name} <span className="text-slate-400 font-mono text-[10px]">{p.code}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Paper Name & Paper Code Inputs */}
+        <div className="p-4 space-y-3">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div className="sm:col-span-2">
               <label className="block text-[11px] font-semibold uppercase tracking-wider text-slate-600 mb-1">
@@ -416,7 +397,7 @@ export const StudentForm: React.FC<StudentFormProps> = ({
                 value={data.paperName}
                 onChange={(e) => handleFieldChange("paperName", e.target.value)}
                 placeholder="e.g. DATA STRUCTURES & ALGORITHMS"
-                className="w-full rounded-xl border border-slate-200 bg-slate-50/60 px-3 py-2 text-xs font-semibold text-slate-900 placeholder:text-slate-400 focus:border-indigo-500 focus:bg-white focus:outline-none transition uppercase"
+                className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-900 placeholder:text-slate-400 focus:border-slate-900 focus:outline-none transition uppercase"
               />
             </div>
 
@@ -429,45 +410,41 @@ export const StudentForm: React.FC<StudentFormProps> = ({
                 value={data.paperCode}
                 onChange={(e) => handleFieldChange("paperCode", e.target.value)}
                 placeholder="e.g. PCC-CS301"
-                className="w-full rounded-xl border border-slate-200 bg-slate-50/60 px-3 py-2 text-xs font-mono font-semibold text-slate-900 placeholder:text-slate-400 focus:border-indigo-500 focus:bg-white focus:outline-none transition uppercase"
+                className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-mono font-semibold text-slate-900 placeholder:text-slate-400 focus:border-slate-900 focus:outline-none transition uppercase"
               />
             </div>
           </div>
         </div>
       </section>
 
-      {/* ------------------------------------------------------------- */}
-      {/* 4. SECTION 3: CUSTOM FIELDS & STYLING                         */}
-      {/* ------------------------------------------------------------- */}
-      <section className="rounded-2xl border border-slate-200/90 bg-white shadow-xs overflow-hidden">
+      {/* 5. OPTIONAL ROWS & CUSTOM FIELDS */}
+      <section className="rounded-2xl border border-slate-200/90 bg-white shadow-2xs overflow-hidden">
         <div className="px-4 py-3 bg-slate-50/70 border-b border-slate-100 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="w-6 h-6 rounded-md bg-indigo-50 text-indigo-600 flex items-center justify-center text-xs font-bold">
-              3
-            </span>
+            <GraduationCap className="w-3.5 h-3.5 text-slate-500" />
             <h2 className="text-xs font-bold uppercase tracking-wider text-slate-800">
-              Custom Fields &amp; Styling
+              Optional Rows &amp; Custom Fields
             </h2>
           </div>
           <span className="text-[11px] text-slate-500 font-medium">
-            {data.customFields.filter((f) => f.enabled && (f.label || f.value)).length} active rows
+            {data.customFields.filter((f) => f.enabled && (f.label || f.value)).length} active
           </span>
         </div>
 
-        <div className="p-4 space-y-4">
-          {/* Quick-Add Optional Rows */}
+        <div className="p-4 space-y-3.5">
+          {/* Quick-Add Chips */}
           <div>
             <div className="flex items-center justify-between mb-2">
               <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
-                Quick-Add Optional Rows
+                Quick-Add Field
               </span>
               <button
                 type="button"
                 onClick={() => quickAddCustomField("CUSTOM FIELD", "")}
-                className="text-[11px] font-semibold text-indigo-600 hover:text-indigo-700 flex items-center gap-1"
+                className="text-[11px] font-semibold text-slate-700 hover:text-slate-900 flex items-center gap-1"
               >
-                <Plus className="w-3.5 h-3.5" />
-                <span>Add Blank Row</span>
+                <Plus className="w-3 h-3" />
+                <span>Blank Row</span>
               </button>
             </div>
 
@@ -475,35 +452,35 @@ export const StudentForm: React.FC<StudentFormProps> = ({
               <button
                 type="button"
                 onClick={() => quickAddCustomField("REGISTRATION NO.", "")}
-                className="px-2 py-1 rounded-md text-[11px] font-medium bg-slate-100 hover:bg-indigo-50 hover:text-indigo-700 text-slate-700 border border-slate-200/70 transition"
+                className="px-2 py-1 rounded-md text-[11px] font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200/70 transition"
               >
                 + Registration No.
               </button>
               <button
                 type="button"
                 onClick={() => quickAddCustomField("SUBMITTED TO", "")}
-                className="px-2 py-1 rounded-md text-[11px] font-medium bg-slate-100 hover:bg-indigo-50 hover:text-indigo-700 text-slate-700 border border-slate-200/70 transition"
+                className="px-2 py-1 rounded-md text-[11px] font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200/70 transition"
               >
                 + Submitted To
               </button>
               <button
                 type="button"
                 onClick={() => quickAddCustomField("ASSIGNMENT TOPIC", "")}
-                className="px-2 py-1 rounded-md text-[11px] font-medium bg-slate-100 hover:bg-indigo-50 hover:text-indigo-700 text-slate-700 border border-slate-200/70 transition"
+                className="px-2 py-1 rounded-md text-[11px] font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200/70 transition"
               >
-                + Assignment Topic
+                + Topic
               </button>
               <button
                 type="button"
                 onClick={() => quickAddCustomField("SUBMISSION DATE", "")}
-                className="px-2 py-1 rounded-md text-[11px] font-medium bg-slate-100 hover:bg-indigo-50 hover:text-indigo-700 text-slate-700 border border-slate-200/70 transition"
+                className="px-2 py-1 rounded-md text-[11px] font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200/70 transition"
               >
-                + Submission Date
+                + Date
               </button>
             </div>
           </div>
 
-          {/* Dynamic Compact Custom Fields List */}
+          {/* Active Custom Fields List */}
           {data.customFields.filter((f) => f.enabled).length > 0 && (
             <div className="space-y-2 pt-1">
               {data.customFields
@@ -518,14 +495,14 @@ export const StudentForm: React.FC<StudentFormProps> = ({
                       value={field.label}
                       onChange={(e) => updateCustomField(field.id, "label", e.target.value)}
                       placeholder="FIELD LABEL"
-                      className="w-1/3 rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs font-bold text-slate-700 uppercase"
+                      className="w-1/3 rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs font-bold text-slate-700 uppercase focus:outline-none"
                     />
                     <input
                       type="text"
                       value={field.value}
                       onChange={(e) => updateCustomField(field.id, "value", e.target.value)}
                       placeholder="ENTER VALUE"
-                      className="flex-1 rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs font-semibold text-slate-900 uppercase"
+                      className="flex-1 rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs font-semibold text-slate-900 uppercase focus:outline-none"
                     />
                     <button
                       type="button"
@@ -539,122 +516,116 @@ export const StudentForm: React.FC<StudentFormProps> = ({
                 ))}
             </div>
           )}
-
-          {/* Typography & Rules */}
-          <div className="pt-3 border-t border-slate-100 space-y-3">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
-                Typography &amp; Layout
-              </span>
-
-              {/* Auto-uppercase toggle */}
-              <label className="inline-flex items-center gap-1.5 cursor-pointer select-none">
-                <input
-                  type="checkbox"
-                  checked={data.autoUppercase}
-                  onChange={(e) => handleFieldChange("autoUppercase", e.target.checked)}
-                  className="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500 w-3.5 h-3.5"
-                />
-                <span className="text-xs font-medium text-slate-700">Auto-Uppercase Values</span>
-              </label>
-            </div>
-
-            {/* Font Switcher & Signatures */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-              <div>
-                <label className="block text-[10px] font-semibold uppercase text-slate-500 mb-1">
-                  Sheet Font Style
-                </label>
-                <select
-                  value={data.fontFamily}
-                  onChange={(e) => handleFieldChange("fontFamily", e.target.value)}
-                  className="w-full rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-xs font-medium text-slate-800 focus:border-indigo-500 focus:outline-none"
-                >
-                  <option value="chakra">Chakra Petch (Modern Athletic)</option>
-                  <option value="mono">JetBrains Mono (Technical)</option>
-                  <option value="sans">Inter Modern (Clean Sans)</option>
-                  <option value="serif">Libre Baskerville (Academic Serif)</option>
-                  <option value="rajdhani">Rajdhani (Tech Bold)</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-[10px] font-semibold uppercase text-slate-500 mb-1">
-                  Footer Signatures
-                </label>
-                <select
-                  value={data.signatures || "show"}
-                  onChange={(e) => handleFieldChange("signatures", e.target.value)}
-                  className="w-full rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-xs font-medium text-slate-800 focus:border-indigo-500 focus:outline-none"
-                >
-                  <option value="show">Student + Faculty Sign</option>
-                  <option value="minimal">Compliance Footer Only</option>
-                </select>
-              </div>
-            </div>
-
-            {/* Optional Collapsible Institution Override */}
-            <details
-              open={showInstitutionOverride}
-              onToggle={(e) => setShowInstitutionOverride(e.currentTarget.open)}
-              className="group rounded-xl border border-slate-200/80 bg-slate-50/50 px-3 py-2.5"
-            >
-              <summary className="cursor-pointer list-none flex items-center justify-between text-xs font-semibold text-slate-700">
-                <span className="flex items-center gap-1.5">
-                  <Building2 className="w-3.5 h-3.5 text-slate-500" />
-                  Customize College / Institution Name
-                </span>
-                <ChevronDown className="w-3.5 h-3.5 text-slate-400 transition group-open:rotate-180" />
-              </summary>
-              <div className="mt-2.5 space-y-2 pt-2 border-t border-slate-200/60">
-                <div>
-                  <label className="block text-[10px] font-semibold uppercase text-slate-500 mb-0.5">
-                    Institution Header
-                  </label>
-                  <input
-                    type="text"
-                    value={data.collegeName || ""}
-                    onChange={(e) => handleFieldChange("collegeName", e.target.value)}
-                    placeholder="SANAKA EDUCATIONAL TRUST'S GROUP OF INSTITUTIONS"
-                    className="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-slate-800 uppercase"
-                  />
-                </div>
-                <div>
-                  <label className="block text-[10px] font-semibold uppercase text-slate-500 mb-0.5">
-                    Sub-header / Affiliation
-                  </label>
-                  <input
-                    type="text"
-                    value={data.affiliation || ""}
-                    onChange={(e) => handleFieldChange("affiliation", e.target.value)}
-                    placeholder="AFFILIATED TO M.A.K.A.U.T"
-                    className="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-slate-800 uppercase"
-                  />
-                </div>
-              </div>
-            </details>
-          </div>
         </div>
       </section>
 
-      {/* Reset & Quick Sample Action Bar */}
-      <div className="flex items-center justify-between pt-1">
-        <button
-          type="button"
-          onClick={onMagicFill}
-          className="flex items-center gap-1.5 text-xs font-semibold text-indigo-600 hover:text-indigo-800 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-xl border border-indigo-200 transition-colors"
-        >
-          <Wand2 className="w-3.5 h-3.5" />
-          <span>Fill Sample Demo</span>
-        </button>
+      {/* 6. TYPOGRAPHY & LAYOUT STYLING */}
+      <section className="rounded-2xl border border-slate-200/90 bg-white shadow-2xs overflow-hidden">
+        <div className="px-4 py-3 bg-slate-50/70 border-b border-slate-100 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <SlidersHorizontal className="w-3.5 h-3.5 text-slate-500" />
+            <h2 className="text-xs font-bold uppercase tracking-wider text-slate-800">
+              Typography &amp; Layout
+            </h2>
+          </div>
 
+          <label className="inline-flex items-center gap-1.5 cursor-pointer select-none">
+            <input
+              type="checkbox"
+              checked={data.autoUppercase}
+              onChange={(e) => handleFieldChange("autoUppercase", e.target.checked)}
+              className="rounded border-slate-300 text-slate-900 focus:ring-slate-900 w-3.5 h-3.5"
+            />
+            <span className="text-xs font-medium text-slate-700">Auto-Uppercase</span>
+          </label>
+        </div>
+
+        <div className="p-4 space-y-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <div>
+              <label className="block text-[10px] font-semibold uppercase text-slate-500 mb-1">
+                Sheet Font Style
+              </label>
+              <select
+                value={data.fontFamily}
+                onChange={(e) => handleFieldChange("fontFamily", e.target.value)}
+                className="w-full rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-xs font-medium text-slate-800 focus:border-slate-900 focus:outline-none"
+              >
+                <option value="chakra">Chakra Petch (Modern Athletic)</option>
+                <option value="mono">JetBrains Mono (Technical)</option>
+                <option value="sans">Inter Modern (Clean Sans)</option>
+                <option value="serif">Libre Baskerville (Academic Serif)</option>
+                <option value="rajdhani">Rajdhani (Tech Bold)</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-[10px] font-semibold uppercase text-slate-500 mb-1">
+                Footer Signatures
+              </label>
+              <select
+                value={data.signatures || "show"}
+                onChange={(e) => handleFieldChange("signatures", e.target.value)}
+                className="w-full rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-xs font-medium text-slate-800 focus:border-slate-900 focus:outline-none"
+              >
+                <option value="show">Student + Faculty Sign</option>
+                <option value="minimal">Compliance Footer Only</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Collapsible Institution Override */}
+          <details
+            open={showInstitutionOverride}
+            onToggle={(e) => setShowInstitutionOverride(e.currentTarget.open)}
+            className="group rounded-xl border border-slate-200/80 bg-slate-50/50 px-3 py-2"
+          >
+            <summary className="cursor-pointer list-none flex items-center justify-between text-xs font-semibold text-slate-700">
+              <span className="flex items-center gap-1.5">
+                <Building2 className="w-3.5 h-3.5 text-slate-500" />
+                Customize College / Institution Name
+              </span>
+              <ChevronDown className="w-3.5 h-3.5 text-slate-400 transition group-open:rotate-180" />
+            </summary>
+            <div className="mt-2.5 space-y-2 pt-2 border-t border-slate-200/60">
+              <div>
+                <label className="block text-[10px] font-semibold uppercase text-slate-500 mb-0.5">
+                  Institution Header
+                </label>
+                <input
+                  type="text"
+                  value={data.collegeName || ""}
+                  onChange={(e) => handleFieldChange("collegeName", e.target.value)}
+                  placeholder="SANAKA EDUCATIONAL TRUST'S GROUP OF INSTITUTIONS"
+                  className="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-slate-800 uppercase focus:outline-none"
+                />
+              </div>
+              <div>
+                <label className="block text-[10px] font-semibold uppercase text-slate-500 mb-0.5">
+                  Sub-header / Affiliation
+                </label>
+                <input
+                  type="text"
+                  value={data.affiliation || ""}
+                  onChange={(e) => handleFieldChange("affiliation", e.target.value)}
+                  placeholder="AFFILIATED TO M.A.K.A.U.T"
+                  className="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-slate-800 uppercase focus:outline-none"
+                />
+              </div>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      {/* 7. RESET FORM BUTTON */}
+      <div className="flex justify-end pt-1">
         <button
           type="button"
           onClick={onReset}
           className="flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-slate-800 px-3 py-1.5 rounded-xl hover:bg-slate-100 transition-colors"
         >
           <RotateCcw className="w-3.5 h-3.5" />
-          <span>Reset Form</span>
+          <span>Reset to Blank</span>
         </button>
       </div>
     </div>
