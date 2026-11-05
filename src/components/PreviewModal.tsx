@@ -61,18 +61,20 @@ export const PreviewModal: React.FC<PreviewModalProps> = ({
 
         {/* Action Buttons */}
         <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={() => setUseImageHeader(!useImageHeader)}
-            className="text-[11px] font-bold text-slate-600 hover:text-slate-900 px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors hidden sm:block"
-          >
-            Header: {useImageHeader ? "Scanned" : "Vector HD"}
-          </button>
+          {data.templateId === "classic" && (
+            <button
+              type="button"
+              onClick={() => setUseImageHeader(!useImageHeader)}
+              className="text-[11px] font-bold text-slate-600 hover:text-slate-900 px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors hidden sm:block border border-slate-200"
+            >
+              Header: {useImageHeader ? "Scanned" : "Vector HD"}
+            </button>
+          )}
 
           <button
             type="button"
             onClick={onPrint}
-            className="p-2 text-slate-700 hover:bg-slate-100 rounded-xl transition-colors hidden sm:flex items-center gap-1.5 text-xs font-bold"
+            className="p-2 text-slate-700 hover:bg-slate-100 rounded-xl transition-colors hidden sm:flex items-center gap-1.5 text-xs font-bold border border-slate-200"
             title="Print"
           >
             <Printer className="w-4 h-4" />
@@ -82,7 +84,7 @@ export const PreviewModal: React.FC<PreviewModalProps> = ({
           <button
             type="button"
             onClick={onDownloadImage}
-            className="p-2 text-slate-700 hover:bg-slate-100 rounded-xl transition-colors flex items-center gap-1.5 text-xs font-bold"
+            className="p-2 text-slate-700 hover:bg-slate-100 rounded-xl transition-colors flex items-center gap-1.5 text-xs font-bold border border-slate-200"
             title="Download PNG Image"
           >
             <FileImage className="w-4 h-4" />
@@ -93,7 +95,7 @@ export const PreviewModal: React.FC<PreviewModalProps> = ({
             type="button"
             onClick={onDownloadPdf}
             disabled={isGenerating}
-            className="px-4 py-2 bg-gradient-to-r from-[#3b356a] to-[#252044] text-white rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-sm active:scale-95 disabled:opacity-75"
+            className="px-4 py-2 bg-gradient-to-r from-indigo-800 to-slate-900 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-sm active:scale-95 disabled:opacity-75"
           >
             {isGenerating ? (
               <>

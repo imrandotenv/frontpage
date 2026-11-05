@@ -6,6 +6,7 @@ import { StudentForm } from "@/components/StudentForm";
 import { FrontPageCanvas } from "@/components/FrontPageCanvas";
 import { A4PaperPreview } from "@/components/A4PaperPreview";
 import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
 import { MobileBottomBar } from "@/components/MobileBottomBar";
 import { PreviewModal } from "@/components/PreviewModal";
 import {
@@ -20,6 +21,7 @@ import {
   Loader2,
   Info,
   Maximize2,
+  CheckCircle2,
 } from "lucide-react";
 
 export default function Home() {
@@ -133,7 +135,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-[#f8fafc] flex flex-col font-ui text-slate-800">
       {/* ------------------------------------------------------------- */}
-      {/* NAVIGATION BAR                                                */}
+      {/* NAVIGATION BAR (CLEAN, NO GITHUB BUTTON IN HEADER)            */}
       {/* ------------------------------------------------------------- */}
       <Navbar onPrint={handlePrint} onReset={handleReset} />
 
@@ -157,16 +159,19 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="flex items-center gap-2 w-full sm:w-auto">
+          {/* Action Buttons: Unified & Neatly Arranged */}
+          <div className="flex items-center gap-2.5 w-full sm:w-auto">
+            {/* Mobile-Only Preview Trigger */}
             <button
               type="button"
               onClick={() => setIsPreviewModalOpen(true)}
-              className="lg:hidden flex-1 sm:flex-none px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold rounded-xl text-xs flex items-center justify-center gap-1.5 transition-all"
+              className="lg:hidden flex-1 sm:flex-none px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold rounded-xl text-xs flex items-center justify-center gap-1.5 transition-all border border-slate-200 active:scale-95"
             >
               <Eye className="w-4 h-4 text-slate-600" />
               <span>Full Preview</span>
             </button>
 
+            {/* Primary Download Button */}
             <button
               type="button"
               onClick={handleDownloadPdf}
@@ -190,7 +195,7 @@ export default function Home() {
 
         {/* Responsive Grid: Inputs (Left) and Sticky Preview (Right on lg+) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* LEFT: STUDENT DETAILS FORM */}
+          {/* LEFT COLUMN: STUDENT DETAILS FORM */}
           <section className="lg:col-span-6 xl:col-span-5">
             <StudentForm
               data={formData}
@@ -202,10 +207,10 @@ export default function Home() {
             />
           </section>
 
-          {/* RIGHT: DESKTOP STICKY LIVE PREVIEW */}
+          {/* RIGHT COLUMN: DESKTOP STICKY LIVE PREVIEW */}
           <section className="hidden lg:block lg:col-span-6 xl:col-span-7 sticky top-20">
             <div className="bg-white rounded-3xl p-5 border border-slate-200/90 shadow-sm flex flex-col space-y-4">
-              {/* Toolbar */}
+              {/* Preview Header & Controls */}
               <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                 <div className="flex items-center gap-2">
                   <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
@@ -217,23 +222,24 @@ export default function Home() {
                   </span>
                 </div>
 
-                <div className="flex items-center gap-2">
+                {/* Toolbar Buttons: Arranged Neatly */}
+                <div className="flex items-center gap-1.5">
                   {/* Header style toggle for classic template */}
                   {formData.templateId === "classic" && (
                     <button
                       type="button"
                       onClick={() => setUseScannedHeader(!useScannedHeader)}
-                      className="text-[11px] font-semibold text-slate-500 hover:text-slate-800 px-2 py-1 bg-slate-50 hover:bg-slate-100 rounded-lg border border-slate-200 transition-colors"
+                      className="text-[11px] font-semibold text-slate-600 hover:text-slate-900 px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg border border-slate-200 transition-colors"
                       title="Toggle between HD Vector header or exact scanned header"
                     >
-                      Header: {useScannedHeader ? "Scanned" : "Vector HD"}
+                      {useScannedHeader ? "Scanned Header" : "HD Vector"}
                     </button>
                   )}
 
                   <button
                     type="button"
                     onClick={() => setIsPreviewModalOpen(true)}
-                    className="p-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
+                    className="p-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors border border-slate-200"
                     title="Enlarge preview"
                   >
                     <Maximize2 className="w-4 h-4" />
@@ -243,7 +249,7 @@ export default function Home() {
                     type="button"
                     onClick={handleDownloadImage}
                     disabled={isGenerating}
-                    className="p-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
+                    className="p-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors border border-slate-200"
                     title="Download PNG image"
                   >
                     <FileImage className="w-4 h-4" />
@@ -252,7 +258,7 @@ export default function Home() {
                   <button
                     type="button"
                     onClick={handlePrint}
-                    className="p-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
+                    className="p-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors border border-slate-200"
                     title="Print via Browser"
                   >
                     <Printer className="w-4 h-4" />
@@ -260,16 +266,16 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Template quick switcher tabs */}
-              <div className="grid grid-cols-4 gap-1.5 p-1 bg-slate-100 rounded-xl">
+              {/* Template Quick Switcher Tabs */}
+              <div className="grid grid-cols-4 gap-1.5 p-1 bg-slate-100/90 rounded-xl border border-slate-200/60">
                 {TEMPLATES.map((t) => (
                   <button
                     key={t.id}
                     type="button"
                     onClick={() => setFormData({ ...formData, templateId: t.id })}
-                    className={`py-1.5 px-2 rounded-lg text-[11px] font-bold truncate transition-all ${
+                    className={`py-2 px-2 rounded-lg text-[11px] font-bold truncate transition-all ${
                       formData.templateId === t.id
-                        ? "bg-white text-indigo-700 shadow-2xs"
+                        ? "bg-white text-indigo-700 shadow-2xs border border-slate-200/80"
                         : "text-slate-600 hover:text-slate-900"
                     }`}
                   >
@@ -289,11 +295,43 @@ export default function Home() {
                 </div>
               </div>
 
+              {/* Action Toolbar Below Canvas: Prominent Download Bar */}
+              <div className="pt-2 flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={handleDownloadPdf}
+                  disabled={isGenerating}
+                  className="flex-1 py-3 px-4 bg-gradient-to-r from-indigo-800 to-slate-900 text-white rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-sm hover:shadow transition-all active:scale-98 disabled:opacity-75"
+                >
+                  {isGenerating ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin text-amber-400" />
+                      <span>{progressText || "Generating..."}</span>
+                    </>
+                  ) : (
+                    <>
+                      <Download className="w-4 h-4 text-amber-400" />
+                      <span>Download Print-Ready PDF</span>
+                    </>
+                  )}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handlePrint}
+                  className="py-3 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold text-sm flex items-center gap-2 border border-slate-200 transition-all active:scale-98"
+                  title="Print directly via browser"
+                >
+                  <Printer className="w-4 h-4" />
+                  <span>Print</span>
+                </button>
+              </div>
+
               {/* Quick tip footer */}
               <div className="pt-1 flex items-center justify-between text-xs text-slate-500">
                 <span className="flex items-center gap-1.5">
                   <Info className="w-3.5 h-3.5 text-indigo-500" />
-                  All fields update in real-time
+                  Instant live preview updates
                 </span>
                 <span className="font-semibold text-slate-700">
                   Standard A4 (210mm × 297mm)
@@ -303,6 +341,11 @@ export default function Home() {
           </section>
         </div>
       </main>
+
+      {/* ------------------------------------------------------------- */}
+      {/* BEAUTIFUL COMPREHENSIVE FOOTER                                */}
+      {/* ------------------------------------------------------------- */}
+      <Footer onPrint={handlePrint} onReset={handleReset} />
 
       {/* ------------------------------------------------------------- */}
       {/* MOBILE PERSISTENT BOTTOM BAR                                  */}

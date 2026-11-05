@@ -36,7 +36,7 @@ export const MobileBottomBar: React.FC<MobileBottomBarProps> = ({
           type="button"
           onClick={onDownloadPdf}
           disabled={isGenerating}
-          className="flex-[2] py-3 px-4 bg-gradient-to-r from-[#3b356a] to-[#252044] text-white rounded-2xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-md active:scale-95 disabled:opacity-75 disabled:pointer-events-none"
+          className="flex-[2] py-3 px-4 bg-gradient-to-r from-indigo-800 to-slate-900 text-white rounded-2xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-md active:scale-95 disabled:opacity-75 disabled:pointer-events-none"
         >
           {isGenerating ? (
             <>
