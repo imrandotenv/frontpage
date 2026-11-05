@@ -7,16 +7,8 @@ import {
 } from "@/types";
 import { TemplateSelector } from "./TemplateSelector";
 import {
-  User,
-  GraduationCap,
-  BookOpen,
-  SlidersHorizontal,
-  Plus,
-  Trash2,
   RotateCcw,
-  Save,
   CheckCircle2,
-  Building2,
   ChevronDown,
 } from "lucide-react";
 
@@ -31,9 +23,9 @@ interface StudentFormProps {
 
 const COURSES = ["B.TECH", "DIPLOMA", "B.PHARM", "B.ARCH", "MCA"];
 const STREAMS = [
-  { short: "CSE", full: "COMPUTER SCIENCE & ENGINEERING (CSE)" },
+  { short: "CSE", full: "COMPUTER SCIENCE & ENGINEERING" },
   { short: "AIML", full: "CSE (AI & MACHINE LEARNING)" },
-  { short: "ECE", full: "ELECTRONICS & COMM. ENG. (ECE)" },
+  { short: "ECE", full: "ELECTRONICS & COMMUNICATION" },
   { short: "ME", full: "MECHANICAL ENGINEERING" },
   { short: "CIVIL", full: "CIVIL ENGINEERING" },
 ];
@@ -54,7 +46,7 @@ const SUBJECT_PRESETS = [
   { name: "OS", code: "PCC-CS402", title: "OPERATING SYSTEMS", sem: "4TH SEMESTER", year: "2ND YEAR" },
   { name: "DBMS", code: "PCC-CS501", title: "DATABASE MANAGEMENT SYSTEMS", sem: "5TH SEMESTER", year: "3RD YEAR" },
   { name: "Networks", code: "PCC-CS601", title: "COMPUTER NETWORKS", sem: "6TH SEMESTER", year: "3RD YEAR" },
-  { name: "EE", code: "ES-EE101", title: "BASIC ELECTRICAL ENGINEERING", sem: "1ST SEMESTER", year: "1ST YEAR" },
+  { name: "Basic EE", code: "ES-EE101", title: "BASIC ELECTRICAL ENGINEERING", sem: "1ST SEMESTER", year: "1ST YEAR" },
 ];
 
 export const StudentForm: React.FC<StudentFormProps> = ({
@@ -135,19 +127,16 @@ export const StudentForm: React.FC<StudentFormProps> = ({
 
   return (
     <div className="space-y-4">
-      {/* 1. COMPACT TEMPLATE SELECTOR */}
+      {/* Template Selector */}
       <TemplateSelector
-        selectedId={data.templateId || "modern"}
+        selectedId={data.templateId || "classic"}
         onSelect={(id: TemplateId) => handleFieldChange("templateId", id)}
       />
 
-      {/* 2. QUICK SUBJECT PRESETS BAR */}
-      <div className="bg-white rounded-2xl p-3 border border-slate-200/90 shadow-2xs">
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
-            Quick Subject Presets
-          </span>
-          <span className="text-[10px] text-slate-400">1-tap auto fill</span>
+      {/* Quick Subject Presets */}
+      <div className="bg-white rounded-xl p-3 border border-slate-200">
+        <div className="text-xs font-semibold text-slate-700 mb-2">
+          Subject Presets
         </div>
         <div className="flex items-center gap-1.5 overflow-x-auto pb-0.5 no-scrollbar">
           {SUBJECT_PRESETS.map((p) => (
@@ -155,486 +144,394 @@ export const StudentForm: React.FC<StudentFormProps> = ({
               key={p.code}
               type="button"
               onClick={() => applySubjectQuickPreset(p)}
-              className="shrink-0 px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-50 hover:bg-slate-100 hover:text-slate-900 border border-slate-200/80 text-slate-700 transition active:scale-95 flex items-center gap-1.5"
+              className="shrink-0 px-2.5 py-1 rounded-md text-xs font-medium bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 transition"
             >
-              <span>{p.name}</span>
-              <span className="text-[10px] font-mono text-slate-400 bg-white px-1 rounded border border-slate-200/60">
-                {p.code}
-              </span>
+              {p.name}
             </button>
           ))}
         </div>
       </div>
 
-      {/* 3. STUDENT & ACADEMIC CREDENTIALS */}
-      <section className="rounded-2xl border border-slate-200/90 bg-white shadow-2xs overflow-hidden">
-        <div className="px-4 py-3 bg-slate-50/70 border-b border-slate-100 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <User className="w-3.5 h-3.5 text-slate-500" />
-            <h2 className="text-xs font-bold uppercase tracking-wider text-slate-800">
-              Student Credentials
-            </h2>
-          </div>
-
+      {/* Student Details */}
+      <section className="rounded-xl border border-slate-200 bg-white p-4 space-y-3.5">
+        <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+          <h2 className="text-xs font-bold uppercase tracking-wider text-slate-800">
+            Student Details
+          </h2>
           <button
             type="button"
             onClick={onSaveToLocalStorage}
-            className={`flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-lg transition-all ${
-              isSaved
-                ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
-                : "bg-white hover:bg-slate-50 text-slate-700 border border-slate-200"
-            }`}
-            title="Save Name & Roll No on device"
+            className="text-xs text-slate-500 hover:text-slate-800 flex items-center gap-1"
+            title="Save to this browser"
           >
             {isSaved ? (
               <>
-                <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
                 <span>Saved</span>
               </>
             ) : (
-              <>
-                <Save className="w-3 h-3 text-slate-400" />
-                <span>Remember</span>
-              </>
+              <span>Save Details</span>
             )}
           </button>
         </div>
 
-        <div className="p-4 space-y-3.5">
-          {/* Name & University Roll No */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div>
-              <label className="block text-[11px] font-semibold uppercase tracking-wider text-slate-600 mb-1">
-                Full Name <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                value={data.studentName}
-                onChange={(e) => handleFieldChange("studentName", e.target.value)}
-                placeholder="e.g. AARAV SHARMA"
-                className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-900 placeholder:text-slate-400 focus:border-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10 transition uppercase"
-              />
-            </div>
-
-            <div>
-              <label className="block text-[11px] font-semibold uppercase tracking-wider text-slate-600 mb-1">
-                University Roll No. <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                value={data.universityRollNo}
-                onChange={(e) => handleFieldChange("universityRollNo", e.target.value)}
-                placeholder="e.g. 24500124018"
-                className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-mono font-semibold text-slate-900 placeholder:text-slate-400 focus:border-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10 transition uppercase"
-              />
-            </div>
-          </div>
-
-          {/* Course Quick Chips & Input */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <div className="flex items-center justify-between mb-1.5">
-              <label className="text-[11px] font-semibold uppercase tracking-wider text-slate-600">
-                Course / Degree <span className="text-red-500">*</span>
-              </label>
-              <div className="flex flex-wrap gap-1">
-                {COURSES.map((c) => (
-                  <button
-                    key={c}
-                    type="button"
-                    onClick={() => handleFieldChange("course", c)}
-                    className={`text-[10px] px-2 py-0.5 rounded-md font-semibold transition-colors ${
-                      data.course === c
-                        ? "bg-slate-900 text-white"
-                        : "bg-slate-100 hover:bg-slate-200 text-slate-600"
-                    }`}
-                  >
-                    {c}
-                  </button>
-                ))}
-              </div>
-            </div>
+            <label className="block text-xs font-medium text-slate-600 mb-1">
+              Full Name
+            </label>
             <input
               type="text"
-              value={data.course}
-              onChange={(e) => handleFieldChange("course", e.target.value)}
-              placeholder="e.g. B.TECH"
-              className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-900 placeholder:text-slate-400 focus:border-slate-900 focus:outline-none transition uppercase"
+              value={data.studentName}
+              onChange={(e) => handleFieldChange("studentName", e.target.value)}
+              placeholder="e.g. AARAV SHARMA"
+              className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-900 placeholder:text-slate-400 focus:border-slate-800 focus:outline-none uppercase"
             />
           </div>
 
-          {/* Stream Quick Chips & Input */}
           <div>
-            <div className="flex items-center justify-between mb-1.5">
-              <label className="text-[11px] font-semibold uppercase tracking-wider text-slate-600">
-                Department / Stream <span className="text-red-500">*</span>
-              </label>
-              <div className="flex flex-wrap gap-1">
-                {STREAMS.map((s) => (
-                  <button
-                    key={s.short}
-                    type="button"
-                    onClick={() => handleFieldChange("stream", s.full)}
-                    className={`text-[10px] px-2 py-0.5 rounded-md font-semibold transition-colors ${
-                      data.stream === s.full
-                        ? "bg-slate-900 text-white"
-                        : "bg-slate-100 hover:bg-slate-200 text-slate-600"
-                    }`}
-                  >
-                    {s.short}
-                  </button>
-                ))}
-              </div>
-            </div>
+            <label className="block text-xs font-medium text-slate-600 mb-1">
+              University Roll No.
+            </label>
             <input
               type="text"
-              value={data.stream}
-              onChange={(e) => handleFieldChange("stream", e.target.value)}
-              placeholder="e.g. COMPUTER SCIENCE & ENGINEERING (CSE)"
-              className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-900 placeholder:text-slate-400 focus:border-slate-900 focus:outline-none transition uppercase"
+              value={data.universityRollNo}
+              onChange={(e) => handleFieldChange("universityRollNo", e.target.value)}
+              placeholder="e.g. 24500124018"
+              className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-mono font-medium text-slate-900 placeholder:text-slate-400 focus:border-slate-800 focus:outline-none uppercase"
+            />
+          </div>
+        </div>
+
+        <div>
+          <div className="flex items-center justify-between mb-1">
+            <label className="text-xs font-medium text-slate-600">
+              Course
+            </label>
+            <div className="flex gap-1">
+              {COURSES.map((c) => (
+                <button
+                  key={c}
+                  type="button"
+                  onClick={() => handleFieldChange("course", c)}
+                  className={`text-[10px] px-2 py-0.5 rounded font-medium ${
+                    data.course === c
+                      ? "bg-slate-900 text-white"
+                      : "bg-slate-100 hover:bg-slate-200 text-slate-600"
+                  }`}
+                >
+                  {c}
+                </button>
+              ))}
+            </div>
+          </div>
+          <input
+            type="text"
+            value={data.course}
+            onChange={(e) => handleFieldChange("course", e.target.value)}
+            placeholder="e.g. B.TECH"
+            className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-900 focus:border-slate-800 focus:outline-none uppercase"
+          />
+        </div>
+
+        <div>
+          <div className="flex items-center justify-between mb-1">
+            <label className="text-xs font-medium text-slate-600">
+              Stream / Branch
+            </label>
+            <div className="flex gap-1">
+              {STREAMS.map((s) => (
+                <button
+                  key={s.short}
+                  type="button"
+                  onClick={() => handleFieldChange("stream", s.full)}
+                  className={`text-[10px] px-2 py-0.5 rounded font-medium ${
+                    data.stream === s.full
+                      ? "bg-slate-900 text-white"
+                      : "bg-slate-100 hover:bg-slate-200 text-slate-600"
+                  }`}
+                >
+                  {s.short}
+                </button>
+              ))}
+            </div>
+          </div>
+          <input
+            type="text"
+            value={data.stream}
+            onChange={(e) => handleFieldChange("stream", e.target.value)}
+            placeholder="e.g. COMPUTER SCIENCE & ENGINEERING"
+            className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-900 focus:border-slate-800 focus:outline-none uppercase"
+          />
+        </div>
+
+        <div>
+          <label className="block text-xs font-medium text-slate-600 mb-1.5">
+            Semester
+          </label>
+          <div className="grid grid-cols-4 sm:grid-cols-8 gap-1">
+            {SEMESTERS.map(({ label, sem, year }) => {
+              const isSelected =
+                currentSemPill?.sem === sem ||
+                data.semester === sem ||
+                data.semester === label;
+              return (
+                <button
+                  key={sem}
+                  type="button"
+                  onClick={() => handleSemesterSelect(sem, year)}
+                  className={`py-1.5 rounded text-xs font-semibold border text-center transition-colors ${
+                    isSelected
+                      ? "border-slate-900 bg-slate-900 text-white"
+                      : "border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700"
+                  }`}
+                >
+                  {label}
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="grid grid-cols-3 gap-2 mt-2">
+            <div>
+              <span className="text-[10px] text-slate-400 block mb-0.5">Semester</span>
+              <input
+                type="text"
+                value={data.semester}
+                onChange={(e) => handleFieldChange("semester", e.target.value)}
+                placeholder="3RD SEMESTER"
+                className="w-full rounded-md border border-slate-200 px-2.5 py-1 text-xs font-medium text-slate-900 focus:border-slate-800 focus:outline-none uppercase"
+              />
+            </div>
+            <div>
+              <span className="text-[10px] text-slate-400 block mb-0.5">Year</span>
+              <input
+                type="text"
+                value={data.year}
+                onChange={(e) => handleFieldChange("year", e.target.value)}
+                placeholder="2ND YEAR"
+                className="w-full rounded-md border border-slate-200 px-2.5 py-1 text-xs font-medium text-slate-900 focus:border-slate-800 focus:outline-none uppercase"
+              />
+            </div>
+            <div>
+              <span className="text-[10px] text-slate-400 block mb-0.5">Session</span>
+              <input
+                type="text"
+                value={data.session}
+                onChange={(e) => handleFieldChange("session", e.target.value)}
+                placeholder="2025-2026"
+                className="w-full rounded-md border border-slate-200 px-2.5 py-1 text-xs font-mono font-medium text-slate-900 focus:border-slate-800 focus:outline-none uppercase"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Coursework & Paper Details */}
+      <section className="rounded-xl border border-slate-200 bg-white p-4 space-y-3">
+        <h2 className="text-xs font-bold uppercase tracking-wider text-slate-800 pb-2 border-b border-slate-100">
+          Coursework &amp; Subject
+        </h2>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div className="sm:col-span-2">
+            <label className="block text-xs font-medium text-slate-600 mb-1">
+              Paper / Subject Name
+            </label>
+            <input
+              type="text"
+              value={data.paperName}
+              onChange={(e) => handleFieldChange("paperName", e.target.value)}
+              placeholder="e.g. DATA STRUCTURES & ALGORITHMS"
+              className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-900 focus:border-slate-800 focus:outline-none uppercase"
             />
           </div>
 
-          {/* Semester & Year */}
-          <div className="pt-2 border-t border-slate-100 space-y-2">
-            <div className="flex items-center justify-between">
-              <label className="text-[11px] font-semibold uppercase tracking-wider text-slate-600">
-                Semester <span className="text-slate-400 font-normal lowercase">(auto-syncs year)</span>
-              </label>
-              {data.year && (
-                <span className="text-[10px] font-semibold text-slate-700 bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200">
-                  Year: {data.year}
-                </span>
-              )}
-            </div>
-
-            <div className="grid grid-cols-4 sm:grid-cols-8 gap-1">
-              {SEMESTERS.map(({ label, sem, year }) => {
-                const isSelected =
-                  currentSemPill?.sem === sem ||
-                  data.semester === sem ||
-                  data.semester === label;
-                return (
-                  <button
-                    key={sem}
-                    type="button"
-                    onClick={() => handleSemesterSelect(sem, year)}
-                    className={`py-1.5 rounded-lg text-xs font-bold border transition-all active:scale-95 text-center ${
-                      isSelected
-                        ? "border-slate-900 bg-slate-900 text-white shadow-xs"
-                        : "border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700"
-                    }`}
-                  >
-                    {label}
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Compact manual override inputs */}
-            <div className="grid grid-cols-3 gap-2 pt-1">
-              <div>
-                <label className="block text-[10px] font-semibold uppercase text-slate-500 mb-0.5">
-                  Semester
-                </label>
-                <input
-                  type="text"
-                  value={data.semester}
-                  onChange={(e) => handleFieldChange("semester", e.target.value)}
-                  placeholder="3RD"
-                  className="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 focus:border-slate-900 focus:outline-none uppercase"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[10px] font-semibold uppercase text-slate-500 mb-0.5">
-                  Year
-                </label>
-                <input
-                  type="text"
-                  value={data.year}
-                  onChange={(e) => handleFieldChange("year", e.target.value)}
-                  placeholder="2ND YEAR"
-                  className="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 focus:border-slate-900 focus:outline-none uppercase"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[10px] font-semibold uppercase text-slate-500 mb-0.5">
-                  Session
-                </label>
-                <input
-                  type="text"
-                  value={data.session}
-                  onChange={(e) => handleFieldChange("session", e.target.value)}
-                  placeholder="2025-2026"
-                  className="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-mono font-semibold text-slate-900 focus:border-slate-900 focus:outline-none uppercase"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. COURSEWORK & EXAM DETAILS */}
-      <section className="rounded-2xl border border-slate-200/90 bg-white shadow-2xs overflow-hidden">
-        <div className="px-4 py-3 bg-slate-50/70 border-b border-slate-100 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <BookOpen className="w-3.5 h-3.5 text-slate-500" />
-            <h2 className="text-xs font-bold uppercase tracking-wider text-slate-800">
-              Coursework &amp; Subject Details
-            </h2>
-          </div>
-        </div>
-
-        <div className="p-4 space-y-3">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div className="sm:col-span-2">
-              <label className="block text-[11px] font-semibold uppercase tracking-wider text-slate-600 mb-1">
-                Paper / Subject Name <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                value={data.paperName}
-                onChange={(e) => handleFieldChange("paperName", e.target.value)}
-                placeholder="e.g. DATA STRUCTURES & ALGORITHMS"
-                className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-900 placeholder:text-slate-400 focus:border-slate-900 focus:outline-none transition uppercase"
-              />
-            </div>
-
-            <div>
-              <label className="block text-[11px] font-semibold uppercase tracking-wider text-slate-600 mb-1">
-                Paper Code <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                value={data.paperCode}
-                onChange={(e) => handleFieldChange("paperCode", e.target.value)}
-                placeholder="e.g. PCC-CS301"
-                className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-mono font-semibold text-slate-900 placeholder:text-slate-400 focus:border-slate-900 focus:outline-none transition uppercase"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 5. OPTIONAL ROWS & CUSTOM FIELDS */}
-      <section className="rounded-2xl border border-slate-200/90 bg-white shadow-2xs overflow-hidden">
-        <div className="px-4 py-3 bg-slate-50/70 border-b border-slate-100 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <GraduationCap className="w-3.5 h-3.5 text-slate-500" />
-            <h2 className="text-xs font-bold uppercase tracking-wider text-slate-800">
-              Optional Rows &amp; Custom Fields
-            </h2>
-          </div>
-          <span className="text-[11px] text-slate-500 font-medium">
-            {data.customFields.filter((f) => f.enabled && (f.label || f.value)).length} active
-          </span>
-        </div>
-
-        <div className="p-4 space-y-3.5">
-          {/* Quick-Add Chips */}
           <div>
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
-                Quick-Add Field
-              </span>
-              <button
-                type="button"
-                onClick={() => quickAddCustomField("CUSTOM FIELD", "")}
-                className="text-[11px] font-semibold text-slate-700 hover:text-slate-900 flex items-center gap-1"
-              >
-                <Plus className="w-3 h-3" />
-                <span>Blank Row</span>
-              </button>
-            </div>
-
-            <div className="flex flex-wrap gap-1.5">
-              <button
-                type="button"
-                onClick={() => quickAddCustomField("REGISTRATION NO.", "")}
-                className="px-2 py-1 rounded-md text-[11px] font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200/70 transition"
-              >
-                + Registration No.
-              </button>
-              <button
-                type="button"
-                onClick={() => quickAddCustomField("SUBMITTED TO", "")}
-                className="px-2 py-1 rounded-md text-[11px] font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200/70 transition"
-              >
-                + Submitted To
-              </button>
-              <button
-                type="button"
-                onClick={() => quickAddCustomField("ASSIGNMENT TOPIC", "")}
-                className="px-2 py-1 rounded-md text-[11px] font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200/70 transition"
-              >
-                + Topic
-              </button>
-              <button
-                type="button"
-                onClick={() => quickAddCustomField("SUBMISSION DATE", "")}
-                className="px-2 py-1 rounded-md text-[11px] font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200/70 transition"
-              >
-                + Date
-              </button>
-            </div>
+            <label className="block text-xs font-medium text-slate-600 mb-1">
+              Paper Code
+            </label>
+            <input
+              type="text"
+              value={data.paperCode}
+              onChange={(e) => handleFieldChange("paperCode", e.target.value)}
+              placeholder="e.g. PCC-CS301"
+              className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-mono font-medium text-slate-900 focus:border-slate-800 focus:outline-none uppercase"
+            />
           </div>
-
-          {/* Active Custom Fields List */}
-          {data.customFields.filter((f) => f.enabled).length > 0 && (
-            <div className="space-y-2 pt-1">
-              {data.customFields
-                .filter((f) => f.enabled)
-                .map((field) => (
-                  <div
-                    key={field.id}
-                    className="flex items-center gap-2 p-2 rounded-xl bg-slate-50 border border-slate-200"
-                  >
-                    <input
-                      type="text"
-                      value={field.label}
-                      onChange={(e) => updateCustomField(field.id, "label", e.target.value)}
-                      placeholder="FIELD LABEL"
-                      className="w-1/3 rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs font-bold text-slate-700 uppercase focus:outline-none"
-                    />
-                    <input
-                      type="text"
-                      value={field.value}
-                      onChange={(e) => updateCustomField(field.id, "value", e.target.value)}
-                      placeholder="ENTER VALUE"
-                      className="flex-1 rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs font-semibold text-slate-900 uppercase focus:outline-none"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => removeCustomField(field.id)}
-                      className="text-slate-400 hover:text-red-500 p-1"
-                      title="Remove field"
-                    >
-                      <Trash2 className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-                ))}
-            </div>
-          )}
         </div>
       </section>
 
-      {/* 6. TYPOGRAPHY & LAYOUT STYLING */}
-      <section className="rounded-2xl border border-slate-200/90 bg-white shadow-2xs overflow-hidden">
-        <div className="px-4 py-3 bg-slate-50/70 border-b border-slate-100 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <SlidersHorizontal className="w-3.5 h-3.5 text-slate-500" />
-            <h2 className="text-xs font-bold uppercase tracking-wider text-slate-800">
-              Typography &amp; Layout
-            </h2>
+      {/* Optional Fields */}
+      <section className="rounded-xl border border-slate-200 bg-white p-4 space-y-3">
+        <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+          <h2 className="text-xs font-bold uppercase tracking-wider text-slate-800">
+            Optional Fields
+          </h2>
+          <div className="flex flex-wrap gap-1">
+            <button
+              type="button"
+              onClick={() => quickAddCustomField("REGISTRATION NO.", "")}
+              className="text-[10px] px-2 py-0.5 rounded bg-slate-100 hover:bg-slate-200 text-slate-700"
+            >
+              + Reg No.
+            </button>
+            <button
+              type="button"
+              onClick={() => quickAddCustomField("SUBMITTED TO", "")}
+              className="text-[10px] px-2 py-0.5 rounded bg-slate-100 hover:bg-slate-200 text-slate-700"
+            >
+              + Submitted To
+            </button>
+            <button
+              type="button"
+              onClick={() => quickAddCustomField("ASSIGNMENT TOPIC", "")}
+              className="text-[10px] px-2 py-0.5 rounded bg-slate-100 hover:bg-slate-200 text-slate-700"
+            >
+              + Topic
+            </button>
+            <button
+              type="button"
+              onClick={() => quickAddCustomField("SUBMISSION DATE", "")}
+              className="text-[10px] px-2 py-0.5 rounded bg-slate-100 hover:bg-slate-200 text-slate-700"
+            >
+              + Date
+            </button>
           </div>
+        </div>
 
+        {data.customFields.filter((f) => f.enabled).length > 0 && (
+          <div className="space-y-2">
+            {data.customFields
+              .filter((f) => f.enabled)
+              .map((field) => (
+                <div
+                  key={field.id}
+                  className="flex items-center gap-2"
+                >
+                  <input
+                    type="text"
+                    value={field.label}
+                    onChange={(e) => updateCustomField(field.id, "label", e.target.value)}
+                    placeholder="LABEL"
+                    className="w-1/3 rounded-md border border-slate-200 px-2 py-1 text-xs font-semibold text-slate-700 uppercase focus:outline-none"
+                  />
+                  <input
+                    type="text"
+                    value={field.value}
+                    onChange={(e) => updateCustomField(field.id, "value", e.target.value)}
+                    placeholder="VALUE"
+                    className="flex-1 rounded-md border border-slate-200 px-2 py-1 text-xs font-medium text-slate-900 uppercase focus:outline-none"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => removeCustomField(field.id)}
+                    className="text-slate-400 hover:text-red-500 text-xs px-1"
+                  >
+                    ✕
+                  </button>
+                </div>
+              ))}
+          </div>
+        )}
+      </section>
+
+      {/* Sheet Settings */}
+      <section className="rounded-xl border border-slate-200 bg-white p-4 space-y-3">
+        <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+          <h2 className="text-xs font-bold uppercase tracking-wider text-slate-800">
+            Sheet Settings
+          </h2>
           <label className="inline-flex items-center gap-1.5 cursor-pointer select-none">
             <input
               type="checkbox"
               checked={data.autoUppercase}
               onChange={(e) => handleFieldChange("autoUppercase", e.target.checked)}
-              className="rounded border-slate-300 text-slate-900 focus:ring-slate-900 w-3.5 h-3.5"
+              className="rounded border-slate-300 text-slate-900 focus:ring-0 w-3.5 h-3.5"
             />
-            <span className="text-xs font-medium text-slate-700">Auto-Uppercase</span>
+            <span className="text-xs text-slate-600">Uppercase</span>
           </label>
         </div>
 
-        <div className="p-4 space-y-3">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-            <div>
-              <label className="block text-[10px] font-semibold uppercase text-slate-500 mb-1">
-                Sheet Font Style
-              </label>
-              <select
-                value={data.fontFamily}
-                onChange={(e) => handleFieldChange("fontFamily", e.target.value)}
-                className="w-full rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-xs font-medium text-slate-800 focus:border-slate-900 focus:outline-none"
-              >
-                <option value="chakra">Chakra Petch (Modern Athletic)</option>
-                <option value="mono">JetBrains Mono (Technical)</option>
-                <option value="sans">Inter Modern (Clean Sans)</option>
-                <option value="serif">Libre Baskerville (Academic Serif)</option>
-                <option value="rajdhani">Rajdhani (Tech Bold)</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-[10px] font-semibold uppercase text-slate-500 mb-1">
-                Footer Signatures
-              </label>
-              <select
-                value={data.signatures || "show"}
-                onChange={(e) => handleFieldChange("signatures", e.target.value)}
-                className="w-full rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-xs font-medium text-slate-800 focus:border-slate-900 focus:outline-none"
-              >
-                <option value="show">Student + Faculty Sign</option>
-                <option value="minimal">Compliance Footer Only</option>
-              </select>
-            </div>
+        <div className="grid grid-cols-2 gap-2.5">
+          <div>
+            <label className="block text-[10px] uppercase text-slate-500 mb-1">
+              Font
+            </label>
+            <select
+              value={data.fontFamily}
+              onChange={(e) => handleFieldChange("fontFamily", e.target.value)}
+              className="w-full rounded-md border border-slate-200 bg-white px-2 py-1 text-xs text-slate-800 focus:outline-none"
+            >
+              <option value="chakra">Chakra Petch (Athletic)</option>
+              <option value="mono">JetBrains Mono</option>
+              <option value="sans">Inter Sans</option>
+              <option value="serif">Libre Baskerville</option>
+              <option value="rajdhani">Rajdhani</option>
+            </select>
           </div>
 
-          {/* Collapsible Institution Override */}
-          <details
-            open={showInstitutionOverride}
-            onToggle={(e) => setShowInstitutionOverride(e.currentTarget.open)}
-            className="group rounded-xl border border-slate-200/80 bg-slate-50/50 px-3 py-2"
-          >
-            <summary className="cursor-pointer list-none flex items-center justify-between text-xs font-semibold text-slate-700">
-              <span className="flex items-center gap-1.5">
-                <Building2 className="w-3.5 h-3.5 text-slate-500" />
-                Customize College / Institution Name &amp; Photo
-              </span>
-              <ChevronDown className="w-3.5 h-3.5 text-slate-400 transition group-open:rotate-180" />
-            </summary>
-            <div className="mt-2.5 space-y-2.5 pt-2 border-t border-slate-200/60">
-              <div>
-                <label className="block text-[10px] font-semibold uppercase text-slate-500 mb-0.5">
-                  Institution Header
-                </label>
-                <input
-                  type="text"
-                  value={data.collegeName || ""}
-                  onChange={(e) => handleFieldChange("collegeName", e.target.value)}
-                  placeholder="SANAKA EDUCATIONAL TRUST'S GROUP OF INSTITUTIONS"
-                  className="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-slate-800 uppercase focus:outline-none"
-                />
-              </div>
-              <div>
-                <label className="block text-[10px] font-semibold uppercase text-slate-500 mb-0.5">
-                  Sub-header / Affiliation
-                </label>
-                <input
-                  type="text"
-                  value={data.affiliation || ""}
-                  onChange={(e) => handleFieldChange("affiliation", e.target.value)}
-                  placeholder="AFFILIATED TO M.A.K.A.U.T"
-                  className="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-slate-800 uppercase focus:outline-none"
-                />
-              </div>
+          <div>
+            <label className="block text-[10px] uppercase text-slate-500 mb-1">
+              Signatures
+            </label>
+            <select
+              value={data.signatures || "show"}
+              onChange={(e) => handleFieldChange("signatures", e.target.value)}
+              className="w-full rounded-md border border-slate-200 bg-white px-2 py-1 text-xs text-slate-800 focus:outline-none"
+            >
+              <option value="show">Student + Faculty</option>
+              <option value="minimal">Minimal Footer Only</option>
+            </select>
+          </div>
+        </div>
 
-              {/* Custom College Campus Photo option */}
-              <div className="pt-1 border-t border-slate-200/60 flex items-center justify-between">
-                <div>
-                  <span className="text-[10px] font-semibold uppercase text-slate-500 block">
-                    Campus Photo (Classic Template)
-                  </span>
-                  <span className="text-[10px] text-slate-400">
-                    {data.customCampusImage ? "Custom image loaded" : "Official SETGOI photo active"}
-                  </span>
-                </div>
+        {/* Institution customization */}
+        <details
+          open={showInstitutionOverride}
+          onToggle={(e) => setShowInstitutionOverride(e.currentTarget.open)}
+          className="group pt-2 border-t border-slate-100"
+        >
+          <summary className="cursor-pointer list-none flex items-center justify-between text-xs text-slate-600">
+            <span>Institution Header &amp; Photo</span>
+            <ChevronDown className="w-3.5 h-3.5 text-slate-400 transition group-open:rotate-180" />
+          </summary>
+          <div className="mt-2 space-y-2">
+            <div>
+              <span className="text-[10px] text-slate-400 block mb-0.5">College Name</span>
+              <input
+                type="text"
+                value={data.collegeName || ""}
+                onChange={(e) => handleFieldChange("collegeName", e.target.value)}
+                placeholder="SANAKA EDUCATIONAL TRUST'S GROUP OF INSTITUTIONS"
+                className="w-full rounded border border-slate-200 px-2 py-1 text-xs uppercase focus:outline-none"
+              />
+            </div>
+            <div>
+              <span className="text-[10px] text-slate-400 block mb-0.5">Affiliation</span>
+              <input
+                type="text"
+                value={data.affiliation || ""}
+                onChange={(e) => handleFieldChange("affiliation", e.target.value)}
+                placeholder="AFFILIATED TO M.A.K.A.U.T"
+                className="w-full rounded border border-slate-200 px-2 py-1 text-xs uppercase focus:outline-none"
+              />
+            </div>
+            {data.templateId === "classic" && (
+              <div className="flex items-center justify-between pt-1">
+                <span className="text-xs text-slate-500">Campus Photo</span>
                 <div className="flex items-center gap-1.5">
                   {data.customCampusImage && (
                     <button
                       type="button"
                       onClick={() => handleFieldChange("customCampusImage", undefined)}
-                      className="text-[10px] font-bold text-rose-600 hover:text-rose-700 bg-rose-50 px-2 py-0.5 rounded"
+                      className="text-xs text-rose-600 hover:underline"
                     >
                       Reset
                     </button>
                   )}
-                  <label className="text-[10px] font-bold text-slate-700 hover:text-slate-900 bg-white hover:bg-slate-100 px-2 py-1 rounded border border-slate-200 cursor-pointer">
-                    <span>Upload New</span>
+                  <label className="text-xs font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 px-2 py-1 rounded cursor-pointer">
+                    <span>Upload</span>
                     <input
                       type="file"
                       accept="image/*"
@@ -651,20 +548,20 @@ export const StudentForm: React.FC<StudentFormProps> = ({
                   </label>
                 </div>
               </div>
-            </div>
-          </details>
-        </div>
+            )}
+          </div>
+        </details>
       </section>
 
-      {/* 7. RESET FORM BUTTON */}
-      <div className="flex justify-end pt-1">
+      {/* Reset */}
+      <div className="flex justify-end">
         <button
           type="button"
           onClick={onReset}
-          className="flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-slate-800 px-3 py-1.5 rounded-xl hover:bg-slate-100 transition-colors"
+          className="flex items-center gap-1 text-xs text-slate-400 hover:text-slate-700 transition-colors"
         >
-          <RotateCcw className="w-3.5 h-3.5" />
-          <span>Reset to Blank</span>
+          <RotateCcw className="w-3 h-3" />
+          <span>Reset</span>
         </button>
       </div>
     </div>

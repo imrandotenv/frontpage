@@ -288,37 +288,20 @@ export default function Home() {
           >
             <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 shadow-2xs flex flex-col space-y-3.5">
               {/* Preview Stage Header */}
-              <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                  <span className="text-xs font-bold uppercase tracking-wider text-slate-800">
-                    Live Preview
-                  </span>
-                  <span className="text-[11px] text-slate-400">
-                    • {TEMPLATES.find((t) => t.id === formData.templateId)?.name}
-                  </span>
+              <div className="flex items-center justify-between border-b border-slate-100 pb-2.5">
+                <div className="text-xs font-semibold text-slate-700">
+                  Preview
                 </div>
 
                 {/* Toolbar Quick Actions */}
                 <div className="flex items-center gap-1.5">
-                  {formData.templateId === "classic" && (
-                    <button
-                      type="button"
-                      onClick={() => setUseScannedHeader(!useScannedHeader)}
-                      className="text-[11px] font-semibold text-slate-600 hover:text-slate-900 px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg border border-slate-200 transition-colors"
-                      title="Toggle vector header or scanned header"
-                    >
-                      {useScannedHeader ? "Scanned" : "Vector HD"}
-                    </button>
-                  )}
-
                   <button
                     type="button"
                     onClick={() => setIsPreviewModalOpen(true)}
                     className="p-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors border border-slate-200"
                     title="Fullscreen Preview"
                   >
-                    <Maximize2 className="w-4 h-4" />
+                    <Maximize2 className="w-3.5 h-3.5" />
                   </button>
 
                   <button
@@ -328,37 +311,18 @@ export default function Home() {
                     className="p-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors border border-slate-200"
                     title="Export PNG image"
                   >
-                    <FileImage className="w-4 h-4" />
+                    <FileImage className="w-3.5 h-3.5" />
                   </button>
 
                   <button
                     type="button"
                     onClick={handlePrint}
                     className="p-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors border border-slate-200"
-                    title="Print directly"
+                    title="Print"
                   >
-                    <Printer className="w-4 h-4" />
+                    <Printer className="w-3.5 h-3.5" />
                   </button>
                 </div>
-              </div>
-
-              {/* Template Quick Switcher Tabs */}
-              <div className="flex items-center gap-1 overflow-x-auto pb-1 no-scrollbar p-1 bg-slate-100 rounded-xl">
-                {TEMPLATES.map((t) => (
-                  <button
-                    key={t.id}
-                    type="button"
-                    onClick={() => setFormData({ ...formData, templateId: t.id })}
-                    className={`py-1.5 px-3 rounded-lg text-xs font-bold whitespace-nowrap transition-all flex items-center gap-1.5 ${
-                      formData.templateId === t.id
-                        ? "bg-slate-900 text-white shadow-xs"
-                        : "text-slate-600 hover:text-slate-900 hover:bg-slate-200/70"
-                    }`}
-                  >
-                    <span>{t.icon}</span>
-                    <span>{t.name}</span>
-                  </button>
-                ))}
               </div>
 
               {/* Canvas Preview Stage */}
@@ -374,12 +338,8 @@ export default function Home() {
                 </div>
 
                 {/* Subtle Stage Zoom Controls */}
-                <div className="mt-2.5 flex items-center justify-between w-full px-2 text-xs text-slate-500">
-                  <span className="text-[11px] text-slate-400">
-                    A4 • 210mm × 297mm (ISO 216)
-                  </span>
-
-                  <div className="flex items-center gap-1 bg-white px-2 py-0.5 rounded-full border border-slate-200 shadow-2xs ml-auto">
+                <div className="mt-2.5 flex items-center justify-end w-full px-2 text-xs text-slate-500">
+                  <div className="flex items-center gap-1 bg-white px-2 py-0.5 rounded-full border border-slate-200 shadow-2xs">
                     <button
                       type="button"
                       onClick={() => setZoomOffset((prev) => Math.max(-0.35, prev - 0.08))}
@@ -414,17 +374,17 @@ export default function Home() {
                   type="button"
                   onClick={handleDownloadPdf}
                   disabled={isGenerating}
-                  className="flex-1 py-3 px-4 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-sm transition-all active:scale-98 disabled:opacity-75"
+                  className="flex-1 py-2.5 px-4 bg-slate-900 hover:bg-slate-800 text-white rounded-lg font-semibold text-xs flex items-center justify-center gap-2 shadow-sm transition-all disabled:opacity-75"
                 >
                   {isGenerating ? (
                     <>
-                      <Loader2 className="w-4 h-4 animate-spin text-amber-400" />
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
                       <span>{progressText || "Generating..."}</span>
                     </>
                   ) : (
                     <>
-                      <Download className="w-4 h-4 text-amber-400" />
-                      <span>Download Print-Ready PDF</span>
+                      <Download className="w-3.5 h-3.5" />
+                      <span>Download PDF</span>
                     </>
                   )}
                 </button>
@@ -432,10 +392,10 @@ export default function Home() {
                 <button
                   type="button"
                   onClick={handlePrint}
-                  className="py-3 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold text-sm flex items-center gap-1.5 border border-slate-200 transition-all active:scale-98"
-                  title="Print directly"
+                  className="py-2.5 px-4 bg-white hover:bg-slate-50 text-slate-700 rounded-lg font-semibold text-xs flex items-center gap-1.5 border border-slate-200 transition-all"
+                  title="Print"
                 >
-                  <Printer className="w-4 h-4" />
+                  <Printer className="w-3.5 h-3.5" />
                   <span>Print</span>
                 </button>
               </div>

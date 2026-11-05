@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { FileText, Printer, Sparkles, Download, Loader2 } from "lucide-react";
+import { Printer, Download, Loader2, Sparkles } from "lucide-react";
 
 interface NavbarProps {
   onPrint: () => void;
@@ -20,45 +20,38 @@ export const Navbar: React.FC<NavbarProps> = ({
   progressText = "",
 }) => {
   return (
-    <header className="fixed top-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/90 no-print transition-all">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
+    <header className="fixed top-0 inset-x-0 z-40 bg-white border-b border-slate-200 no-print">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-13 flex items-center justify-between">
         {/* Left: Clean Brand */}
-        <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center shadow-xs">
-            <FileText className="w-4 h-4 text-amber-400" />
+        <div className="flex items-center gap-2">
+          <div className="w-7 h-7 rounded-md bg-slate-900 text-white flex items-center justify-center font-bold text-xs">
+            FP
           </div>
-          <div className="flex items-center gap-2">
-            <span className="font-extrabold text-slate-900 text-base tracking-tight font-ui">
-              FrontPage
-            </span>
-            <span className="text-[10px] font-bold text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200 uppercase tracking-wider">
-              Studio
-            </span>
-          </div>
+          <span className="font-bold text-slate-900 text-base tracking-tight">
+            FrontPage
+          </span>
         </div>
 
-        {/* Right: Essential Studio Actions */}
+        {/* Right: Actions */}
         <div className="flex items-center gap-2">
           {onMagicFill && (
             <button
               type="button"
               onClick={onMagicFill}
-              className="px-3 py-1.5 text-xs font-semibold text-slate-700 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors flex items-center gap-1.5 border border-slate-200"
-              title="Populate realistic sample details"
+              className="px-2.5 py-1.5 text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-md transition-colors flex items-center gap-1.5"
             >
-              <Sparkles className="w-3.5 h-3.5 text-amber-600" />
-              <span className="hidden sm:inline">Fill Demo</span>
+              <Sparkles className="w-3.5 h-3.5 text-slate-500" />
+              <span className="hidden sm:inline">Sample Data</span>
             </button>
           )}
 
           <button
             type="button"
             onClick={onPrint}
-            className="px-3 py-1.5 text-xs font-semibold text-slate-700 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors hidden sm:flex items-center gap-1.5 border border-slate-200"
-            title="Print directly to printer or save as PDF"
+            className="px-2.5 py-1.5 text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-md transition-colors flex items-center gap-1.5"
           >
             <Printer className="w-3.5 h-3.5" />
-            <span>Print</span>
+            <span className="hidden sm:inline">Print</span>
           </button>
 
           {onDownloadPdf && (
@@ -66,16 +59,16 @@ export const Navbar: React.FC<NavbarProps> = ({
               type="button"
               onClick={onDownloadPdf}
               disabled={isGenerating}
-              className="px-3.5 py-1.5 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-xs font-bold flex items-center gap-1.5 shadow-sm transition-all active:scale-95 disabled:opacity-75"
+              className="px-3.5 py-1.5 bg-slate-900 hover:bg-slate-800 text-white rounded-md text-xs font-semibold flex items-center gap-1.5 transition-colors disabled:opacity-60"
             >
               {isGenerating ? (
                 <>
-                  <Loader2 className="w-3.5 h-3.5 animate-spin text-amber-400" />
+                  <Loader2 className="w-3.5 h-3.5 animate-spin text-slate-300" />
                   <span>{progressText || "Exporting..."}</span>
                 </>
               ) : (
                 <>
-                  <Download className="w-3.5 h-3.5 text-amber-400" />
+                  <Download className="w-3.5 h-3.5" />
                   <span>Download PDF</span>
                 </>
               )}

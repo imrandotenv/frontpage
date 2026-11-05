@@ -36,16 +36,16 @@ export const MobileBottomBar: React.FC<MobileBottomBarProps> = ({
           type="button"
           onClick={onDownloadPdf}
           disabled={isGenerating}
-          className="min-h-[48px] flex-1 px-4 bg-[#0a0a0a] text-white rounded-full font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-md active:scale-95 disabled:opacity-75 disabled:pointer-events-none"
+          className="min-h-[44px] flex-1 px-4 bg-slate-900 hover:bg-slate-800 text-white rounded-full font-semibold text-xs flex items-center justify-center gap-2 transition-all shadow-md active:scale-95 disabled:opacity-75 disabled:pointer-events-none"
         >
           {isGenerating ? (
             <>
-              <Loader2 className="w-4 h-4 animate-spin text-[#FB923C]" />
+              <Loader2 className="w-3.5 h-3.5 animate-spin" />
               <span className="truncate">{progressText || "Rendering..."}</span>
             </>
           ) : (
             <>
-              <Download className="w-4 h-4 text-[#FB923C]" />
+              <Download className="w-3.5 h-3.5" />
               <span>Download PDF</span>
             </>
           )}
