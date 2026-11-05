@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📄 FrontPage - Instant A4 Assignment & Lab Report Cover Generator
 
-## Getting Started
+> A minimal, modern, and mobile-friendly web tool to generate print-ready, high-resolution A4 (210mm × 297mm) cover pages for university assignments, lab records, seminar reports, and term projects.
 
-First, run the development server:
+Generate your formatted assignment cover page in seconds directly from your phone or laptop.
+
+---
+
+## 🌟 Key Features
+
+- **Multiple Professional Layouts**: Switch between Classic, Modern Minimal, Engineering Lab Report, and Executive Project cover designs.
+- **1-Tap Quick Fill Presets**: Pre-configured subjects and departments for instant testing.
+- **Auto-Sync Semester & Year**: Selecting a semester automatically sets the corresponding academic year.
+- **Save to Device (`localStorage`)**: Persists your credentials so you only need to change the subject name for each assignment.
+- **Multi-Format Export**: One-click 300 DPI A4 PDF download, PNG image export, and native browser print formatting.
+- **Mobile-First Ergonomics**: Designed for phone screens with sticky action bar, live preview modal, and fast touch-friendly inputs.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Framework**: [Next.js 16](https://nextjs.org/) (App Router, Turbopack)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **PDF Engine**: [`jspdf`](https://github.com/parallax/jsPDF) & [`html-to-image`](https://github.com/bubkoo/html-to-image)
+- **Typography**: Google Fonts (`Chakra Petch`, `Rajdhani`, `Plus Jakarta Sans`)
+
+---
+
+## 🚀 Getting Started
 
 ```bash
+# 1. Clone repository
+git clone https://github.com/imrandotenv/frontpage.git
+cd frontpage
+
+# 2. Install dependencies
+npm install
+
+# 3. Start development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) on your desktop or mobile browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📦 Production Build
 
-## Learn More
+```bash
+npm run build
+npm run start
+```
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📄 License
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Created by [MD Imran Ahmad](https://github.com/imrandotenv). Distributed under the MIT License.
