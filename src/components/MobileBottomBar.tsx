@@ -19,15 +19,15 @@ export const MobileBottomBar: React.FC<MobileBottomBarProps> = ({
   progressText,
 }) => {
   return (
-    <div className="fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200/90 p-3 sm:px-6 shadow-xl lg:hidden no-print">
-      <div className="max-w-md mx-auto flex items-center gap-2">
+    <div className="fixed bottom-3 inset-x-3 sm:inset-x-6 z-40 bg-white/90 backdrop-blur-xl border border-neutral-200/90 p-2 rounded-full shadow-2xl lg:hidden no-print">
+      <div className="max-w-md mx-auto flex items-center gap-1.5">
         {/* Preview Button */}
         <button
           type="button"
           onClick={onOpenPreview}
-          className="flex-1 py-3 px-3 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-2xl font-bold text-xs flex items-center justify-center gap-1.5 transition-all active:scale-95 border border-slate-200/80"
+          className="min-h-[48px] px-3.5 bg-neutral-100 hover:bg-neutral-200 text-neutral-800 rounded-full font-bold text-xs flex items-center justify-center gap-1.5 transition-all active:scale-95 border border-neutral-200/80"
         >
-          <Eye className="w-4 h-4 text-slate-600" />
+          <Eye className="w-4 h-4 text-neutral-600" />
           <span>Preview</span>
         </button>
 
@@ -36,16 +36,16 @@ export const MobileBottomBar: React.FC<MobileBottomBarProps> = ({
           type="button"
           onClick={onDownloadPdf}
           disabled={isGenerating}
-          className="flex-[2] py-3 px-4 bg-gradient-to-r from-indigo-800 to-slate-900 text-white rounded-2xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-md active:scale-95 disabled:opacity-75 disabled:pointer-events-none"
+          className="min-h-[48px] flex-1 px-4 bg-[#0a0a0a] text-white rounded-full font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-md active:scale-95 disabled:opacity-75 disabled:pointer-events-none"
         >
           {isGenerating ? (
             <>
-              <Loader2 className="w-4 h-4 animate-spin text-amber-400" />
-              <span className="truncate">{progressText || "Generating..."}</span>
+              <Loader2 className="w-4 h-4 animate-spin text-[#FB923C]" />
+              <span className="truncate">{progressText || "Rendering..."}</span>
             </>
           ) : (
             <>
-              <Download className="w-4 h-4 text-amber-400" />
+              <Download className="w-4 h-4 text-[#FB923C]" />
               <span>Download PDF</span>
             </>
           )}
@@ -55,7 +55,7 @@ export const MobileBottomBar: React.FC<MobileBottomBarProps> = ({
         <button
           type="button"
           onClick={onPrint}
-          className="p-3 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-2xl transition-all active:scale-95 border border-slate-200/80 shrink-0"
+          className="min-h-[48px] w-12 bg-neutral-100 hover:bg-neutral-200 text-neutral-700 rounded-full flex items-center justify-center transition-all active:scale-95 border border-neutral-200/80 shrink-0"
           title="Print Cover Page"
         >
           <Printer className="w-4 h-4" />
