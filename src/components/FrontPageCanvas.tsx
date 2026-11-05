@@ -14,84 +14,6 @@ interface FrontPageCanvasProps {
   useImageHeader?: boolean;
 }
 
-const CampusIllustrationSVG: React.FC = () => (
-  <svg viewBox="0 0 700 210" className="w-full h-full object-cover" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="skyGrad" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stopColor="#bae6fd" stopOpacity="0.45" />
-        <stop offset="60%" stopColor="#e0f2fe" stopOpacity="0.85" />
-        <stop offset="100%" stopColor="#ffffff" stopOpacity="1" />
-      </linearGradient>
-      <linearGradient id="glassGrad" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stopColor="#1e3a8a" />
-        <stop offset="100%" stopColor="#3b82f6" />
-      </linearGradient>
-      <linearGradient id="lawnGrad" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stopColor="#dcfce7" />
-        <stop offset="100%" stopColor="#bbf7d0" />
-      </linearGradient>
-    </defs>
-    <rect width="700" height="210" fill="url(#skyGrad)" />
-    <ellipse cx="140" cy="38" rx="55" ry="14" fill="#ffffff" fillOpacity="0.75" />
-    <ellipse cx="530" cy="32" rx="70" ry="16" fill="#ffffff" fillOpacity="0.7" />
-
-    {/* Architectural University Building */}
-    <polygon points="45,95 250,58 250,175 45,175" fill="#f8fafc" stroke="#cbd5e1" strokeWidth="1.5" />
-    <polygon points="42,90 250,52 250,60 42,97" fill="#0284c7" />
-
-    <rect x="245" y="42" width="115" height="133" fill="#f1f5f9" stroke="#94a3b8" strokeWidth="1.5" />
-    <polygon points="240,42 365,42 360,32 245,32" fill="#0369a1" />
-    <rect x="268" y="60" width="70" height="72" rx="35" fill="url(#glassGrad)" stroke="#e2e8f0" strokeWidth="2" />
-    <line x1="303" y1="60" x2="303" y2="132" stroke="#93c5fd" strokeWidth="1.2" />
-    <line x1="268" y1="96" x2="338" y2="96" stroke="#93c5fd" strokeWidth="1.2" />
-
-    <polygon points="360,58 655,92 655,175 360,175" fill="#ffffff" stroke="#cbd5e1" strokeWidth="1.5" />
-    <polygon points="360,51 658,86 658,94 360,60" fill="#0284c7" />
-
-    <g fill="#334155" opacity="0.8">
-      <rect x="70" y="105" width="18" height="20" rx="1" />
-      <rect x="105" y="100" width="18" height="22" rx="1" />
-      <rect x="140" y="95" width="20" height="24" rx="1" />
-      <rect x="180" y="90" width="22" height="26" rx="1" />
-      <rect x="215" y="85" width="20" height="28" rx="1" />
-
-      <rect x="70" y="135" width="18" height="20" rx="1" />
-      <rect x="105" y="132" width="18" height="22" rx="1" />
-      <rect x="140" y="129" width="20" height="24" rx="1" />
-      <rect x="180" y="126" width="22" height="26" rx="1" />
-      <rect x="215" y="123" width="20" height="28" rx="1" />
-    </g>
-
-    <g fill="#334155" opacity="0.8">
-      <rect x="380" y="82" width="24" height="26" rx="1" />
-      <rect x="420" y="86" width="24" height="25" rx="1" />
-      <rect x="460" y="90" width="22" height="24" rx="1" />
-      <rect x="500" y="94" width="22" height="23" rx="1" />
-      <rect x="540" y="98" width="20" height="22" rx="1" />
-      <rect x="578" y="102" width="18" height="20" rx="1" />
-      <rect x="612" y="106" width="18" height="19" rx="1" />
-
-      <rect x="380" y="122" width="24" height="26" rx="1" />
-      <rect x="420" y="124" width="24" height="25" rx="1" />
-      <rect x="460" y="127" width="22" height="24" rx="1" />
-      <rect x="500" y="130" width="22" height="23" rx="1" />
-      <rect x="540" y="133" width="20" height="22" rx="1" />
-      <rect x="578" y="136" width="18" height="20" rx="1" />
-      <rect x="612" y="138" width="18" height="19" rx="1" />
-    </g>
-
-    <rect x="262" y="138" width="82" height="37" fill="#e2e8f0" stroke="#94a3b8" />
-    <rect x="282" y="146" width="42" height="29" fill="#0f172a" />
-
-    <rect x="0" y="173" width="700" height="37" fill="url(#lawnGrad)" />
-    <polygon points="240,210 285,173 325,173 370,210" fill="#cbd5e1" />
-    <circle cx="38" cy="165" r="18" fill="#15803d" />
-    <circle cx="65" cy="170" r="14" fill="#16a34a" />
-    <circle cx="655" cy="165" r="20" fill="#15803d" />
-    <circle cx="630" cy="172" r="14" fill="#16a34a" />
-  </svg>
-);
-
 export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
   ({ data, scale = 1, useImageHeader = false }, ref) => {
     const formatText = (text?: string) => {
@@ -114,7 +36,7 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
         ? "font-mono"
         : "font-chakra";
 
-    const templateId = data.templateId || "modern";
+    const templateId = data.templateId || "classic";
 
     return (
       <div
@@ -134,7 +56,7 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
         }}
       >
         {/* ==================================================================== */}
-        {/* TEMPLATE 1: CLASSIC CAMPUS (OFFICIAL EXACT MATCH)                   */}
+        {/* TEMPLATE 1: CLASSIC CAMPUS (OFFICIAL EXACT MATCH WITH REAL PHOTO)     */}
         {/* ==================================================================== */}
         {templateId === "classic" && (
           <div className="w-full h-full flex flex-col justify-between bg-white">
@@ -176,13 +98,17 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
               </header>
             )}
 
-            {/* Campus Architectural Banner */}
-            <div className="w-full relative h-[195px] overflow-hidden bg-sky-50 border-y border-slate-200">
-              <CampusIllustrationSVG />
+            {/* REAL CAMPUS PHOTO */}
+            <div className="w-full relative h-[250px] overflow-hidden bg-slate-900 border-y border-slate-200 shadow-inner">
+              <img
+                src={data.customCampusImage || SANAKA_BUILDING_BASE64}
+                alt="College Campus Building"
+                className="w-full h-full object-cover object-center"
+              />
             </div>
 
             {/* Student Details */}
-            <main className="relative flex-1 sanaka-bg-pattern px-10 py-7 flex flex-col justify-between">
+            <main className="relative flex-1 sanaka-bg-pattern px-10 py-6 flex flex-col justify-between">
               <div
                 className="absolute inset-0 pointer-events-none opacity-30"
                 style={{
@@ -191,7 +117,7 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
                 }}
               />
 
-              <div className={`relative z-10 ${fontClass} space-y-5 text-[16.5px]`}>
+              <div className={`relative z-10 ${fontClass} space-y-4 text-[16px]`}>
                 {/* 1. NAME */}
                 <div className="flex items-baseline flex-wrap leading-tight">
                   <span className="text-[#38335b] font-bold tracking-wide mr-2.5">
@@ -265,7 +191,7 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
                     YEAR:
                   </span>
                   <span className="text-[#c07f2b] font-extrabold tracking-wider">
-                    {formatText(data.year) || "YEAR"}
+                    {formatText(data.year) || "ACADEMIC YEAR"}
                   </span>
                 </div>
 
@@ -300,10 +226,26 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
                 </div>
               </div>
 
-              {/* Footer */}
-              <div className="relative z-10 pt-2 flex items-center justify-between text-[10px] text-slate-400 font-medium">
-                <span>SANAKA GROUP OF INSTITUTIONS</span>
-                <span>MAKAUT / AICTE COMPLIANT FORMAT</span>
+              {/* Signatures & Footer */}
+              <div className="relative z-10 pt-2 space-y-3">
+                {data.signatures !== "minimal" && (
+                  <div className="grid grid-cols-2 gap-16 pt-3 pb-1">
+                    <div className="border-t border-dashed border-slate-400 pt-1.5 text-center">
+                      <p className="text-[11px] font-bold uppercase tracking-wider text-slate-700">
+                        Student&apos;s Signature
+                      </p>
+                    </div>
+                    <div className="border-t border-dashed border-slate-400 pt-1.5 text-center">
+                      <p className="text-[11px] font-bold uppercase tracking-wider text-slate-700">
+                        Faculty / Examiner&apos;s Signature
+                      </p>
+                    </div>
+                  </div>
+                )}
+                <div className="pt-2 border-t border-slate-200/80 flex items-center justify-between text-[10px] text-slate-400 font-medium">
+                  <span>SANAKA GROUP OF INSTITUTIONS</span>
+                  <span>MAKAUT / AICTE COMPLIANT FORMAT</span>
+                </div>
               </div>
             </main>
           </div>
@@ -316,7 +258,7 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
           <div className="w-full h-full p-10 flex flex-col justify-between bg-white">
             {/* Top Bold Accent Header */}
             <div>
-              <div className="h-3 w-full bg-slate-900 rounded-t-sm mb-8" />
+              <div className="h-3 w-full bg-slate-900 rounded-t-sm mb-7" />
               <div className="flex items-start justify-between gap-6 pb-6 border-b-2 border-slate-900">
                 <div className="flex-1 pr-4">
                   <span className="inline-block px-2.5 py-1 rounded bg-indigo-50 text-indigo-700 font-mono text-[10px] font-bold uppercase tracking-widest mb-2">
@@ -336,7 +278,7 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
               </div>
 
               {/* Highlighted Subject Hero Box */}
-              <div className="mt-7 p-6 rounded-xl bg-slate-50 border border-slate-200">
+              <div className="mt-6 p-5 rounded-xl bg-slate-50 border border-slate-200">
                 <div className="flex items-center justify-between text-[11px] font-mono uppercase tracking-wider text-slate-500 mb-1.5">
                   <span>Subject &amp; Coursework</span>
                   <span className="font-bold text-indigo-600">
@@ -350,9 +292,9 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
             </div>
 
             {/* Clean Structured Data Table */}
-            <div className={`my-auto py-6 ${fontClass}`}>
+            <div className={`my-auto py-4 ${fontClass}`}>
               <div className="border-t border-slate-200 divide-y divide-slate-200">
-                <div className="grid grid-cols-12 items-center py-3 px-3 text-[13.5px]">
+                <div className="grid grid-cols-12 items-center py-2.5 px-3 text-[13.5px]">
                   <span className="col-span-5 font-bold uppercase tracking-wider text-slate-500 text-xs">
                     NAME
                   </span>
@@ -361,7 +303,7 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
                   </div>
                 </div>
 
-                <div className="grid grid-cols-12 items-center py-3 px-3 text-[13.5px]">
+                <div className="grid grid-cols-12 items-center py-2.5 px-3 text-[13.5px]">
                   <span className="col-span-5 font-bold uppercase tracking-wider text-slate-500 text-xs">
                     UNIVERSITY ROLL NO.
                   </span>
@@ -370,7 +312,7 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
                   </div>
                 </div>
 
-                <div className="grid grid-cols-12 items-center py-3 px-3 text-[13.5px]">
+                <div className="grid grid-cols-12 items-center py-2.5 px-3 text-[13.5px]">
                   <span className="col-span-5 font-bold uppercase tracking-wider text-slate-500 text-xs">
                     COURSE
                   </span>
@@ -379,7 +321,7 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
                   </div>
                 </div>
 
-                <div className="grid grid-cols-12 items-center py-3 px-3 text-[13.5px]">
+                <div className="grid grid-cols-12 items-center py-2.5 px-3 text-[13.5px]">
                   <span className="col-span-5 font-bold uppercase tracking-wider text-slate-500 text-xs">
                     STREAM
                   </span>
@@ -388,7 +330,7 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
                   </div>
                 </div>
 
-                <div className="grid grid-cols-12 items-center py-3 px-3 text-[13.5px]">
+                <div className="grid grid-cols-12 items-center py-2.5 px-3 text-[13.5px]">
                   <span className="col-span-5 font-bold uppercase tracking-wider text-slate-500 text-xs">
                     SEMESTER
                   </span>
@@ -397,7 +339,7 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
                   </div>
                 </div>
 
-                <div className="grid grid-cols-12 items-center py-3 px-3 text-[13.5px]">
+                <div className="grid grid-cols-12 items-center py-2.5 px-3 text-[13.5px]">
                   <span className="col-span-5 font-bold uppercase tracking-wider text-slate-500 text-xs">
                     YEAR
                   </span>
@@ -406,7 +348,7 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
                   </div>
                 </div>
 
-                <div className="grid grid-cols-12 items-center py-3 px-3 text-[13.5px]">
+                <div className="grid grid-cols-12 items-center py-2.5 px-3 text-[13.5px]">
                   <span className="col-span-5 font-bold uppercase tracking-wider text-slate-500 text-xs">
                     SESSION
                   </span>
@@ -421,7 +363,7 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
                   .map((field) => (
                     <div
                       key={field.id}
-                      className="grid grid-cols-12 items-center py-3 px-3 text-[13.5px]"
+                      className="grid grid-cols-12 items-center py-2.5 px-3 text-[13.5px]"
                     >
                       <span className="col-span-5 font-bold uppercase tracking-wider text-slate-500 text-xs">
                         {formatText(field.label) || "CUSTOM FIELD"}
@@ -437,7 +379,7 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
             {/* Footer Signatures */}
             <div>
               {data.signatures !== "minimal" && (
-                <div className="grid grid-cols-2 gap-12 pt-4 pb-6">
+                <div className="grid grid-cols-2 gap-12 pt-3 pb-5">
                   <div className="border-t-2 border-slate-900 pt-2">
                     <p className="text-xs font-bold uppercase tracking-wider text-slate-800">
                       Submitted By (Student)
@@ -467,14 +409,13 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
         {/* ==================================================================== */}
         {templateId === "lab" && (
           <div className="w-full h-full p-8 flex flex-col justify-between bg-white relative">
-            {/* Formal Framed Border */}
             <div className="absolute inset-4 border-2 border-[#1e1b4b] pointer-events-none" />
             <div className="absolute inset-5 border border-dashed border-[#d97706]/70 pointer-events-none" />
 
             {/* Header Content */}
             <div className="relative z-10 pt-4 px-4 text-center">
               <div className="flex items-center justify-center gap-4 mb-2">
-                <div className="w-[78px] h-[78px]">
+                <div className="w-[74px] h-[74px]">
                   <img
                     src={SANAKA_LOGO_BASE64}
                     alt="Sanaka Crest"
@@ -483,7 +424,7 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
                 </div>
                 <div className="text-left">
                   <h1 className="text-[#1e1b4b] font-black text-[17px] leading-tight uppercase font-chakra">
-                    SANAKA EDUCATIONAL TRUST&apos;S GROUP OF INSTITUTIONS
+                    {data.collegeName || "SANAKA EDUCATIONAL TRUST'S GROUP OF INSTITUTIONS"}
                   </h1>
                   <p className="text-[10px] text-slate-600 font-bold uppercase mt-0.5">
                     Approved by A.I.C.T.E &amp; Affiliated to MAKAUT, West Bengal
@@ -495,17 +436,17 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
               </div>
 
               {/* Lab Record Title */}
-              <div className="border-y-2 border-[#1e1b4b] py-2 mt-4 bg-slate-50">
-                <h2 className="text-[#1e1b4b] font-black text-[16px] tracking-widest uppercase font-ui">
+              <div className="border-y-2 border-[#1e1b4b] py-2 mt-3 bg-slate-50">
+                <h2 className="text-[#1e1b4b] font-black text-[15px] tracking-widest uppercase font-ui">
                   PRACTICAL / LABORATORY REPORT
                 </h2>
               </div>
             </div>
 
             {/* Middle Section: Subject & Lab Details */}
-            <div className="relative z-10 px-6 space-y-4">
-              <div className="border border-slate-300 rounded-lg p-4 bg-white space-y-2.5">
-                <div className="flex justify-between items-baseline border-b border-slate-100 pb-2">
+            <div className="relative z-10 px-6 space-y-3.5">
+              <div className="border border-slate-300 rounded-lg p-3.5 bg-white space-y-2">
+                <div className="flex justify-between items-baseline border-b border-slate-100 pb-1.5">
                   <span className="text-xs font-bold text-[#1e1b4b] uppercase">
                     Subject / Lab Name:
                   </span>
@@ -513,7 +454,7 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
                     {formatText(data.paperName)}
                   </span>
                 </div>
-                <div className="flex justify-between items-baseline border-b border-slate-100 pb-2">
+                <div className="flex justify-between items-baseline border-b border-slate-100 pb-1.5">
                   <span className="text-xs font-bold text-[#1e1b4b] uppercase">
                     Paper Code:
                   </span>
@@ -532,8 +473,8 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
               </div>
 
               {/* Student Credential Grid */}
-              <div className="border border-slate-300 rounded-lg p-4 bg-white space-y-2.5">
-                <div className="flex justify-between items-baseline border-b border-slate-100 pb-2">
+              <div className="border border-slate-300 rounded-lg p-3.5 bg-white space-y-2">
+                <div className="flex justify-between items-baseline border-b border-slate-100 pb-1.5">
                   <span className="text-xs font-bold text-[#1e1b4b] uppercase">
                     Student Name:
                   </span>
@@ -541,7 +482,7 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
                     {formatText(data.studentName)}
                   </span>
                 </div>
-                <div className="flex justify-between items-baseline border-b border-slate-100 pb-2">
+                <div className="flex justify-between items-baseline border-b border-slate-100 pb-1.5">
                   <span className="text-xs font-bold text-[#1e1b4b] uppercase">
                     University Roll No.:
                   </span>
@@ -549,7 +490,7 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
                     {formatText(data.universityRollNo)}
                   </span>
                 </div>
-                <div className="grid grid-cols-2 gap-2 border-b border-slate-100 pb-2">
+                <div className="grid grid-cols-2 gap-2 border-b border-slate-100 pb-1.5">
                   <div className="flex justify-between pr-4">
                     <span className="text-xs font-bold text-[#1e1b4b] uppercase">Course:</span>
                     <span className="text-xs font-semibold text-slate-800 uppercase">{formatText(data.course)}</span>
@@ -590,7 +531,7 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="h-20">
+                  <tr className="h-16">
                     <td className="border border-[#1e1b4b] p-2 text-center text-slate-400">
                       ___ / ___ / 20__
                     </td>
@@ -607,7 +548,7 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
                 </tbody>
               </table>
 
-              <div className="mt-3 flex justify-between text-[10px] text-slate-500 font-semibold px-1">
+              <div className="mt-2.5 flex justify-between text-[10px] text-slate-500 font-semibold px-1">
                 <span>SETGOI ENGINEERING &amp; TECHNOLOGY RECORD</span>
                 <span>OFFICIAL EVALUATION SHEET</span>
               </div>
@@ -616,7 +557,262 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
         )}
 
         {/* ==================================================================== */}
-        {/* TEMPLATE 4: EXECUTIVE NAVY & GOLD PROJECT                           */}
+        {/* TEMPLATE 4: MINIMAL ACADEMIC SEAL (REFINED FORMAL LETTERHEAD)        */}
+        {/* ==================================================================== */}
+        {templateId === "minimal" && (
+          <div className="w-full h-full p-8 flex flex-col justify-between bg-white relative">
+            <div className="w-full h-full border-2 border-slate-900 p-2">
+              <div className="w-full h-full border border-slate-300 p-8 flex flex-col justify-between">
+                {/* Centered Crest & Academic Header */}
+                <div className="text-center flex flex-col items-center">
+                  <div className="w-20 h-20 mb-3">
+                    <img
+                      src={SANAKA_LOGO_BASE64}
+                      alt="University Crest"
+                      className="w-full h-full object-contain filter drop-shadow-sm"
+                    />
+                  </div>
+                  <h1 className="font-serif font-bold text-xl text-slate-900 tracking-wide uppercase leading-tight">
+                    {data.collegeName || "SANAKA EDUCATIONAL TRUST'S GROUP OF INSTITUTIONS"}
+                  </h1>
+                  <p className="text-[10px] font-semibold text-slate-600 tracking-widest uppercase mt-1">
+                    {data.affiliation || "AFFILIATED TO MAULANA ABUL KALAM AZAD UNIVERSITY OF TECHNOLOGY"}
+                  </p>
+
+                  <div className="w-48 h-[1.5px] bg-slate-900 my-4" />
+
+                  <span className="text-[11px] font-bold tracking-[0.2em] text-slate-500 uppercase">
+                    Academic Assignment Report
+                  </span>
+                </div>
+
+                {/* Subject Block */}
+                <div className="my-auto py-4">
+                  <div className="bg-slate-50 border border-slate-200 rounded-lg p-5 text-center mb-6">
+                    <span className="text-[10px] font-mono uppercase tracking-wider text-slate-500 block mb-1">
+                      PAPER CODE: {formatText(data.paperCode) || "PAPER CODE"}
+                    </span>
+                    <h2 className="font-serif font-bold text-xl text-slate-900 uppercase">
+                      {formatText(data.paperName) || "SUBJECT / PAPER NAME"}
+                    </h2>
+                  </div>
+
+                  {/* 2-Column Key Value Grid */}
+                  <div className={`space-y-3 ${fontClass}`}>
+                    <div className="flex justify-between items-baseline border-b border-dashed border-slate-300 pb-1.5 text-[14px]">
+                      <span className="font-bold text-slate-700 uppercase">Student Name:</span>
+                      <span className="font-semibold text-slate-900 uppercase">{formatText(data.studentName)}</span>
+                    </div>
+                    <div className="flex justify-between items-baseline border-b border-dashed border-slate-300 pb-1.5 text-[14px]">
+                      <span className="font-bold text-slate-700 uppercase">University Roll No:</span>
+                      <span className="font-mono font-bold text-slate-900">{formatText(data.universityRollNo)}</span>
+                    </div>
+                    <div className="flex justify-between items-baseline border-b border-dashed border-slate-300 pb-1.5 text-[14px]">
+                      <span className="font-bold text-slate-700 uppercase">Course &amp; Stream:</span>
+                      <span className="font-semibold text-slate-900 uppercase">
+                        {formatText(data.course)} - {formatText(data.stream)}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-baseline border-b border-dashed border-slate-300 pb-1.5 text-[14px]">
+                      <span className="font-bold text-slate-700 uppercase">Semester &amp; Year:</span>
+                      <span className="font-semibold text-slate-900 uppercase">
+                        {formatText(data.semester)} • {formatText(data.year)}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-baseline border-b border-dashed border-slate-300 pb-1.5 text-[14px]">
+                      <span className="font-bold text-slate-700 uppercase">Academic Session:</span>
+                      <span className="font-mono font-semibold text-slate-900">{formatText(data.session)}</span>
+                    </div>
+
+                    {/* Custom fields */}
+                    {data.customFields
+                      ?.filter((f) => f.enabled && f.value.trim() !== "")
+                      .map((field) => (
+                        <div
+                          key={field.id}
+                          className="flex justify-between items-baseline border-b border-dashed border-slate-300 pb-1.5 text-[14px]"
+                        >
+                          <span className="font-bold text-slate-700 uppercase">{formatText(field.label)}:</span>
+                          <span className="font-semibold text-slate-900 uppercase">{formatText(field.value)}</span>
+                        </div>
+                      ))}
+                  </div>
+                </div>
+
+                {/* Signatures & Formal Footer */}
+                <div>
+                  <div className="grid grid-cols-2 gap-16 pt-4 pb-2">
+                    <div className="border-t border-slate-900 pt-1.5 text-center">
+                      <p className="text-xs font-bold uppercase tracking-wider text-slate-800">
+                        Submitted by (Student)
+                      </p>
+                      <p className="text-[11px] text-slate-500 mt-0.5">{formatText(data.studentName)}</p>
+                    </div>
+                    <div className="border-t border-slate-900 pt-1.5 text-center">
+                      <p className="text-xs font-bold uppercase tracking-wider text-slate-800">
+                        Evaluated by (Examiner)
+                      </p>
+                      <p className="text-[11px] text-slate-500 mt-0.5">Signature &amp; Date</p>
+                    </div>
+                  </div>
+
+                  <div className="pt-3 border-t border-slate-200 flex justify-between text-[10px] font-mono text-slate-400 uppercase">
+                    <span>STANDARD A4 FORMAT</span>
+                    <span>MAKAUT / AICTE COMPLIANT</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ==================================================================== */}
+        {/* TEMPLATE 5: TECHNICAL BLUEPRINT (ENGINEERING & TECH SPEC)           */}
+        {/* ==================================================================== */}
+        {templateId === "technical" && (
+          <div className="w-full h-full p-8 flex flex-col justify-between bg-white relative font-mono">
+            {/* Technical Border Frame with Corner Crosshairs */}
+            <div className="w-full h-full border-2 border-slate-800 p-6 flex flex-col justify-between relative">
+              {/* Corner crosshairs */}
+              <span className="absolute -top-2 -left-2 text-base font-bold text-slate-800">+</span>
+              <span className="absolute -top-2 -right-2 text-base font-bold text-slate-800">+</span>
+              <span className="absolute -bottom-2 -left-2 text-base font-bold text-slate-800">+</span>
+              <span className="absolute -bottom-2 -right-2 text-base font-bold text-slate-800">+</span>
+
+              {/* Technical Header Block */}
+              <div>
+                <div className="flex items-center justify-between border-b-2 border-slate-800 pb-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 shrink-0">
+                      <img src={SANAKA_LOGO_BASE64} alt="Crest" className="w-full h-full object-contain" />
+                    </div>
+                    <div>
+                      <h1 className="text-xs font-bold tracking-tight uppercase text-slate-900">
+                        {data.collegeName || "SANAKA EDUCATIONAL TRUST'S GROUP OF INSTITUTIONS"}
+                      </h1>
+                      <p className="text-[10px] text-slate-500 uppercase">
+                        FACULTY OF ENGINEERING &amp; TECHNOLOGY
+                      </p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <span className="inline-block px-2 py-0.5 bg-slate-900 text-white text-[10px] font-bold">
+                      STATUS: SUBMITTED
+                    </span>
+                    <p className="text-[10px] text-slate-500 mt-0.5">ISO 216 / A4 SPEC</p>
+                  </div>
+                </div>
+
+                {/* Coursework Hero */}
+                <div className="mt-5 border-2 border-slate-800 p-4 bg-slate-50">
+                  <div className="flex justify-between items-center text-[10px] text-slate-500 uppercase mb-1">
+                    <span>COURSEWORK SPECIFICATION</span>
+                    <span className="font-bold text-indigo-700">CODE: {formatText(data.paperCode) || "PAPER CODE"}</span>
+                  </div>
+                  <div className="text-lg font-black text-slate-900 uppercase">
+                    {formatText(data.paperName) || "SUBJECT / PAPER NAME"}
+                  </div>
+                </div>
+              </div>
+
+              {/* Technical Key-Value Table */}
+              <div className="my-auto py-4">
+                <table className="w-full text-xs border border-slate-800">
+                  <tbody>
+                    <tr className="border-b border-slate-800">
+                      <td className="p-2.5 font-bold bg-slate-100 border-r border-slate-800 w-1/3 uppercase">
+                        CANDIDATE NAME
+                      </td>
+                      <td className="p-2.5 font-semibold text-slate-900 uppercase">
+                        {formatText(data.studentName) || "STUDENT NAME"}
+                      </td>
+                    </tr>
+                    <tr className="border-b border-slate-800">
+                      <td className="p-2.5 font-bold bg-slate-100 border-r border-slate-800 uppercase">
+                        UNIVERSITY ROLL NO.
+                      </td>
+                      <td className="p-2.5 font-bold text-indigo-700">
+                        {formatText(data.universityRollNo) || "ROLL NUMBER"}
+                      </td>
+                    </tr>
+                    <tr className="border-b border-slate-800">
+                      <td className="p-2.5 font-bold bg-slate-100 border-r border-slate-800 uppercase">
+                        COURSE &amp; STREAM
+                      </td>
+                      <td className="p-2.5 uppercase">
+                        {formatText(data.course)} - {formatText(data.stream)}
+                      </td>
+                    </tr>
+                    <tr className="border-b border-slate-800">
+                      <td className="p-2.5 font-bold bg-slate-100 border-r border-slate-800 uppercase">
+                        SEMESTER / YEAR
+                      </td>
+                      <td className="p-2.5 uppercase">
+                        {formatText(data.semester)} • {formatText(data.year)}
+                      </td>
+                    </tr>
+                    <tr className="border-b border-slate-800">
+                      <td className="p-2.5 font-bold bg-slate-100 border-r border-slate-800 uppercase">
+                        ACADEMIC SESSION
+                      </td>
+                      <td className="p-2.5">{formatText(data.session) || "2025-2026"}</td>
+                    </tr>
+
+                    {data.customFields
+                      ?.filter((f) => f.enabled && f.value.trim() !== "")
+                      .map((field) => (
+                        <tr key={field.id} className="border-b border-slate-800">
+                          <td className="p-2.5 font-bold bg-slate-100 border-r border-slate-800 uppercase">
+                            {formatText(field.label)}
+                          </td>
+                          <td className="p-2.5 uppercase">{formatText(field.value)}</td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Faculty Evaluation Rubric Matrix */}
+              <div>
+                <div className="border-2 border-slate-800 p-3 bg-slate-50 text-[11px] mb-3">
+                  <div className="font-bold border-b border-slate-800 pb-1 mb-2 uppercase text-slate-800">
+                    FACULTY ASSESSMENT &amp; VERIFICATION
+                  </div>
+                  <div className="grid grid-cols-4 gap-2 text-center text-[10px]">
+                    <div className="border border-slate-400 p-1">
+                      <span className="block font-semibold">METHOD (10)</span>
+                      <span className="font-bold text-slate-700">[ &nbsp;&nbsp;&nbsp;&nbsp; ]</span>
+                    </div>
+                    <div className="border border-slate-400 p-1">
+                      <span className="block font-semibold">RESULTS (10)</span>
+                      <span className="font-bold text-slate-700">[ &nbsp;&nbsp;&nbsp;&nbsp; ]</span>
+                    </div>
+                    <div className="border border-slate-400 p-1">
+                      <span className="block font-semibold">VIVA (10)</span>
+                      <span className="font-bold text-slate-700">[ &nbsp;&nbsp;&nbsp;&nbsp; ]</span>
+                    </div>
+                    <div className="border border-slate-900 bg-slate-100 p-1">
+                      <span className="block font-bold">TOTAL (30)</span>
+                      <span className="font-bold text-indigo-700">[ &nbsp;&nbsp;&nbsp;&nbsp; ]</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-8 pt-2">
+                  <div className="border-t border-slate-800 pt-1 text-center text-[10px]">
+                    CANDIDATE SIGNATURE
+                  </div>
+                  <div className="border-t border-slate-800 pt-1 text-center text-[10px]">
+                    EVALUATOR SIGNATURE &amp; STAMP
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ==================================================================== */}
+        {/* TEMPLATE 6: EXECUTIVE NAVY & GOLD PROJECT                           */}
         {/* ==================================================================== */}
         {templateId === "executive" && (
           <div className="w-full h-full flex flex-col justify-between bg-white relative">
@@ -625,10 +821,10 @@ export const FrontPageCanvas = forwardRef<HTMLDivElement, FrontPageCanvasProps>(
               <div className="w-full h-1.5 bg-[#d97706] absolute bottom-0 left-0" />
 
               <h1 className="text-white font-black text-[20px] leading-tight tracking-tight uppercase font-chakra">
-                SANAKA EDUCATIONAL TRUST&apos;S GROUP OF INSTITUTIONS
+                {data.collegeName || "SANAKA EDUCATIONAL TRUST'S GROUP OF INSTITUTIONS"}
               </h1>
               <p className="text-amber-200/90 font-bold text-[11px] tracking-widest uppercase mt-1">
-                AFFILIATED TO MAKAUT, WB • APPROVED BY AICTE, COA &amp; PCI
+                {data.affiliation || "AFFILIATED TO MAKAUT, WB • APPROVED BY AICTE, COA & PCI"}
               </p>
             </div>
 

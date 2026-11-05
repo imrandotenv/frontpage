@@ -19,11 +19,11 @@ export const TemplateSelector: React.FC<TemplateSelectorProps> = ({
           Cover Design Template
         </span>
         <span className="text-[10px] font-semibold text-slate-400">
-          Instant format switch
+          6 Academic Formats
         </span>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
         {TEMPLATES.map((t) => {
           const isSelected = selectedId === t.id;
           return (
@@ -51,6 +51,9 @@ export const TemplateSelector: React.FC<TemplateSelectorProps> = ({
               <div>
                 <span className={`block text-xs font-bold leading-tight ${isSelected ? "text-white" : "text-slate-900"}`}>
                   {t.name}
+                </span>
+                <span className={`block text-[10px] line-clamp-1 mt-0.5 ${isSelected ? "text-slate-300" : "text-slate-400"}`}>
+                  {t.description}
                 </span>
               </div>
             </button>

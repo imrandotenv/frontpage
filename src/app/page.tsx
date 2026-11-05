@@ -342,6 +342,25 @@ export default function Home() {
                 </div>
               </div>
 
+              {/* Template Quick Switcher Tabs */}
+              <div className="flex items-center gap-1 overflow-x-auto pb-1 no-scrollbar p-1 bg-slate-100 rounded-xl">
+                {TEMPLATES.map((t) => (
+                  <button
+                    key={t.id}
+                    type="button"
+                    onClick={() => setFormData({ ...formData, templateId: t.id })}
+                    className={`py-1.5 px-3 rounded-lg text-xs font-bold whitespace-nowrap transition-all flex items-center gap-1.5 ${
+                      formData.templateId === t.id
+                        ? "bg-slate-900 text-white shadow-xs"
+                        : "text-slate-600 hover:text-slate-900 hover:bg-slate-200/70"
+                    }`}
+                  >
+                    <span>{t.icon}</span>
+                    <span>{t.name}</span>
+                  </button>
+                ))}
+              </div>
+
               {/* Canvas Preview Stage */}
               <div className="w-full bg-slate-100/80 rounded-xl p-3 flex flex-col items-center justify-center overflow-hidden border border-slate-200/70">
                 <div className="w-full max-w-[500px]">

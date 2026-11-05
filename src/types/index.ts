@@ -1,4 +1,10 @@
-export type TemplateId = 'classic' | 'modern' | 'lab' | 'executive';
+export type TemplateId =
+  | 'classic'
+  | 'modern'
+  | 'lab'
+  | 'minimal'
+  | 'technical'
+  | 'executive';
 
 export interface CustomField {
   id: string;
@@ -29,6 +35,7 @@ export interface StudentFormData {
   signatures?: 'show' | 'minimal';
   collegeName?: string;
   affiliation?: string;
+  customCampusImage?: string;
 }
 
 export interface TemplateOption {
@@ -41,18 +48,18 @@ export interface TemplateOption {
 
 export const TEMPLATES: TemplateOption[] = [
   {
+    id: 'classic',
+    name: 'Classic Campus',
+    description: 'Official letterhead with real campus photo, gold crest & academic dot watermark',
+    badge: 'Official',
+    icon: '🏛️',
+  },
+  {
     id: 'modern',
     name: 'Modern Academic',
     description: 'Swiss minimalist layout with dossier header, semester badge & clean 12-col table',
-    badge: 'Recommended',
+    badge: 'Popular',
     icon: '✨',
-  },
-  {
-    id: 'classic',
-    name: 'Classic Campus',
-    description: 'Official letterhead with architectural campus illustration & athletic typography',
-    badge: 'Official',
-    icon: '🏛️',
   },
   {
     id: 'lab',
@@ -62,16 +69,30 @@ export const TEMPLATES: TemplateOption[] = [
     icon: '🔬',
   },
   {
+    id: 'minimal',
+    name: 'Minimal Academic Seal',
+    description: 'Clean double geometric border with centered emblem, serif headings & formal layout',
+    badge: 'Formal',
+    icon: '📜',
+  },
+  {
+    id: 'technical',
+    name: 'Technical Blueprint',
+    description: 'Engineering tech grid with paper code header, student matrix & faculty evaluation rubric',
+    badge: 'Tech Grid',
+    icon: '📐',
+  },
+  {
     id: 'executive',
     name: 'Executive Navy Project',
-    description: 'Formal navy & gold layout for term papers, seminars & major projects',
+    description: 'Formal navy & gold layout for term papers, seminars, minor & major projects',
     badge: 'Project / Term',
     icon: '🎓',
   },
 ];
 
 export const DEFAULT_FORM_DATA: StudentFormData = {
-  templateId: 'modern',
+  templateId: 'classic',
   studentName: '',
   universityRollNo: '',
   course: 'B.TECH',

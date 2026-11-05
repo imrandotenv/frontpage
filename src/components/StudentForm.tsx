@@ -583,11 +583,11 @@ export const StudentForm: React.FC<StudentFormProps> = ({
             <summary className="cursor-pointer list-none flex items-center justify-between text-xs font-semibold text-slate-700">
               <span className="flex items-center gap-1.5">
                 <Building2 className="w-3.5 h-3.5 text-slate-500" />
-                Customize College / Institution Name
+                Customize College / Institution Name &amp; Photo
               </span>
               <ChevronDown className="w-3.5 h-3.5 text-slate-400 transition group-open:rotate-180" />
             </summary>
-            <div className="mt-2.5 space-y-2 pt-2 border-t border-slate-200/60">
+            <div className="mt-2.5 space-y-2.5 pt-2 border-t border-slate-200/60">
               <div>
                 <label className="block text-[10px] font-semibold uppercase text-slate-500 mb-0.5">
                   Institution Header
@@ -611,6 +611,45 @@ export const StudentForm: React.FC<StudentFormProps> = ({
                   placeholder="AFFILIATED TO M.A.K.A.U.T"
                   className="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-slate-800 uppercase focus:outline-none"
                 />
+              </div>
+
+              {/* Custom College Campus Photo option */}
+              <div className="pt-1 border-t border-slate-200/60 flex items-center justify-between">
+                <div>
+                  <span className="text-[10px] font-semibold uppercase text-slate-500 block">
+                    Campus Photo (Classic Template)
+                  </span>
+                  <span className="text-[10px] text-slate-400">
+                    {data.customCampusImage ? "Custom image loaded" : "Official SETGOI photo active"}
+                  </span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  {data.customCampusImage && (
+                    <button
+                      type="button"
+                      onClick={() => handleFieldChange("customCampusImage", undefined)}
+                      className="text-[10px] font-bold text-rose-600 hover:text-rose-700 bg-rose-50 px-2 py-0.5 rounded"
+                    >
+                      Reset
+                    </button>
+                  )}
+                  <label className="text-[10px] font-bold text-slate-700 hover:text-slate-900 bg-white hover:bg-slate-100 px-2 py-1 rounded border border-slate-200 cursor-pointer">
+                    <span>Upload New</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          const reader = new FileReader();
+                          reader.onload = () => handleFieldChange("customCampusImage", reader.result as string);
+                          reader.readAsDataURL(file);
+                        }
+                      }}
+                    />
+                  </label>
+                </div>
               </div>
             </div>
           </details>
